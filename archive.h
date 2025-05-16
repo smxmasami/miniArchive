@@ -2,6 +2,9 @@
     archive.h
 */
 #include <string>
+#include <iostream>
+#include <fstream>
+#include <filesystem>
 
 #define BOOL    int
 #define BYTE    unsigned char
@@ -15,8 +18,10 @@
 #define ULONGLONG unsigned long long
 #define DWORD     ULONG
 #define DWORD_PTR ULONGLONG
-#define LPTSTR  wchar_t*
-#define LPCTSTR const wchar_t*
+#define LPSTR  char*
+#define LPCSTR const char*
+#define LPWSTR  wchar_t*
+#define LPCWSTR const wchar_t*
 
 class CAnsiString
 {
@@ -43,14 +48,6 @@ public:
     enum Mode {
        modeRead = 1,
        modeWrite = 2,
-       modeReadWrite = (modeRead | modeWrite),
-       typeBinary = 0,
-       typeText = 4,
-       typeUnicode = 8,
-       shareDenyNone = 0,
-       shareDenyRead = 256,
-       shareDenyWrite = 512,
-       shareExclusive = (shareDenyRead|shareDenyWrite) 
     };
     enum Pos {
         begin = 0,
@@ -58,15 +55,19 @@ public:
         end = 2
     };
     CFile(){}
-    CFile(LPCTSTR lpszFileName, UINT nOpenFlags);
+    CFile(LPCSTR fileName, UINT nOpenFlags);
     virtual void Close();
-    CString GetFilePath() const;
+    CAnsiString GetFilePath() const;
     void SetPosition(ULONGLONG pos);
     ULONGLONG GetLength() const;
-    ULONGLONG GetPosition() const;
+    ULONGLONG GetPosition();
     virtual UINT Read(void* lpBuf, UINT nCount);
     virtual ULONGLONG Seek(LONGLONG lOff,UINT nFrom);
-    virtual void Write(const void* lpBuf, UINT nCount);    
+    virtual void Write(const void* lpBuf, UINT nCount);
+private:
+    std::ifstream m_in;
+    std::ofstream m_out;
+    std::string m_name;
 };
 
 class CArchive
@@ -82,10 +83,9 @@ public:
     BOOL IsLoading() const;
     BOOL IsStoring() const;
     UINT Read(void* lpBuf, UINT nMax);
-    BOOL ReadString(CString& rString);
-    LPTSTR ReadString(LPTSTR lpsz, UINT nMax); 
+    BOOL ReadString(CAnsiString& rString);
     void Write(const void* lpBuf, UINT nMax);
-    void WriteString(LPCTSTR lpsz); 
+    void WriteString(const CAnsiString& wString); 
 
     CArchive& operator<<(const CString& str);
     CArchive& operator<<(BYTE by);

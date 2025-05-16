@@ -1,7 +1,6 @@
 /*
     archive.cpp
 */
-#include <string>
 #include "archive.h"
 
 CAnsiString::CAnsiString(const char* str)
@@ -20,33 +19,103 @@ CString::CString(const wchar_t* str)
     m_str = std::wstring(str);
 }
 
-/*
-
-CFile::CFile(LPCTSTR lpszFileName, UINT nOpenFlags)
+CFile::CFile(LPCSTR lpszFileName, UINT nOpenFlags)
 {
-
+    if(nOpenFlags & modeRead)
+    {
+        m_in.open(lpszFileName,std::ios::in | std::ios::binary);
+    }
+    else if( nOpenFlags & modeWrite)
+    {
+        m_out.open(lpszFileName,std::ios::out | std::ios::binary);
+    }
+    m_name = lpszFileName;
 }
 void CFile::Close()
 {
-
+    if(m_in.is_open())
+        m_in.close();
+    if(m_out.is_open())
+        m_out.close();
 }
-CString CFile::GetFilePath() const
+
+CAnsiString CFile::GetFilePath() const
 {
-
+    return m_name.c_str();
 }
-void CFile::SetPosition(ULONGLONG pos)
-{}
-ULONGLONG CFile::GetLength() const
-{}
-ULONGLONG CFile::GetPosition() const
-{}
-UINT CFile::Read(void* lpBuf, UINT nCount)
-{}
-ULONGLONG CFile::Seek(LONGLONG lOff,UINT nFrom)
-{}
-void CFile::Write(const void* lpBuf, UINT nCount)    
-{}
 
+void CFile::SetPosition(ULONGLONG pos)
+{
+    if(m_in.is_open())
+        m_in.seekg(pos);
+    if(m_out.is_open())
+        m_out.seekp(pos);
+}
+ULONGLONG CFile::Seek(LONGLONG lOff,UINT nFrom)
+{
+    std::ios_base::seekdir dir;
+    if(nFrom == CFile::begin)
+        dir = std::ios::beg;
+    if(nFrom == CFile::current)
+        dir = std::ios::cur;
+    if(nFrom == CFile::end)
+        dir = std::ios::end;
+    if(m_in.is_open())
+    {
+        m_in.seekg(lOff,dir);
+    }
+    if(m_out.is_open())
+    {
+        m_out.seekp(lOff,dir);
+    }
+    return GetPosition();
+}
+
+ULONGLONG CFile::GetLength() const
+{
+    return std::filesystem::file_size(m_name);
+}
+
+ULONGLONG CFile::GetPosition()
+{
+    std::streampos pos;
+    if(m_in.is_open())
+    {
+        pos = m_in.tellg();
+    }
+    if(m_out.is_open())
+    {
+        pos = m_out.tellp();
+    }
+    return static_cast<ULONGLONG>(pos);
+}
+
+UINT CFile::Read(void* lpBuf, UINT nCount)
+{
+    if(m_in.is_open())
+    {
+        m_in.read(static_cast<char*>(lpBuf), nCount);
+        if(m_in.eof())
+        {
+            nCount = m_in.gcount();
+        }
+    }
+    else
+    {
+        nCount = 0;
+    }
+    return nCount;
+}
+
+void CFile::Write(const void* lpBuf, UINT nCount)    
+{
+    if(m_out.is_open())
+    {
+        m_out.write(static_cast<const char*>(lpBuf), nCount);
+    }
+}
+
+/*
 CArchive::CArchive(CFile* pFile, UINT nMode, int nBufSize = 4096, void* lpBuf = NULL)
 {}
 CArchive::~CArchive()
