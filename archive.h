@@ -38,6 +38,7 @@ class CString
 public: 
     CString(){}
     CString(const wchar_t* str);
+    CString& operator = (const wchar_t* str );
 private:
     std::wstring m_str;    
 };
@@ -73,9 +74,9 @@ private:
 class CArchive
 {
 public:
-// Flag values
+    // Flag values
 	enum Mode { store = 0, load = 1, bNoFlushOnDelete = 2, bNoByteSwap = 4 };
-    CArchive(){}
+    CArchive();
 	CArchive(CFile* pFile, UINT nMode, int nBufSize = 4096, void* lpBuf = NULL);
 	~CArchive();
     void Close();
@@ -86,38 +87,37 @@ public:
     BOOL ReadString(CAnsiString& rString);
     void Write(const void* lpBuf, UINT nMax);
     void WriteString(const CAnsiString& wString); 
-
-    CArchive& operator<<(const CString& str);
-    CArchive& operator<<(BYTE by);
-    CArchive& operator<<(WORD w);
-    CArchive& operator<<(LONG l);
-    CArchive& operator<<(DWORD dw);
-    CArchive& operator<<(float f);
-    CArchive& operator<<(double d);
-    CArchive& operator<<(int i);
-    CArchive& operator<<(short w);
-    CArchive& operator<<(char ch);
-    CArchive& operator<<(wchar_t ch);
-    CArchive& operator<<(unsigned u);
-    CArchive& operator<<(bool b);
-    CArchive& operator<<(ULONGLONG dwdw);
-    CArchive& operator<<(LONGLONG dwdw);
-    CArchive& operator>>(CString& str);
-    CArchive& operator>>(BYTE& by);
-    CArchive& operator>>(WORD& w);
-    CArchive& operator>>(int& i);
-    CArchive& operator>>(LONG& l);
-    CArchive& operator>>(DWORD& dw);
-    CArchive& operator>>(float& f);
-    CArchive& operator>>(double& d);
-    CArchive& operator>>(short& w);
-    CArchive& operator>>(char& ch);
-    CArchive& operator>>(wchar_t& ch);
-    CArchive& operator>>(unsigned& u);
-    CArchive& operator>>(bool& b);
-    CArchive& operator>>(ULONGLONG& dwdw);
-    CArchive& operator>>(LONGLONG& dwdw);
-
+    CArchive& operator << (const CAnsiString& str);
+    CArchive& operator << (BYTE by);
+    CArchive& operator << (WORD w);
+    CArchive& operator << (LONG l);
+    CArchive& operator << (DWORD dw);
+    CArchive& operator << (float f);
+    CArchive& operator << (double d);
+    CArchive& operator << (int i);
+    CArchive& operator << (short w);
+    CArchive& operator << (char ch);
+    CArchive& operator << (wchar_t ch);
+    CArchive& operator << (unsigned u);
+    CArchive& operator << (bool b);
+    CArchive& operator << (ULONGLONG ull);
+    CArchive& operator << (LONGLONG ll);
+    CArchive& operator >> (CAnsiString& str);
+    CArchive& operator >> (BYTE& by);
+    CArchive& operator >> (WORD& w);
+    CArchive& operator >> (int& i);
+    CArchive& operator >> (LONG& l);
+    CArchive& operator >> (DWORD& dw);
+    CArchive& operator >> (float& f);
+    CArchive& operator >> (double& d);
+    CArchive& operator >> (short& w);
+    CArchive& operator >> (char& ch);
+    CArchive& operator >> (wchar_t& ch);
+    CArchive& operator >> (unsigned& u);
+    CArchive& operator >> (bool& b);
+    CArchive& operator >> (ULONGLONG& ull);
+    CArchive& operator >> (LONGLONG& ll);
 protected:
-    CFile* m_pFile;
+    CFile* m_file;
+    UINT m_mode;
 };

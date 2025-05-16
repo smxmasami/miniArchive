@@ -19,6 +19,12 @@ CString::CString(const wchar_t* str)
     m_str = std::wstring(str);
 }
 
+CString& CString::operator = (const wchar_t* str )
+{
+    m_str = str;
+    return *this;
+}
+
 CFile::CFile(LPCSTR lpszFileName, UINT nOpenFlags)
 {
     if(nOpenFlags & modeRead)
@@ -115,182 +121,273 @@ void CFile::Write(const void* lpBuf, UINT nCount)
     }
 }
 
-/*
-CArchive::CArchive(CFile* pFile, UINT nMode, int nBufSize = 4096, void* lpBuf = NULL)
-{}
+CArchive::CArchive()
+    : m_file(nullptr)
+    , m_mode(0)
+{
+
+}
+CArchive::CArchive(CFile* pFile, UINT nMode, int nBufSize, void* lpBuf)
+    : m_file(pFile)
+    , m_mode(nMode)
+{
+
+}
+
 CArchive::~CArchive()
-{}
+{
+
+}
+
 void CArchive::Close()
-{}
+{
+    m_file->Close();
+}
+
 CFile* CArchive::GetFile() const
-{}
+{
+    return m_file;
+}
+
 BOOL CArchive::IsLoading() const
-{}
+{
+    return m_mode == CArchive::load;
+}
+
 BOOL CArchive::IsStoring() const
-{}
+{
+    return m_mode == CArchive::store;
+}
+
 UINT CArchive::Read(void* lpBuf, UINT nMax)
-{}
+{
+    UINT ret = 0;
+    if(m_file)
+    {
+        ret = m_file->Read(lpBuf,nMax);
+    }
+    return ret;
+}
 
-BOOL CArchive::ReadString(CString& rString)
-{}
-
-LPTSTR CArchive::ReadString(LPTSTR lpsz, UINT nMax) 
-{}
+BOOL CArchive::ReadString(CAnsiString& rString)
+{
+    return 0;
+}
 
 void CArchive::Write(const void* lpBuf, UINT nMax)
+{
+    if(m_file)
+    {
+        m_file->Write(lpBuf, nMax);
+    }
+}
+
+void CArchive::WriteString(const CAnsiString& wstring) 
 {}
 
-void CArchive::WriteString(LPCTSTR lpsz) 
-{}
-
-CArchive& CArchive::operator<<(const CString& str)
+CArchive& CArchive::operator << (const CAnsiString& str)
 {
     return *this;
 }
 
-CArchive& CArchive::operator<<(BYTE by)
+CArchive& CArchive::operator << (BYTE by)
+{
+    if(m_file)
+    {
+        m_file->Write(static_cast<void*>(&by), sizeof(BYTE));
+    }
+    return *this;
+}
+
+CArchive& CArchive::operator << (WORD w)
+{
+    if(m_file)
+    {
+        m_file->Write(static_cast<void*>(&w), sizeof(WORD));
+    }
+    return *this;
+}
+
+CArchive& CArchive::operator << (LONG l)
+{
+    if(m_file)
+    {
+        m_file->Write(static_cast<void*>(&l), sizeof(LONG));
+    }
+    return *this;
+}
+
+CArchive& CArchive::operator << (DWORD dw)
+{
+    if(m_file)
+    {
+        m_file->Write(static_cast<void*>(&dw), sizeof(DWORD));
+    }
+    return *this;
+}
+
+CArchive& CArchive::operator << (float f)
+{
+    if(m_file)
+    {
+        m_file->Write(static_cast<void*>(&f), sizeof(float));
+    }
+    return *this;
+}
+
+CArchive& CArchive::operator << (double d)
+{
+    if(m_file)
+    {
+        m_file->Write(static_cast<void*>(&d), sizeof(double));
+    }
+    return *this;
+}
+
+CArchive& CArchive::operator << (int i)
+{
+    if(m_file)
+    {
+        m_file->Write(static_cast<void*>(&i), sizeof(int));
+    }
+    return *this;
+}
+
+CArchive& CArchive::operator << (short w)
+{
+    if(m_file)
+    {
+        m_file->Write(static_cast<void*>(&w), sizeof(short));
+    }
+    return *this;
+}
+
+CArchive& CArchive::operator << (char ch)
+{
+    if(m_file)
+    {
+        m_file->Write(static_cast<void*>(&ch), sizeof(char));
+    }
+    return *this;
+}
+
+CArchive& CArchive::operator << (wchar_t ch)
+{
+    if(m_file)
+    {
+        m_file->Write(static_cast<void*>(&ch), sizeof(wchar_t));
+    }
+    return *this;
+}
+
+CArchive& CArchive::operator << (unsigned u)
+{
+    if(m_file)
+    {
+        m_file->Write(static_cast<void*>(&u), sizeof(unsigned));
+    }
+    return *this;
+}
+
+CArchive& CArchive::operator << (bool b)
+{
+    if(m_file)
+    {
+        char bb = b;
+        m_file->Write(static_cast<void*>(&bb), sizeof(char));
+    }
+    return *this;
+}
+
+CArchive& CArchive::operator << (ULONGLONG ull)
+{
+    if(m_file)
+    {
+        m_file->Write(static_cast<void*>(&ull), sizeof(ULONGLONG));
+    }
+    return *this;
+}
+
+CArchive& CArchive::operator << (LONGLONG ll)
+{
+    if(m_file)
+    {
+        m_file->Write(static_cast<void*>(&ll), sizeof(LONGLONG));
+    }
+    return *this;
+}
+
+CArchive& CArchive::operator >> (CAnsiString& str)
 {
     return *this;
 }
 
-CArchive& CArchive::operator<<(WORD w)
+CArchive& CArchive::operator >> (BYTE& by)
 {
     return *this;
 }
 
-CArchive& CArchive::operator<<(LONG l)
+CArchive& CArchive::operator >> (WORD& w)
 {
     return *this;
 }
 
-CArchive& CArchive::operator<<(DWORD dw)
+CArchive& CArchive::operator >> (int& i)
 {
     return *this;
 }
 
-CArchive& CArchive::operator<<(float f)
+CArchive& CArchive::operator >> (LONG& l)
 {
     return *this;
 }
 
-CArchive& CArchive::operator<<(double d)
+CArchive& CArchive::operator >> (DWORD& dw)
 {
     return *this;
 }
 
-CArchive& CArchive::operator<<(int i)
+CArchive& CArchive::operator >> (float& f)
 {
     return *this;
 }
 
-CArchive& CArchive::operator<<(short w)
+CArchive& CArchive::operator >> (double& d)
 {
     return *this;
 }
 
-CArchive& CArchive::operator<<(char ch)
+CArchive& CArchive::operator >> (short& w)
 {
     return *this;
 }
 
-CArchive& CArchive::operator<<(wchar_t ch)
+CArchive& CArchive::operator >> (char& ch)
 {
     return *this;
 }
 
-CArchive& CArchive::operator<<(unsigned u)
+CArchive& CArchive::operator >> (wchar_t& ch)
 {
     return *this;
 }
 
-CArchive& CArchive::operator<<(bool b)
+CArchive& CArchive::operator >> (unsigned& u)
 {
     return *this;
 }
 
-CArchive& CArchive::operator<<(ULONGLONG dwdw)
+CArchive& CArchive::operator >> (bool& b)
 {
     return *this;
 }
 
-CArchive& CArchive::operator<<(LONGLONG dwdw)
+CArchive& CArchive::operator >> (ULONGLONG& ull)
 {
     return *this;
 }
 
-CArchive& CArchive::operator>>(CString& str)
+CArchive& CArchive::operator >> (LONGLONG& ll)
 {
     return *this;
 }
-
-CArchive& CArchive::operator>>(BYTE& by)
-{
-    return *this;
-}
-
-CArchive& CArchive::operator>>(WORD& w)
-{
-    return *this;
-}
-
-CArchive& CArchive::Archive::operator>>(int& i)
-{
-    return *this;
-}
-
-CArchive& CArchive::Archive::operator>>(LONG& l)
-{
-    return *this;
-}
-
-CArchive& CArchive::operator>>(DWORD& dw)
-{
-    return *this;
-}
-
-CArchive& CArchive::operator>>(float& f)
-{
-    return *this;
-}
-
-CArchive& CArchive::operator>>(double& d)
-{
-    return *this;
-}
-
-CArchive& CArchive::operator>>(short& w)
-{
-    return *this;
-}
-
-CArchive& CArchive::operator>>(char& ch)
-{
-    return *this;
-}
-
-CArchive& CArchive::operator>>(wchar_t& ch)
-{
-    return *this;
-}
-
-CArchive& CArchive::operator>>(unsigned& u)
-{
-    return *this;
-}
-
-CArchive& CArchive::operator>>(bool& b)
-{
-    return *this;
-}
-
-CArchive& CArchive::operator>>(ULONGLONG& dwdw)
-{
-    return *this;
-}
-
-CArchive& CArchive::operator>>(LONGLONG& dwdw)
-{
-    return *this;
-}
-
-*/
