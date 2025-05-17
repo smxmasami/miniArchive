@@ -324,70 +324,182 @@ CArchive& CArchive::operator >> (CAnsiString& str)
 
 CArchive& CArchive::operator >> (BYTE& by)
 {
+    if(m_file)
+    {
+        BYTE data;
+        if( m_file->Read(&data, sizeof(BYTE)) == sizeof(BYTE))
+        {
+            by = data;
+        }
+    }
     return *this;
 }
 
 CArchive& CArchive::operator >> (WORD& w)
 {
+    if(m_file)
+    {
+        WORD data;
+        if( m_file->Read(&data, sizeof(WORD)) == sizeof(WORD))
+        {
+            w = data;
+        }
+    }
     return *this;
 }
 
 CArchive& CArchive::operator >> (int& i)
 {
+    if(m_file)
+    {
+        int data;
+        if( m_file->Read(&data, sizeof(int)) == sizeof(int))
+        {
+            i = data;
+        }
+    }
     return *this;
 }
 
 CArchive& CArchive::operator >> (LONG& l)
 {
+    if(m_file)
+    {
+        LONG data;
+        if( m_file->Read(&data, sizeof(LONG)) == sizeof(LONG))
+        {
+            l = data;
+        }
+    }
     return *this;
 }
 
 CArchive& CArchive::operator >> (DWORD& dw)
 {
+    if(m_file)
+    {
+        DWORD data;
+        if( m_file->Read(&data, sizeof(DWORD)) == sizeof(DWORD))
+        {
+            dw = data;
+        }
+    }
     return *this;
 }
 
 CArchive& CArchive::operator >> (float& f)
 {
+    if(m_file)
+    {
+        float data;
+        if( m_file->Read(&data, sizeof(float)) == sizeof(float))
+        {
+            f = data;
+        }
+    }
     return *this;
 }
 
 CArchive& CArchive::operator >> (double& d)
 {
+    if(m_file)
+    {
+        double data;
+        if( m_file->Read(&data, sizeof(double)) == sizeof(double))
+        {
+            d = data;
+        }
+    }
     return *this;
 }
 
 CArchive& CArchive::operator >> (short& w)
 {
+    if(m_file)
+    {
+        short data;
+        if( m_file->Read(&data, sizeof(short)) == sizeof(short))
+        {
+            w = data;
+        }
+    }
     return *this;
 }
 
 CArchive& CArchive::operator >> (char& ch)
 {
+    if(m_file)
+    {
+        char data;
+        if( m_file->Read(&data, sizeof(char)) == sizeof(char))
+        {
+            ch = data;
+        }
+    }
     return *this;
 }
 
 CArchive& CArchive::operator >> (wchar_t& ch)
 {
+    if(m_file)
+    {
+        wchar_t data;
+        if( m_file->Read(&data, sizeof(wchar_t)) == sizeof(wchar_t))
+        {
+            ch = data;
+        }
+    }
     return *this;
 }
 
 CArchive& CArchive::operator >> (unsigned& u)
 {
+    if(m_file)
+    {
+        unsigned data;
+        if( m_file->Read(&data, sizeof(unsigned)) == sizeof(unsigned))
+        {
+            u = data;
+        }
+    }
     return *this;
 }
 
 CArchive& CArchive::operator >> (bool& b)
 {
+    if(m_file)
+    {
+        BYTE data;
+        if( m_file->Read(&data, sizeof(BYTE)) == sizeof(BYTE))
+        {
+            b = (bool)data;
+        }
+    }
     return *this;
 }
 
 CArchive& CArchive::operator >> (ULONGLONG& ull)
 {
+    if(m_file)
+    {
+        ULONGLONG data;
+        if( m_file->Read(&data, sizeof(ULONGLONG)) == sizeof(ULONGLONG))
+        {
+            ull = data;
+        }
+    }
     return *this;
 }
 
 CArchive& CArchive::operator >> (LONGLONG& ll)
 {
+    if(m_file)
+    {
+        LONGLONG data;
+        if( m_file->Read(&data, sizeof(LONGLONG)) == sizeof(LONGLONG))
+        {
+            ll = data;
+        }
+    }
     return *this;
 }
