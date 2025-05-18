@@ -31,5 +31,7 @@
 *.out
 *.app
 
-
+# Personal settings
 build/
+*.pdb
+tasks.json
