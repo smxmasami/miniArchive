@@ -3,6 +3,9 @@
 */
 #include "archive.h"
 
+//-----------------------------------------------------------
+// CAnsiString UTF8またはShiftJIS文字列
+//-----------------------------------------------------------
 CAnsiString::CAnsiString(const char* str)
 {
     m_str = std::string(str);
@@ -24,6 +27,9 @@ CAnsiString::operator const char* () const
     return m_str.c_str();
 }
 
+//-----------------------------------------------------------
+// CString UTF16(LE)文字列
+//-----------------------------------------------------------
 CString::CString(const char16_t* str)
 {
     m_str = std::u16string(str);
@@ -45,6 +51,9 @@ CString::operator const char16_t* () const
     return m_str.c_str();
 }
 
+//-----------------------------------------------------------
+// CFile c++ ファイルのカプセル化
+//-----------------------------------------------------------
 CFile::CFile(LPCSTR lpszFileName, UINT nOpenFlags)
 {
     if(nOpenFlags & modeRead)
@@ -141,6 +150,9 @@ void CFile::Write(const void* lpBuf, UINT nCount)
     }
 }
 
+//-----------------------------------------------------------
+// CArchive MFC CArchive バイナリ形式のファイルストリームを実装
+//-----------------------------------------------------------
 CArchive::CArchive()
     : m_file(nullptr)
     , m_mode(0)
