@@ -92,6 +92,7 @@ public:
     void Write(const void* lpBuf, UINT nMax);
     void WriteString(const CAnsiString& wString); 
     CArchive& operator << (const CAnsiString& str);
+    CArchive& operator << (const CString& str);
     CArchive& operator << (BYTE by);
     CArchive& operator << (WORD w);
     CArchive& operator << (LONG l);
@@ -107,6 +108,7 @@ public:
     CArchive& operator << (ULONGLONG ull);
     CArchive& operator << (LONGLONG ll);
     CArchive& operator >> (CAnsiString& str);
+    CArchive& operator >> (CString& str);
     CArchive& operator >> (BYTE& by);
     CArchive& operator >> (WORD& w);
     CArchive& operator >> (int& i);

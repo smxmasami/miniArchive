@@ -217,7 +217,7 @@ CArchive& CArchive::operator << (const CAnsiString& str)
         m_file->Write(&sz,sizeof(BYTE));
         m_file->Write((const char*)str,sz);
     }
-    else if( sz < 65535 )
+    else if( sz < 65534 )
     {
         m_file->Write(&l1,sizeof(BYTE));
         m_file->Write(&sz,sizeof(WORD));
@@ -229,6 +229,37 @@ CArchive& CArchive::operator << (const CAnsiString& str)
         m_file->Write(&l2,sizeof(WORD));
         m_file->Write(&sz,sizeof(DWORD));
         m_file->Write((const char*)str,sz);
+    }
+    return *this;
+}
+
+CArchive& CArchive::operator << (const CString& str)
+{
+    BYTE l1 = 255;
+    WORD l2 = 65535;
+    WORD bom = 0xfffe;
+    DWORD sz = str.GetLength();
+    if( sz < 255 )
+    {
+        m_file->Write(&l1,sizeof(BYTE));
+        m_file->Write(&bom,sizeof(WORD));
+        m_file->Write(&sz,sizeof(BYTE));
+        m_file->Write((const wchar_t*)str,sz*sizeof(WORD));
+    }
+    else if( sz < 65534 )
+    {
+        m_file->Write(&l1,sizeof(BYTE));
+        m_file->Write(&bom,sizeof(WORD));
+        m_file->Write(&l1,sizeof(BYTE));
+        m_file->Write(&sz,sizeof(WORD));
+        m_file->Write((const wchar_t*)str,sz*sizeof(WORD));
+    }
+    else
+    {
+        m_file->Write(&l1,sizeof(BYTE));
+        m_file->Write(&l2,sizeof(WORD));
+        m_file->Write(&sz,sizeof(DWORD));
+        m_file->Write((const wchar_t*)str,sz*sizeof(WORD));
     }
     return *this;
 }
@@ -377,7 +408,7 @@ CArchive& CArchive::operator >> (CAnsiString& str)
     {
         WORD l2;
         m_file->Read(static_cast<void*>(&l2),sizeof(WORD));
-        if( l2 < 65535 )
+        if( l2 < 65534 )
         {
             sz = l2 + 1;
             char* lpBuf = new char[sz] { 0 };
@@ -394,6 +425,53 @@ CArchive& CArchive::operator >> (CAnsiString& str)
             m_file->Read(lpBuf,l3);
             str = lpBuf;
             delete [] lpBuf;
+        }
+    }
+    return *this;
+}
+
+CArchive& CArchive::operator >> (CString& str)
+{
+    size_t sz;
+    BYTE l1;
+    m_file->Read(static_cast<void*>(&l1),sizeof(BYTE));
+    if( l1 == 255 )
+    {
+        WORD l2;
+        m_file->Read(static_cast<void*>(&l2),sizeof(WORD));
+        if( l2 == 65534 )
+        {
+            m_file->Read(static_cast<void*>(&l1),sizeof(BYTE));
+            if( l1 < 255 )
+            {
+                sz = l1 + 1;
+                wchar_t* lpBuf = new wchar_t[sz] { 0 };
+                m_file->Read(lpBuf,l1*sizeof(WORD));
+                str = lpBuf;
+                delete [] lpBuf;
+            }
+            else
+            {
+                m_file->Read(static_cast<void*>(&l2),sizeof(WORD));
+                if( l2 < 65534 )
+                {
+                    sz = l2 + 1;
+                    wchar_t* lpBuf = new wchar_t[sz] { 0 };
+                    m_file->Read(lpBuf,l2*sizeof(WORD));
+                    str = lpBuf;
+                    delete [] lpBuf;
+                }
+                else
+                {
+                    DWORD l3;
+                    m_file->Read(static_cast<void*>(&l3),sizeof(DWORD));
+                    sz = l3 + 1;
+                    wchar_t* lpBuf = new wchar_t[sz] { 0 };
+                    m_file->Read(lpBuf,l3*sizeof(WORD));
+                    str = lpBuf;
+                    delete [] lpBuf;
+                }
+            }
         }
     }
     return *this;
