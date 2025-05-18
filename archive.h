@@ -20,8 +20,8 @@
 #define DWORD_PTR ULONGLONG
 #define LPSTR  char*
 #define LPCSTR const char*
-#define LPWSTR  wchar_t*
-#define LPCWSTR const wchar_t*
+#define LPWSTR  char16_t*
+#define LPCWSTR const char16_t*
 
 class CAnsiString
 {
@@ -39,12 +39,12 @@ class CString
 {
 public: 
     CString(){}
-    CString(const wchar_t* str);
-    CString& operator = (const wchar_t* str );
+    CString(const char16_t* str);
+    CString& operator = (const char16_t* str );
     DWORD GetLength() const;
-    operator const wchar_t* () const;
+    operator const char16_t* () const;
 private:
-    std::wstring m_str;    
+    std::u16string m_str;    
 };
 
 class CFile
@@ -102,7 +102,7 @@ public:
     CArchive& operator << (int i);
     CArchive& operator << (short w);
     CArchive& operator << (char ch);
-    CArchive& operator << (wchar_t ch);
+    CArchive& operator << (char16_t ch);
     CArchive& operator << (unsigned u);
     CArchive& operator << (bool b);
     CArchive& operator << (ULONGLONG ull);
@@ -118,7 +118,7 @@ public:
     CArchive& operator >> (double& d);
     CArchive& operator >> (short& w);
     CArchive& operator >> (char& ch);
-    CArchive& operator >> (wchar_t& ch);
+    CArchive& operator >> (char16_t& ch);
     CArchive& operator >> (unsigned& u);
     CArchive& operator >> (bool& b);
     CArchive& operator >> (ULONGLONG& ull);

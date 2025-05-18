@@ -2,9 +2,41 @@
     sample.cpp
 */
 #include "archive.h"
+#include <codecvt>
 #include <iostream>
 #include <fstream>
 
+int main(int argc, char** argv)
+{
+    CFile file("test.bin", CFile::modeRead);
+    CArchive ar(&file, CArchive::load);
+    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> converter;
+    for(int i = 0 ;; i++)
+    {
+        CString str;
+        ar >> str;
+        if(str.GetLength() == 0 )
+            break;
+        std::string utf8str = converter.to_bytes(str);
+        std::cout << i << " " << str.GetLength() << " " << utf8str << std::endl;
+    }
+    ar.Close();
+    return 0;
+}
+
+/*
+int main(int argc, char** argv)
+{
+    CFile file("test.bin", CFile::modeWrite);
+    CArchive ar(&file, CArchive::store);
+    ar << CString(u"ABCおはよう");
+    ar << CString(u"DEFこんにちは");
+    ar << CString(u"GHIおやすみ");
+    ar.Close();
+    return 0;
+}
+*/
+/*
 int main(int argc, char** argv)
 {
     CFile file("test.bin", CFile::modeRead);
@@ -20,6 +52,7 @@ int main(int argc, char** argv)
     ar.Close();
     return 0;
 }
+    */
 /*
 int main(int argc, char** argv)
 {

@@ -24,14 +24,14 @@ CAnsiString::operator const char* () const
     return m_str.c_str();
 }
 
-CString::CString(const wchar_t* str)
+CString::CString(const char16_t* str)
 {
-    m_str = std::wstring(str);
+    m_str = std::u16string(str);
 }
 
-CString& CString::operator = (const wchar_t* str )
+CString& CString::operator = (const char16_t* str )
 {
-    m_str = std::wstring(str);
+    m_str = std::u16string(str);
     return *this;
 }
 
@@ -40,7 +40,7 @@ DWORD  CString::GetLength() const
     return m_str.length();
 }
 
-CString::operator const wchar_t* () const
+CString::operator const char16_t* () const
 {
     return m_str.c_str();
 }
@@ -204,7 +204,7 @@ void CArchive::Write(const void* lpBuf, UINT nMax)
 }
 
 // '\0' まで書き込む
-void CArchive::WriteString(const CAnsiString& wstring) 
+void CArchive::WriteString(const CAnsiString& u16string) 
 {}
 
 CArchive& CArchive::operator << (const CAnsiString& str)
@@ -244,7 +244,7 @@ CArchive& CArchive::operator << (const CString& str)
         m_file->Write(&l1,sizeof(BYTE));
         m_file->Write(&bom,sizeof(WORD));
         m_file->Write(&sz,sizeof(BYTE));
-        m_file->Write((const wchar_t*)str,sz*sizeof(WORD));
+        m_file->Write((const char16_t*)str,sz*sizeof(WORD));
     }
     else if( sz < 65534 )
     {
@@ -252,14 +252,14 @@ CArchive& CArchive::operator << (const CString& str)
         m_file->Write(&bom,sizeof(WORD));
         m_file->Write(&l1,sizeof(BYTE));
         m_file->Write(&sz,sizeof(WORD));
-        m_file->Write((const wchar_t*)str,sz*sizeof(WORD));
+        m_file->Write((const char16_t*)str,sz*sizeof(WORD));
     }
     else
     {
         m_file->Write(&l1,sizeof(BYTE));
         m_file->Write(&l2,sizeof(WORD));
         m_file->Write(&sz,sizeof(DWORD));
-        m_file->Write((const wchar_t*)str,sz*sizeof(WORD));
+        m_file->Write((const char16_t*)str,sz*sizeof(WORD));
     }
     return *this;
 }
@@ -345,11 +345,11 @@ CArchive& CArchive::operator << (char ch)
     return *this;
 }
 
-CArchive& CArchive::operator << (wchar_t ch)
+CArchive& CArchive::operator << (char16_t ch)
 {
     if(m_file)
     {
-        m_file->Write(static_cast<void*>(&ch), sizeof(wchar_t));
+        m_file->Write(static_cast<void*>(&ch), sizeof(char16_t));
     }
     return *this;
 }
@@ -445,7 +445,7 @@ CArchive& CArchive::operator >> (CString& str)
             if( l1 < 255 )
             {
                 sz = l1 + 1;
-                wchar_t* lpBuf = new wchar_t[sz] { 0 };
+                char16_t* lpBuf = new char16_t[sz] { 0 };
                 m_file->Read(lpBuf,l1*sizeof(WORD));
                 str = lpBuf;
                 delete [] lpBuf;
@@ -456,7 +456,7 @@ CArchive& CArchive::operator >> (CString& str)
                 if( l2 < 65534 )
                 {
                     sz = l2 + 1;
-                    wchar_t* lpBuf = new wchar_t[sz] { 0 };
+                    char16_t* lpBuf = new char16_t[sz] { 0 };
                     m_file->Read(lpBuf,l2*sizeof(WORD));
                     str = lpBuf;
                     delete [] lpBuf;
@@ -466,7 +466,7 @@ CArchive& CArchive::operator >> (CString& str)
                     DWORD l3;
                     m_file->Read(static_cast<void*>(&l3),sizeof(DWORD));
                     sz = l3 + 1;
-                    wchar_t* lpBuf = new wchar_t[sz] { 0 };
+                    char16_t* lpBuf = new char16_t[sz] { 0 };
                     m_file->Read(lpBuf,l3*sizeof(WORD));
                     str = lpBuf;
                     delete [] lpBuf;
@@ -594,12 +594,12 @@ CArchive& CArchive::operator >> (char& ch)
     return *this;
 }
 
-CArchive& CArchive::operator >> (wchar_t& ch)
+CArchive& CArchive::operator >> (char16_t& ch)
 {
     if(m_file)
     {
-        wchar_t data;
-        if( m_file->Read(&data, sizeof(wchar_t)) == sizeof(wchar_t))
+        char16_t data;
+        if( m_file->Read(&data, sizeof(char16_t)) == sizeof(char16_t))
         {
             ch = data;
         }
