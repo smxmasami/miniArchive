@@ -9,6 +9,34 @@ int main(int argc, char** argv)
 {
     CFile file("test.bin", CFile::modeRead);
     CArchive ar(&file, CArchive::load);
+    for(int i = 0 ;; i++)
+    {
+        CAnsiString str;
+        ar >> str;
+        if(str.GetLength() == 0 )
+            break;
+        std::cout << i << " " << str.GetLength() << " " << str << std::endl;
+    }
+    ar.Close();
+    return 0;
+}
+/*
+int main(int argc, char** argv)
+{
+    CFile file("test.bin", CFile::modeWrite);
+    CArchive ar(&file, CArchive::store);
+    ar << CAnsiString("ABC");
+    ar << CAnsiString("DEF");
+    ar << CAnsiString("GHI");
+    ar.Close();
+    return 0;
+}
+*/
+/* CArchive クラスの読み込みテスト
+int main(int argc, char** argv)
+{
+    CFile file("test.bin", CFile::modeRead);
+    CArchive ar(&file, CArchive::load);
     char            c;
     unsigned char   uc;
     short           s;
@@ -50,7 +78,7 @@ int main(int argc, char** argv)
     std::cout << "double=" <<          d << std::endl;
     return 0;
 }
-
+*/
 /* CArchive クラスの書き込みテスト
 int main(int argc, char** argv)
 {

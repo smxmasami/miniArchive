@@ -10,8 +10,18 @@ CAnsiString::CAnsiString(const char* str)
 
 CAnsiString& CAnsiString::operator = (const char* str )
 {
-    m_str = str;
+    m_str = std::string(str);
     return *this;
+}
+
+DWORD  CAnsiString::GetLength() const
+{
+    return m_str.length();
+}
+
+CAnsiString::operator const char* () const
+{
+    return m_str.c_str();
 }
 
 CString::CString(const wchar_t* str)
@@ -21,8 +31,18 @@ CString::CString(const wchar_t* str)
 
 CString& CString::operator = (const wchar_t* str )
 {
-    m_str = str;
+    m_str = std::wstring(str);
     return *this;
+}
+
+DWORD  CString::GetLength() const
+{
+    return m_str.length();
+}
+
+CString::operator const wchar_t* () const
+{
+    return m_str.c_str();
 }
 
 CFile::CFile(LPCSTR lpszFileName, UINT nOpenFlags)
@@ -169,6 +189,7 @@ UINT CArchive::Read(void* lpBuf, UINT nMax)
     return ret;
 }
 
+// '\n' まで読み込む
 BOOL CArchive::ReadString(CAnsiString& rString)
 {
     return 0;
@@ -182,11 +203,33 @@ void CArchive::Write(const void* lpBuf, UINT nMax)
     }
 }
 
+// '\0' まで書き込む
 void CArchive::WriteString(const CAnsiString& wstring) 
 {}
 
 CArchive& CArchive::operator << (const CAnsiString& str)
 {
+    BYTE l1 = 255;
+    WORD l2 = 65535;
+    DWORD sz = str.GetLength();
+    if( sz < 255 )
+    {
+        m_file->Write(&sz,sizeof(BYTE));
+        m_file->Write((const char*)str,sz);
+    }
+    else if( sz < 65535 )
+    {
+        m_file->Write(&l1,sizeof(BYTE));
+        m_file->Write(&sz,sizeof(WORD));
+        m_file->Write((const char*)str,sz);
+    }
+    else
+    {
+        m_file->Write(&l1,sizeof(BYTE));
+        m_file->Write(&l2,sizeof(WORD));
+        m_file->Write(&sz,sizeof(DWORD));
+        m_file->Write((const char*)str,sz);
+    }
     return *this;
 }
 
@@ -319,6 +362,40 @@ CArchive& CArchive::operator << (LONGLONG ll)
 
 CArchive& CArchive::operator >> (CAnsiString& str)
 {
+    size_t sz;
+    BYTE l1;
+    m_file->Read(static_cast<void*>(&l1),sizeof(BYTE));
+    if( l1 < 255 )
+    {
+        sz = l1 + 1;
+        char* lpBuf = new char[sz] { 0 };
+        m_file->Read(lpBuf,l1);
+        str = lpBuf;
+        delete [] lpBuf;
+    }
+    else
+    {
+        WORD l2;
+        m_file->Read(static_cast<void*>(&l2),sizeof(WORD));
+        if( l2 < 65535 )
+        {
+            sz = l2 + 1;
+            char* lpBuf = new char[sz] { 0 };
+            m_file->Read(lpBuf,l2);
+            str = lpBuf;
+            delete [] lpBuf;
+        }
+        else
+        {
+            DWORD l3;
+            m_file->Read(static_cast<void*>(&l3),sizeof(DWORD));
+            sz = l3 + 1;
+            char* lpBuf = new char[sz] { 0 };
+            m_file->Read(lpBuf,l3);
+            str = lpBuf;
+            delete [] lpBuf;
+        }
+    }
     return *this;
 }
 

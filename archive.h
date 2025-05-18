@@ -29,6 +29,8 @@ public:
     CAnsiString(){}
     CAnsiString(const char* str);
     CAnsiString& operator = (const char* str );
+    DWORD GetLength() const;
+    operator const char* () const;
 private:
     std::string m_str;    
 };
@@ -39,6 +41,8 @@ public:
     CString(){}
     CString(const wchar_t* str);
     CString& operator = (const wchar_t* str );
+    DWORD GetLength() const;
+    operator const wchar_t* () const;
 private:
     std::wstring m_str;    
 };
