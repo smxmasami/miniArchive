@@ -33,5 +33,6 @@
 
 # Personal settings
 build/
+.vs/
 *.pdb
 tasks.json
