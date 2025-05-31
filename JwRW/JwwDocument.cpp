@@ -1348,29 +1348,29 @@ void CData::Serialize(CArchive& ar)
 	if (ar.IsStoring())
 	{
 		ar << m_lGroup;            //曲線属性番号
-		ar << (BYTE)m_nPenStyle;          //線種番号
-		ar << (WORD)m_nPenColor;          //線色番号
+		ar << m_nPenStyle;          //線種番号
+		ar << m_nPenColor;          //線色番号
 		if (version(ar) >= eVer351)
 		{
-			ar << (WORD)m_nPenWidth;      //線色幅
+			ar << m_nPenWidth;      //線色幅
 		}
-		ar << (WORD)m_nLayer;             //画層番号
-		ar << (WORD)m_nGLayer;            //画層グループ番号
-		ar << (WORD)m_sFlg;               //属性フラグ
+		ar << m_nLayer;             //画層番号
+		ar << m_nGLayer;            //画層グループ番号
+		ar << m_sFlg;               //属性フラグ
 	}
 	else
 	{
 		ar >> m_lGroup;            //曲線属性番号
-		ar >> (BYTE)m_nPenStyle;          //線種番号
-		ar >> (WORD)m_nPenColor;          //線色番号
+		ar >> m_nPenStyle;          //線種番号
+		ar >> m_nPenColor;          //線色番号
 		m_nPenWidth = 0;
 		if (version(ar) >= eVer351)
 		{
-			ar >> (WORD)m_nPenWidth;      //線色幅
+			ar >> m_nPenWidth;      //線色幅
 		}
-		ar >> (WORD)m_nLayer;             //画層番号
-		ar >> (WORD)m_nGLayer;            //画層グループ番号
-		ar >> (WORD)m_sFlg;               //属性フラグ
+		ar >> m_nLayer;             //画層番号
+		ar >> m_nGLayer;            //画層グループ番号
+		ar >> m_sFlg;               //属性フラグ
 	}
 }
 
@@ -1960,7 +1960,7 @@ void CDataSunpou::Serialize(CArchive& ar)
 		m_Moji.Serialize(ar);
 		if (version(ar) >= eVer420)
 		{
-			ar << (WORD)m_bSxfMode;
+			ar << m_bSxfMode;
 			m_SenHo1.Serialize(ar);
 			m_SenHo2.Serialize(ar);
 			m_Ten1.Serialize(ar);
@@ -1976,7 +1976,7 @@ void CDataSunpou::Serialize(CArchive& ar)
 		m_bSxfMode = 0;
 		if (version(ar) >= eVer420)
 		{
-			ar >> (WORD)m_bSxfMode;
+			ar >> m_bSxfMode;
 			m_SenHo1.Serialize(ar);
 			m_SenHo2.Serialize(ar);
 			m_Ten1.Serialize(ar);
@@ -2484,7 +2484,7 @@ void CJwwDocument::Serialize(CArchive& ar)
 		m_DataListList.Serialize(ar);
 
 		// 埋め込み画像の出力
-		WriteImageFiles(ar);
+		//WriteImageFiles(ar);
 	}
 	// JWWファイルから読み込み
 	else
@@ -2499,10 +2499,11 @@ void CJwwDocument::Serialize(CArchive& ar)
 		// ブロック図形の入力
 		m_DataListList.Serialize(ar);
 		// 埋め込み画像の展開を開始
-		ExtructImageFiles(ar);
+		//ExtructImageFiles(ar);
 	}
 }
 
+#if 0
 // ***********************************************************
 //   画像ファイル埋め込み
 // ***********************************************************
@@ -2745,6 +2746,7 @@ void CJwwDocument::ExtructImageFiles(CArchive& ar)
 		}
 	}
 }
+#endif
 
 #ifdef _DEBUG
 void CJwwDocument::AssertValid() const

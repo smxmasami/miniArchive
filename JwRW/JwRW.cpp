@@ -31,3 +31,8 @@ int main()
     return 0;
 }
 
+// おまけ
+bool OdEqual(double x, double y, double f)
+{
+    return (std::abs(x - y) < f);
+}
