@@ -36,3 +36,6 @@ build/
 .vs/
 *.pdb
 tasks.json
+x64/
+Debug/
+Release/
