@@ -4,6 +4,7 @@
 
 int main()
 {
+    setlocale(LC_ALL, "japanese");
     CJwwDocument* pDoc = new CJwwDocument();
     std::cout << "Read JW file." << std::endl;
     {
