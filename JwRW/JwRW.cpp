@@ -12,6 +12,7 @@ int main()
         ar.m_pDocument = pDoc;
         pDoc->Serialize(ar);
         ar.Close();
+        file.Close();
     }
     std::cout << "Write JW file." << std::endl;
     {
@@ -20,6 +21,7 @@ int main()
         ar.m_pDocument = pDoc;
         pDoc->Serialize(ar);
         ar.Close();
+        file.Close();
     }
     delete pDoc;
     return 0;
