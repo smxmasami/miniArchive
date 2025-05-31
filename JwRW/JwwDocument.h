@@ -1,37 +1,37 @@
-//////////////////////////////////////////////////////////////////////
-// Jww�f�[�^�ǂݍ��݃N���X�Q ��`�t�@�C��
+﻿//////////////////////////////////////////////////////////////////////
+// Jwwデータ読み込みクラス群 定義ファイル
 //
-// �ECDocument�h����CJwwDocument�N���X
-//   JWW�f�[�^�S�̂��Ǘ�����N���X
+// ・CDocument派生のCJwwDocumentクラス
+//   JWWデータ全体を管理するクラス
 //
-// �ECObject�h����CJwwHeader�N���X
-//   JWW�̃w�b�_����ێ�����N���X
+// ・CObject派生のCJwwHeaderクラス
+//   JWWのヘッダ情報を保持するクラス
 //
-// �ECObject�h����CData�N���X
-//   JWW�̌X�̃f�[�^��ێ�����e�N���X�̃x�[�X
+// ・CObject派生のCDataクラス
+//   JWWの個々のデータを保持する各クラスのベース
 //
-//  2017/3/6 JWS�t�@�C���̃u���b�N�ɑΉ�
+//  2017/3/6 JWSファイルのブロックに対応
 
 #pragma once
 
-/// SXF���[�U��`����̍ő�v�f��
+/// SXFユーザ定義線種の最大要素数
 #define	USERDEFINEDLTYPEPITCHES	10
 
-/// SXF�u���b�N���
+/// SXFブロック種類
 ///
-///	"�u���b�N��@@SfigorgFlag@@1"  �����}(���w���W�n)
-///	"�u���b�N��@@SfigorgFlag@@2"  �����}(���n���W�n)
-///	"�u���b�N��@@SfigorgFlag@@3"	�����Ȑ�(�n�b�`���O�̃p�X)
-///	"�u���b�N��@@SfigorgFlag@@4"	���i��`
+///	"ブロック名@@SfigorgFlag@@1"  部分図(数学座標系)
+///	"ブロック名@@SfigorgFlag@@2"  部分図(測地座標系)
+///	"ブロック名@@SfigorgFlag@@3"	複合曲線(ハッチングのパス)
+///	"ブロック名@@SfigorgFlag@@4"	部品定義
 ///
-///	JW_CAD��JWW�ۑ�����ƁA�u���b�N���� "@@SfigorgFlag@@4" �����ĕԂ�
-///	�u���b�N���̍Ōオ�A@@SfigorgFlag@@1 �Ȃ�A���̂܂܂ł���B
+///	JW_CADでJWW保存すると、ブロック名に "@@SfigorgFlag@@4" をつけて返す
+///	ブロック名の最後が、@@SfigorgFlag@@1 なら、そのままである。
 ///
 #define	SXF_BLOCK_PREFIX	_T("@@Sfigorgflag@@")
 #define	SXF_BLOCK_PARTS_ID	_T("@@Sfigorgflag@@4")
 
-/// JWW �o�[�W���� ID
-/// 2015-01-15	Jw_cad 8.00 �̃t�@�C���o�[�W������700�ł�
+/// JWW バージョン ID
+/// 2015-01-15	Jw_cad 8.00 のファイルバージョンは700です
 ///
 enum	JwwVersionId
 {
@@ -45,7 +45,7 @@ enum	JwwVersionId
 };
 
 //////////////////////////////////////////////////////////////////////
-/// �\���̒�`
+/// 構造体定義
 struct EXTFUNC DPoint
 {
 	double x;
@@ -54,349 +54,349 @@ struct EXTFUNC DPoint
 
 class CJwwDocument;
 //////////////////////////////////////////////////////////////////////
-/// JWW�t�@�C�� �w�b�_���ǂݍ��݃N���X
+/// JWWファイル ヘッダ部読み込みクラス
 
 class EXTFUNC CJwwHeader : public CObject
 {
 public:
-	/// JWW�}�ʂɕۑ������l ---
-	/// JWW�̃f�[�^�t�@�C���錾(�f�[�^ 0-7)
+	/// JWW図面に保存される値 ---
+	/// JWWのデータファイル宣言(データ 0-7)
 	char m_cVersion[8];
-	/// �o�[�W����No.
+	/// バージョンNo.
 	DWORD m_Version;
-	/// �t�@�C������
+	/// ファイルメモ
 	CString m_strMemo;
-	/// �}�ʃT�C�Y
+	/// 図面サイズ
 	DWORD m_nZumen;
-	/// ��w�O���[�v�E��w���
-	/// �������݉�w�O���[�v�ԍ�
+	/// 画層グループ・画層状態
+	/// 書き込み画層グループ番号
 	DWORD m_nWriteGLay;
-	/// ��w�O���[�v�̏��(�f�[�^ 0-15)
+	/// 画層グループの状態(データ 0-15)
 	DWORD m_anGLay[16];
-	/// �O���[�v�ʏ������݉�w�ԍ�(�f�[�^ 0-15)
+	/// グループ別書き込み画層番号(データ 0-15)
 	DWORD m_anWriteLay[16];
-	/// �O���[�v�ʏk��(�f�[�^ 0-15)
+	/// グループ別縮尺(データ 0-15)
 	double m_adScale[16];
-	/// �O���[�v�ʃv���e�N�g���(�f�[�^ 0-15)
+	/// グループ別プロテクト状態(データ 0-15)
 	DWORD m_anGLayProtect[16];
-	/// ��w�̏��(�f�[�^ 0-15)(�f�[�^ 0-15)
+	/// 画層の状態(データ 0-15)(データ 0-15)
 	DWORD m_aanLay[16][16];
-	/// ��w�̃v���e�N�g���(�f�[�^ 0-15)(�f�[�^ 0-15)
+	/// 画層のプロテクト状態(データ 0-15)(データ 0-15)
 	DWORD m_aanLayProtect[16][16];
-	/// ���@�֌W�̐ݒ�
-	/// ��̈� ���@���̐F(1�`9)
-	/// �\�̈� ���o���̐F(1�`9)
-	/// �S�̈� ���@�_�̐F(1�`9)
-	/// ��̈� �����_�ȉ��̌���(0�`3)
-	/// ���̈� 0:mm 1:m
-	/// �\���̈� 0:�_ 1:��� 2:�t���
-	/// �S���̈� ���@������(1�`10)
+	/// 寸法関係の設定
+	/// 一の位 寸法線の色(1～9)
+	/// 十の位 引出線の色(1～9)
+	/// 百の位 寸法点の色(1～9)
+	/// 千の位 小数点以下の桁数(0～3)
+	/// 万の位 0:mm 1:m
+	/// 十万の位 0:点 1:矢印 2:逆矢印
+	/// 百万の位 寸法文字種(1～10)
 	DWORD m_lnSunpou1;
-	/// ���̒l���}�C�i�X�̏ꍇ��+1000���Đ���������
-	/// 10000�̏�] ���@�l�Ɛ��@���̗���(000-999��0mm�`99.9mm)
-	/// 10000�̏�  ���@���̓ˏo����(000-999��0mm�`99.9mm)
+	/// この値がマイナスの場合は+1000して整数化する
+	/// 10000の剰余 寸法値と寸法線の離れ(000-999→0mm～99.9mm)
+	/// 10000の商  寸法線の突出長さ(000-999→0mm～99.9mm)
 	DWORD m_lnSunpou2;
-	/// 1000�̏�] ��󒷂�(000-999��0mm�`99.9mm)
-	/// 10���̏�] ���p�x(001-080��0.1���`80.0��)
-	/// 100���̏�  �t���̏o���@(000-999��0mm�`99.9mm)
+	/// 1000の剰余 矢印長さ(000-999→0mm～99.9mm)
+	/// 10万の剰余 矢印角度(001-080→0.1°～80.0°)
+	/// 100万の商  逆矢印の出寸法(000-999→0mm～99.9mm)
 	DWORD m_lnSunpou3;
-	/// ��̈� ���@�l������␳���Ȃ� 0:�␳�L 1:�␳��
-	/// �\�̈� ���@�l��S�p�ɂ��� 0:���p 1:�S�p (�������邩�ʂ̃t�H���g���g����)
-	/// �S�̈� ���@�l�̃J���}���X�y�[�X�ɂ��� 0:�J���} 1:�X�y�[�X (����)
-	/// ��̈� ���@�l�̃J���}��S�p�ɂ��� 0:���p 1:�S�p (����)
-	/// ���̈� ���@�l�̏����_��S�p�ɂ��� 0:���p 1:�S�p (����)
-	/// �\���̈� ���@�l�ɒP�ʂ�\������ 0:�� 1:�L
-	/// �S���̈� ���a�l��R��\������ 0:�� 1:�O 2:�� (�v����)
-	/// �疜�̈� ���a�l�ɃJ���}��\������ 0:�� 1:�L
-	/// ���̈� ���a�l�ɏ����_��0��\�� 0:�� 1:�L
+	/// 一の位 寸法値方向を補正しない 0:補正有 1:補正無
+	/// 十の位 寸法値を全角にする 0:半角 1:全角 (無視するか別のフォントを使うか)
+	/// 百の位 寸法値のカンマをスペースにする 0:カンマ 1:スペース (無視)
+	/// 千の位 寸法値のカンマを全角にする 0:半角 1:全角 (無視)
+	/// 万の位 寸法値の小数点を全角にする 0:半角 1:全角 (無視)
+	/// 十万の位 寸法値に単位を表示する 0:無 1:有
+	/// 百万の位 半径値にRを表示する 0:無 1:前 2:後 (要調査)
+	/// 千万の位 半径値にカンマを表示する 0:無 1:有
+	/// 億の位 半径値に小数点の0を表示 0:無 1:有
 	DWORD m_lnSunpou4;
-	/// ��̈� ���@�l���Α̂ɂ��� 0:�ʏ� 1:�Α�
-	/// �\�̈� ���@�l�𑾎��ɂ��� 0:�ʏ� 1:����
-	/// �S�̈� 0:�\�i�x 1:�x���b 2:�x�P�ʂŁ��̕\���Ȃ�
-	/// ��̈� �p�x���@�̏����_�ȉ��̌��� 0�`6
-	/// ���̈� ���@�}�`�ɂ��� 0:���� 1:���@�ɂ��� (����)
-	/// �\���̈� �͈͑I���̂Ƃ��A���@�}�`����F�A�������őI�� 0 ���Ȃ� 1 ����(����)
-	/// �S���̈� �\�������_�ȉ��̏��� 0:�l�̌ܓ� 1:�؂�̂� 2:�؂�グ
+	/// 一の位 寸法値を斜体にする 0:通常 1:斜体
+	/// 十の位 寸法値を太字にする 0:通常 1:太字
+	/// 百の位 0:十進度 1:度分秒 2:度単位で°の表示なし
+	/// 千の位 角度寸法の小数点以下の桁数 0～6
+	/// 万の位 寸法図形にする 0:分解 1:寸法にする (無視)
+	/// 十万の位 範囲選択のとき、寸法図形を線色、線属性で選択 0 しない 1 する(無視)
+	/// 百万の位 表示小数点以下の処理 0:四捨五入 1:切り捨て 2:切り上げ
 	DWORD m_lnSunpou5;
-	/// ���`��̍ő啝
+	/// 線描画の最大幅
 	DWORD m_nMaxDrawWid;
-	/// �v�����^�o�͔͈͂̌��_(X,Y)
+	/// プリンタ出力範囲の原点(X,Y)
 	DPoint m_DPPrtGenten;
-	/// �v�����^�o�͔{��
+	/// プリンタ出力倍率
 	double m_dPrtBairitsu;
-	/// �v�����^90����]�o�́A�v�����^�o�͊�_�ʒu
+	/// プリンタ90°回転出力、プリンタ出力基準点位置
 	DWORD m_nPrtSet;
-	/// �ڐ��ݒ胂�[�h
-	/// ��̈� 0 �w��Ȃ� 1 �w�肠��
-	/// �\�̈� 0 �}�� 1 ����
-	/// �}�C�i�X�̂Ƃ��ڐ���ǂݎ��s��(=SNAP OFF)
+	/// 目盛設定モード
+	/// 一の位 0 指定なし 1 指定あり
+	/// 十の位 0 図寸 1 実寸
+	/// マイナスのとき目盛り読み取り不可(=SNAP OFF)
 	DWORD m_nMemoriMode;
-	/// �ڐ��\���ŏ��Ԋu�h�b�g (����)
+	/// 目盛表示最小間隔ドット (無視)
 	double m_dMemoriHyoujiMin;
-	/// �ڐ��\���Ԋu(X,Y)
-	/// GRIDSIZE��SNAPSIZE �ɂȂ�
+	/// 目盛表示間隔(X,Y)
+	/// GRIDSIZEやSNAPSIZE になる
 	double m_dMemoriX;
 	double m_dMemoriY;
-	/// �ڐ���_(X,Y)
-	/// GRIDBASE/SNAPBASE �ɂȂ�
+	/// 目盛基準点(X,Y)
+	/// GRIDBASE/SNAPBASE になる
 	DPoint m_DpMemoriKijunTen;
-	/// ��w��
-	/// DWG�ŉ�w���Ɏg�p�ł��Ȃ��������܂܂�邱�Ƃ�����̂Œ���(�f�[�^ 0-15)(�f�[�^ 0-15)
+	/// 画層名
+	/// DWGで画層名に使用できない文字が含まれることがあるので注意(データ 0-15)(データ 0-15)
 	CString m_aStrLayName[16][16];
-	/// ��w�O���[�v��
-	/// DWG�ŉ�w���Ɏg�p�ł��Ȃ��������܂܂�邱�Ƃ�����̂Œ���(�f�[�^ 0-15)
+	/// 画層グループ名
+	/// DWGで画層名に使用できない文字が含まれることがあるので注意(データ 0-15)
 	CString m_aStrGLayName[16];
-	/// ���e�v�Z�̏���
+	/// 日影計算の条件
 	double m_dKageLevel;
 	double m_dKageIdo;
 	DWORD m_nKage9_15JiFlg;
 	double m_dKabeKageLevel;
-	/// �V��}�̏����iVer.3.00�ȍ~)
+	/// 天空図の条件（Ver.3.00以降)
 	double m_dTenkuuZuLevel;
 	double m_dTenkuuZuEnkoR;
-	/// 2.5D�̌v�Z�P��(0�ȊO��mm�P�ʂŌv�Z)
+	/// 2.5Dの計算単位(0以外はmm単位で計算)
 	DWORD m_nMMTani3D;
-	/// �ۑ����̉�ʔ{��(�Ǎ��ނƑO��ʔ{���ɂȂ�)
+	/// 保存時の画面倍率(読込むと前画面倍率になる)
 	double m_dBairitsu;
 	DPoint m_DPGenten;
-	/// �͈͋L���{���Ɗ�_(X,Y)
+	/// 範囲記憶倍率と基準点(X,Y)
 	double m_dHanniBairitsu;
 	DPoint m_DPHanniGenten;
-	/// �}�[�N�W�����v�{��(�f�[�^ 1�`8)
+	/// マークジャンプ倍率(データ 1～8)
 	double m_dZoomJumpBairitsu[9];
-	/// �}�[�N�W�����v��_(X,Y)(�f�[�^ 1�`8)
+	/// マークジャンプ基準点(X,Y)(データ 1～8)
 	DPoint m_DPZoomJumpGenten[9];
-	/// �}�[�N�W�����v�{�� �L����w�O���[�v(�f�[�^ 1�`8)
+	/// マークジャンプ倍率 有効画層グループ(データ 1～8)
 	DWORD m_nZoomJumpGLay[9];
-	/// �����̕`����(Ver.4.05�ȍ~�j
-	double m_dDm11;		//�_�~�[
-	double m_dDm12;	//�_�~�[
-	double m_dDm13;		//�_�~�[
-	DWORD m_lnDm1;		//�_�~�[
-	double m_dDm21;		//�_�~�[
-	double m_dDm22;		//�_�~�[
-	double m_dMojiBG;	//(Ver.4.04�ȑO�̓_�~�[�j
-	DWORD m_nMojiBG;	//(Ver.4.04�ȑO�̓_�~�[�j
-	/// �����Ԋu(�f�[�^ 0�`9)
+	/// 文字の描画状態(Ver.4.05以降）
+	double m_dDm11;		//ダミー
+	double m_dDm12;	//ダミー
+	double m_dDm13;		//ダミー
+	DWORD m_lnDm1;		//ダミー
+	double m_dDm21;		//ダミー
+	double m_dDm22;		//ダミー
+	double m_dMojiBG;	//(Ver.4.04以前はダミー）
+	DWORD m_nMojiBG;	//(Ver.4.04以前はダミー）
+	/// 複線間隔(データ 0～9)
 	double m_adFukusenSuuchi[10];
-	/// ���������̗����o�̐��@
+	/// 両側複線の留線出の寸法
 	double m_dRyoygawaFukusenTomeDe;
-	/// �F�ԍ����Ƃ̉�ʕ\���F(�f�[�^ 0-9,100-356)
+	/// 色番号ごとの画面表示色(データ 0-9,100-356)
 	DWORD m_aPenColor[357];
-	/// �F�ԍ����Ƃ̉�ʕ\������(�f�[�^ 0-9,100-356)
+	/// 色番号ごとの画面表示線幅(データ 0-9,100-356)
 	DWORD m_anPenWidth[357];
-	/// �F�ԍ����Ƃ�SXF�F��(�f�[�^ 0-256)
+	/// 色番号ごとのSXF色名(データ 0-256)
 	CString m_astrUDColorName[257];
-	/// �F�ԍ����Ƃ̃v�����^�o�͐F�A�����A���_���a(�f�[�^ 0-9,100-356)
+	/// 色番号ごとのプリンタ出力色、線幅、実点半径(データ 0-9,100-356)
 	DWORD m_aPrtPenColor[357];
 	DWORD m_anPrtPenWidth[357];
 	double m_adPrtTenHankei[357];
-	/// ����ԍ�2����9�܂ł̃p�^�[���A1���j�b�g�̃h�b�g���A�s�b�`�A�v�����^�o�̓s�b�`(�f�[�^2-9,11-15,16-19,30-62)
-	/// �{������ԍ�6����9�܂ł̃p�^�[���A1���j�b�g�̃h�b�g���A�s�b�`�A�v�����^�o�̓s�b�`(�f�[�^2-9,11-15,16-19,30-62)
-	/// SXF�Ή�����33���̃p�^�[���A1���j�b�g�̃h�b�g���A�s�b�`�A�v�����^�o�̓s�b�`(�f�[�^2-9,11-15,16-19,30-62)
+	/// 線種番号2から9までのパターン、1ユニットのドット数、ピッチ、プリンタ出力ピッチ(データ2-9,11-15,16-19,30-62)
+	/// 倍長線種番号6から9までのパターン、1ユニットのドット数、ピッチ、プリンタ出力ピッチ(データ2-9,11-15,16-19,30-62)
+	/// SXF対応線種33個分のパターン、1ユニットのドット数、ピッチ、プリンタ出力ピッチ(データ2-9,11-15,16-19,30-62)
 	DWORD m_alLType[63];
 	DWORD m_anTokushuSenUintDot[63];
 	DWORD m_anTokushuSenPich[63];
 	DWORD m_anPrtTokushuSenPich[63];
-	/// �����_����1����5�܂ł̃p�^�[���A��ʕ\���U���E�s�b�`�A�v�����^�o�͐U���E�s�b�`(�f�[�^11-15)
+	/// ランダム線1から5までのパターン、画面表示振幅・ピッチ、プリンタ出力振幅・ピッチ(データ11-15)
 	DWORD m_anRandSenWide[16];
 	DWORD m_anPrtRandSenWide[16];
-	/// ���_����ʕ`�掞�̎w�蔼�a�ŕ`��
+	/// 実点を画面描画時の指定半径で描画
 	DWORD m_nDrawGamenTen;
-	/// ���_���v�����^�o�͎��A�w�蔼�a�ŏ���
+	/// 実点をプリンタ出力時、指定半径で書く
 	DWORD m_nDrawPrtTen;
-	/// BitMap�E�\���b�h���ŏ��ɕ`�悷��
+	/// BitMap・ソリッドを最初に描画する
 	DWORD m_nBitMapFirstDraw;
-	/// �t�`��
+	/// 逆描画
 	DWORD m_nGyakuDraw;
-	/// �t�T�[�`
+	/// 逆サーチ
 	DWORD m_nGyakuSearch;
-	/// �J���[���
+	/// カラー印刷
 	DWORD m_nColorPrint;
-	/// ��w���̈��
+	/// 画層順の印刷
 	DWORD m_nLayJunPrint;
-	/// �F�ԍ����̈��
+	/// 色番号順の印刷
 	DWORD m_nColJunPrint;
-	/// ��w�O���[�v�܂��͉�w���Ƃ̃v�����^�A���o�͎w��
+	/// 画層グループまたは画層ごとのプリンタ連続出力指定
 	DWORD m_nPrtRenzoku;
-	/// �v�����^���ʉ�w(�\���̂݉�w)�̃O���[�o�͎w��
+	/// プリンタ共通画層(表示のみ画層)のグレー出力指定
 	DWORD m_nPrtKyoutsuuGray;
-	/// �v�����^�o�͎��ɕ\���̂݉�w�͏o�͂��Ȃ�
+	/// プリンタ出力時に表示のみ画層は出力しない
 	DWORD m_nPrtDispOnlyNonDraw;
-	/// ��}���ԁiVer.2.23�ȍ~�j
+	/// 作図時間（Ver.2.23以降）
 	DWORD m_lnDrawTime;
-	/// 2.5D�̎n�_�ʒu���ݒ肳��Ă��鎞�̃t���O�iVer.2.23�ȍ~�j
+	/// 2.5Dの始点位置が設定されている時のフラグ（Ver.2.23以降）
 	DWORD m_nEyeInit;
-	/// 2.5D�̓����}�E���Ր}�E�A�C�\���}�̎��_�����p�iVer.2.23�ȍ~�j
+	/// 2.5Dの透視図・鳥瞰図・アイソメ図の視点水平角（Ver.2.23以降）
 	DWORD m_dEye_H_Ichi_1;
 	DWORD m_dEye_H_Ichi_2;
 	DWORD m_dEye_H_Ichi_3;
-	/// 2.5D�̓����}�̎��_�����E���_����iVer.2.23�ȍ~�j
+	/// 2.5Dの透視図の視点高さ・視点離れ（Ver.2.23以降）
 	double m_dEye_Z_Ichi_1;
 	double m_dEye_Y_Ichi_1;
-	/// 2.5D�̒��Ր}�̎��_�����E���_����iVer.2.23�ȍ~�j
+	/// 2.5Dの鳥瞰図の視点高さ・視点離れ（Ver.2.23以降）
 	double m_dEye_Z_Ichi_2;
 	double m_dEye_Y_Ichi_2;
-	/// 2.5D�̃A�C�\���}�̎��_�����p�iVer.2.23�ȍ~�j
+	/// 2.5Dのアイソメ図の視点垂直角（Ver.2.23以降）
 	double m_dEye_V_Ichi_3;
-	/// ���̒����w��̍ŏI�l�iVer.2.25�ȍ~�j
+	/// 線の長さ指定の最終値（Ver.2.25以降）
 	double m_dSenNagasaSnpou;
-	/// ��`���@�����@�E�c���@�w��̍ŏI�l�iVer.2.25�ȍ~�j
+	/// 矩形寸法横寸法・縦寸法指定の最終値（Ver.2.25以降）
 	double m_dBoxSunpouX;
 	double m_dBoxSunpouY;
-	/// �~�̔��a�w��̍ŏI�l�iVer.2.25�ȍ~�j
+	/// 円の半径指定の最終値（Ver.2.25以降）
 	double m_dEnHankeiSnpou;
-	/// �\���b�h��C�ӐF�ŏ����t���O�A�\���b�h�̔C�ӐF�̊���l�iVer.2.30�ȍ~�j
+	/// ソリッドを任意色で書くフラグ、ソリッドの任意色の既定値（Ver.2.30以降）
 	DWORD m_nSolidNinniColor;
 	DWORD m_SolidColor;
-	/// SXF�Ή��g�����F��`�iVer.4.20�ȍ~�j(�f�[�^ 0-31)
-	/// SXF�Ή��g�������`�iVer.4.20�ȍ~�j(�f�[�^ 0-31)
-	/// SXF�Ή��g������s�b�`�iVer.4.20�ȍ~�j(�f�[�^ 0-31)(�f�[�^ 1-10)
+	/// SXF対応拡張線色定義（Ver.4.20以降）(データ 0-31)
+	/// SXF対応拡張線種定義（Ver.4.20以降）(データ 0-31)
+	/// SXF対応拡張線種ピッチ（Ver.4.20以降）(データ 0-31)(データ 1-10)
 	CString m_astrUDLTypeName[33];
 	DWORD m_anUDLTypeSegment[33];
 	double m_aadUDLTypePitch[33][11];
-	/// ������1����10�܂ł̕�����(�f�[�^ 1-10)
+	/// 文字種1から10までの文字幅(データ 1-10)
 	double m_adMojiX[11];
-	/// ������1����10�܂ł̕�������(�f�[�^ 1-10)
+	/// 文字種1から10までの文字高さ(データ 1-10)
 	double m_adMojiY[11];
-	/// ������1����10�܂ł̕����Ԋu(�f�[�^ 1-10)
+	/// 文字種1から10までの文字間隔(データ 1-10)
 	double m_adMojiD[11];
-	/// ������1����10�܂ł̐F�ԍ�(�f�[�^ 1-10)
+	/// 文字種1から10までの色番号(データ 1-10)
 	DWORD m_anMojiCol[11];
-	/// �����ݕ����̕������A�����A�Ԋu�A�F�ԍ��A�����ԍ�
+	/// 書込み文字の文字幅、高さ、間隔、色番号、文字番号
 	double m_dMojiSizeX;
 	double m_dMojiSizeY;
 	double m_dMojiKankaku;
 	DWORD m_nMojiColor;
 	DWORD m_nMojiShu;
-	/// �����ʒu�����̍s�ԁA������
+	/// 文字位置整理の行間、文字数
 	double m_dMojiSeiriGyouKan;
 	double m_dMojiSeiriSuu;
-	/// ������_�̂���ʒu�g�p�̃t���O
+	/// 文字基準点のずれ位置使用のフラグ
 	DWORD m_nMojiKijunZureOn;
-	/// ������_�̉������̂���ʒu���A���A�E(�f�[�^ 0-2)
+	/// 文字基準点の横方向のずれ位置左、中、右(データ 0-2)
 	double m_adMojiKijunZureX[3];
-	/// ������_�̏c�����̂���ʒu���A���A��(�f�[�^ 0-2)
+	/// 文字基準点の縦方向のずれ位置下、中、上(データ 0-2)
 	double m_adMojiKijunZureY[3];
-	/// �h�L�������g�ւ̃|�C���^
+	/// ドキュメントへのポインタ
 	CJwwDocument* m_pDoc;
-	/// JWW�}�ʂɕۑ������l
+	/// JWW図面に保存される値
 private:
-	/// �}���̍��W �ϊ��W��
+	/// 図寸⇔座標 変換係数
 	double m_dJwwScale;
-	/// A4�`5A �}�ʂ̍����ς݂�(0,0)�ɂ���I�t�Z�b�g�l
+	/// A4～5A 図面の左下済みを(0,0)にするオフセット値
 	DPoint m_pJwwOffset;
-	/// �o�͔͈�
+	/// 出力範囲
 	OdGePoint3d m_pJwwMinPt;
 	OdGePoint3d m_pJwwMaxPt;
-	/// �����p�x�␳�ݒ�(0:���Ȃ� 1:����)
+	/// 文字角度補正設定(0:しない 1:する)
 	BOOL m_bFixAng;
-	/// �����p�x�␳�ݒ�̊p�x�̋��e�l
+	/// 文字角度補正設定の角度の許容値
 	double m_tFixAng;
 
 public:
-	/// �R���X�g���N�^
+	/// コンストラクタ
 	CJwwHeader();
-	/// �f�X�g���N�^
+	/// デストラクタ
 	virtual ~CJwwHeader();
-	/// �V���A���C�Y
+	/// シリアライズ
 	DECLARE_SERIAL(CJwwHeader);
 	virtual void Serialize(CArchive& ar);
 
-	/// ��w���擾
+	/// 画層名取得
 	CString  GetLayerName(
-		int iGLayer,      // [I] ��w�O���[�v�ԍ�
-		int iLayer);      // [I] ��w�ԍ�
+		int iGLayer,      // [I] 画層グループ番号
+		int iLayer);      // [I] 画層番号
 
-	/// �k�ڂƕψʂ̓K�p�Ə�����
+	/// 縮尺と変位の適用と初期化
 	void DoDataScale(double &dValue);
 	void DoDataScale(struct DPoint & pValue);
 	void SetDataScale(const double dValue, const struct DPoint & pIn);
 	double GetDataScale();
 	void GetDataOffset(struct DPoint & pOut);
-	/// RAY,XLINE�̏o�͔͈͂̌v�Z�Ɏg��
+	/// RAY,XLINEの出力範囲の計算に使う
 	void SetMinMaxPt(const OdGePoint3d& min, const OdGePoint3d& max);
 	void GetMinMaxPt(OdGePoint3d& min, OdGePoint3d& max) const;
-	/// ���͗p�}�ʔ͈�
+	/// 入力用図面範囲
 	void GetDocumentArea(OdGePoint2d& min, OdGePoint2d& max) const;
-	/// �����p�x�␳�ݒ���擾
+	/// 文字角度補正設定を取得
 	void SetTextOrthoTol();
 	BOOL GetTextOrthoTol(double& dTol);
 
-	/// �_���v
+	/// ダンプ
 #ifdef _DEBUG
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 };
 
 //////////////////////////////////////////////////////////////////////
-/// JWW�}�`��{�N���X
+/// JWW図形基本クラス
 
 class EXTFUNC CData : public CObject
 {
 protected:
-	DWORD	m_lGroup;		// �Ȑ������ԍ�
-	BYTE	m_nPenStyle;	// ����ԍ�
-	WORD	m_nPenColor;	// ���F�ԍ�
-	WORD	m_nPenWidth;	// ���F��
-	WORD	m_nLayer;		// ��w�ԍ�
-	WORD	m_nGLayer;		// ��w�O���[�v�ԍ�
-	WORD	m_sFlg;			// �����t���O
+	DWORD	m_lGroup;		// 曲線属性番号
+	BYTE	m_nPenStyle;	// 線種番号
+	WORD	m_nPenColor;	// 線色番号
+	WORD	m_nPenWidth;	// 線色幅
+	WORD	m_nLayer;		// 画層番号
+	WORD	m_nGLayer;		// 画層グループ番号
+	WORD	m_sFlg;			// 属性フラグ
 
-	CJwwHeader *m_pHeader;	// �w�b�_���ւ̃|�C���^
+	CJwwHeader *m_pHeader;	// ヘッダ情報へのポインタ
 
 public:
-	// �R���X�g���N�^
+	// コンストラクタ
 	CData();
 	CData(const CData & src);
-	// �f�X�g���N�^
+	// デストラクタ
 	virtual ~CData();
-	// �V���A���C�Y
+	// シリアライズ
 	DECLARE_SERIAL(CData);
 	virtual void Serialize(CArchive& ar);
 	CData& operator=(const CData src);
-	// JWW,JWS�̃o�[�W�������擾����
+	// JWW,JWSのバージョンを取得する
 	DWORD	version(CArchive& ar);
 	void	DoDataScale(CArchive& ar, double &val);
 	void	DoDataScale(CArchive& ar, DPoint &pnt);
-	// �_���v
+	// ダンプ
 #ifdef _DEBUG
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	// ����R�[�h (1�`64,65)
+	// 線種コード (1～64,65)
 	enum ePenStyle
 	{
-		eObjectLayer = 65	// �u���b�N�v�f�̉�w��D�悷��
+		eObjectLayer = 65	// ブロック要素の画層を優先する
 	};
 
-	// �����t���O
+	// 属性フラグ
 	enum eZukeiFlag
 	{
 		eGeneric = 0x0000,
-		eZukei = 0x0010,	//�~�E�_�}�`
-		eHatch = 0x0020,	//���E�~�E�_�E�\���b�h�̃n�b�`���O
-		eSunpou = 0x0040,	//���@�̉~�E�_
-		eTategu = 0x0080,	//����̉~�E�_
-		eSen = 0x0800,	//���}�`
-		eTateguSen = 0x1000,	//����̐�
-		eSunpouSen = 0x2000,	//���@��
-		eHorakuGai = 0x8000,	//������ΏۊO�̌���̐�
-		eTate = 0x0020,	//�c����
-		eMakita = 0x0040,	//�^�k
-		eHikage = 0x0080,	//���e
-		eHankei = 0x0100,	//���a���@�l
-		eChokkei = 0x0200,	//���a���@�l
-		eKakudo = 0x0400,	//�p�x���@�l
-		eZokusei = 0x0800,	//�}�`�����I���i�����j
-		eRuikei = 0x1000,	//�݌v���@�l
-		eTateguMoji = 0x2000,	//����̕���
-		eNagasa = 0x4000,	//�������@�l
-		eTakasa = 0x8000,	//2.5D�����l
-		eSunpouObj = 0x2000	//���@�}�`���@�t���O
+		eZukei = 0x0010,	//円・点図形
+		eHatch = 0x0020,	//線・円・点・ソリッドのハッチング
+		eSunpou = 0x0040,	//寸法の円・点
+		eTategu = 0x0080,	//建具の円・点
+		eSen = 0x0800,	//線図形
+		eTateguSen = 0x1000,	//建具の線
+		eSunpouSen = 0x2000,	//寸法線
+		eHorakuGai = 0x8000,	//包絡処理対象外の建具の線
+		eTate = 0x0020,	//縦文字
+		eMakita = 0x0040,	//真北
+		eHikage = 0x0080,	//日影
+		eHankei = 0x0100,	//半径寸法値
+		eChokkei = 0x0200,	//直径寸法値
+		eKakudo = 0x0400,	//角度寸法値
+		eZokusei = 0x0800,	//図形属性選択（文字）
+		eRuikei = 0x1000,	//累計寸法値
+		eTateguMoji = 0x2000,	//建具の文字
+		eNagasa = 0x4000,	//長さ寸法値
+		eTakasa = 0x8000,	//2.5D高さ値
+		eSunpouObj = 0x2000	//寸法図形寸法フラグ
 	};
 
-	// �v���p�e�B�擾�E�ݒ�
+	// プロパティ取得・設定
 	DWORD	curve(void) const { return m_lGroup; }
 	BYTE	style(void) const { return m_nPenStyle; }
 	WORD	color(void) const { return m_nPenColor; }
@@ -411,54 +411,54 @@ public:
 	void	layer(const WORD value) { m_nLayer = value; }
 	void	group(const WORD value) { m_nGLayer = value; }
 	void	flags(const WORD value) { m_sFlg = value; }
-	// �w�b�_�[�ւ̃|�C���^��ݒ�
+	// ヘッダーへのポインタを設定
 	void	header(CJwwHeader* pH) { m_pHeader = pH; }
 };
 
 //////////////////////////////////////////////////////////////////////
-/// ���f�[�^�N���X
+/// 線データクラス
 
 class EXTFUNC CDataSen : public CData
 {
 protected:
-	DPoint m_start;       // �n�_
-	DPoint m_end;         // �I�_
+	DPoint m_start;       // 始点
+	DPoint m_end;         // 終点
 
 public:
-	// �V���A���C�Y
+	// シリアライズ
 	DECLARE_SERIAL(CDataSen);
 	virtual void Serialize(CArchive& ar);
-	// �v���p�e�B�擾
+	// プロパティ取得
 	OdGePoint3d	start(void) const;
 	OdGePoint3d	end(void) const;
 	void	start(const OdGePoint3d& point);
 	void	end(const OdGePoint3d& point);
 
-	// �_���v
+	// ダンプ
 #ifdef _DEBUG
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 };
 
 //////////////////////////////////////////////////////////////////////
-/// �~�ʃf�[�^�N���X
+/// 円弧データクラス
 
 class EXTFUNC CDataEnko : public CData
 {
 protected:
-	DPoint m_start;             // ���S�_
-	double m_dHankei;           // ���a
-	double m_radKaishiKaku;     // �J�n�p
-	double m_radEnkoKaku;       // �~�ʊp
-	double m_radKatamukiKaku;   // �X���p
-	double m_dHenpeiRitsu;      // �G����
-	DWORD m_bZenEnFlg;          // �S�~�t���O
+	DPoint m_start;             // 中心点
+	double m_dHankei;           // 半径
+	double m_radKaishiKaku;     // 開始角
+	double m_radEnkoKaku;       // 円弧角
+	double m_radKatamukiKaku;   // 傾き角
+	double m_dHenpeiRitsu;      // 扁平率
+	DWORD m_bZenEnFlg;          // 全円フラグ
 
 public:
-	// �V���A���C�Y
+	// シリアライズ
 	DECLARE_SERIAL(CDataEnko);
 	virtual void Serialize(CArchive& ar);
-	// �v���p�e�B�擾
+	// プロパティ取得
 	OdGePoint3d	center(void) const;
 	double	radius(void) const;
 	double	flattenings(void) const;
@@ -474,29 +474,29 @@ public:
 	void	tilt(double value);
 	void	full(bool value);
 
-	// �_���v
+	// ダンプ
 #ifdef _DEBUG
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 };
 
 //////////////////////////////////////////////////////////////////////
-/// �_�f�[�^�N���X
+/// 点データクラス
 
 class EXTFUNC CDataTen : public CData
 {
 protected:
-	DPoint m_start;           // �_���W
-	DWORD m_bKariten;         // ���_�t���O
-	DWORD m_nCode;            // �_�R�[�h
-	double m_radKaitenKaku;   // ��]�p
-	double m_dBairitsu;       // �{��
+	DPoint m_start;           // 点座標
+	DWORD m_bKariten;         // 仮点フラグ
+	DWORD m_nCode;            // 点コード
+	double m_radKaitenKaku;   // 回転角
+	double m_dBairitsu;       // 倍率
 
 public:
-	// �V���A���C�Y
+	// シリアライズ
 	DECLARE_SERIAL(CDataTen);
 	virtual void Serialize(CArchive& ar);
-	// �v���p�e�B�擾
+	// プロパティ取得
 	OdGePoint3d	position(void) const;
 	DWORD pseudo(void) const { return m_bKariten; }
 	DWORD code(void) const { return m_nCode; }
@@ -508,7 +508,7 @@ public:
 	void rotation(double value);
 	void scale(double value);
 
-	// �_���v
+	// ダンプ
 #ifdef _DEBUG
 	virtual void Dump(CDumpContext& dc) const;
 #endif
@@ -516,129 +516,129 @@ public:
 
 //////////////////////////////////////////////////////////////////////
 ///
-/// �����f�[�^�N���X
+/// 文字データクラス
 ///
 /// ----------------------------------------------------------
-/// ��������ꎮ DWG�ł�����FIELD�I�u�W�F�N�g
+/// 印刷文字一式 DWGでいうとFIELDオブジェクト
 /// ----------------------------------------------------------
-/// &F			�t�@�C����(���S�p�X)
-/// &f			�t�@�C����(�g���q�Ȃ�)
-/// %f			�t�@�C����(�g���q����) %f1�`%ff �o�C�g��
-/// %SS			�k�� (1/200 �\�L)
-/// %ss			�k�� (1/200 �� 200, 5:1 �� 5 �ƕ\��)
-/// %SP %sp		�v�����^�o�͎��̏o�͔{���␳����
-/// %mm			�}�ʂ̃R�����g
-/// %m1			�}�ʂ̃R�����g�P�s��
-/// %m2			�}�ʂ̃R�����g�Q�s��
-/// =F			�}�ʂ̕ۑ�����(���t�Ǝ����j
-/// =f			�}�ʂ̕ۑ�����(���t�̂�)
-/// =y			�}�ʂ̕ۑ�����(����Q��)
-/// =Y			�}�ʂ̕ۑ�����(����)
-/// =m			�}�ʂ̕ۑ�����(��)
-/// =ma			�}�ʂ̕ۑ�����(�p�� JAN,FEB,...)
-/// =d			�}�ʂ̕ۑ�����(��)
-/// =w			�}�ʂ̕ۑ�����(�j��)
-/// =wa			�}�ʂ̕ۑ�����(�p�� SUN,MON,...)
-/// =h			�}�ʂ̕ۑ�����(�� 12���Ԑ�)
-/// =H			�}�ʂ̕ۑ�����(�� 24���Ԑ�)
-/// =M			�}�ʂ̕ۑ�����(��)
-/// =S			�}�ʂ̕ۑ�����(�b)
-/// =n			�}�ʂ̕ۑ�����(�p AM,PM)
-/// =N			�}�ʂ̕ۑ�����(   �O,��)
-/// %y			���݂̓���(����Q��)
-/// &Y			���݂̓���(����)
-/// &m			���݂̓���(��)
-/// &ma			���݂̓���(�p�� JAN,FEB,...)
-/// &d			���݂̓���(��)
-/// &w			���݂̓���(�j��)
-/// &wa			���݂̓���(�p�� SUN,MON,...)
-/// &h			���݂̓���(�� 12���Ԑ�)
-/// &H			���݂̓���(�� 24���Ԑ�)
-/// &M			���݂̓���(��)
-/// &S			���݂̓���(�b)
-/// &n			���݂̓���(�p AM,PM)
-/// &N			���݂̓���(   �O,��)
-/// &T			��}����
+/// &F			ファイル名(完全パス)
+/// &f			ファイル名(拡張子なし)
+/// %f			ファイル名(拡張子あり) %f1～%ff バイト数
+/// %SS			縮尺 (1/200 表記)
+/// %ss			縮尺 (1/200 は 200, 5:1 は 5 と表示)
+/// %SP %sp		プリンタ出力時の出力倍率補正あり
+/// %mm			図面のコメント
+/// %m1			図面のコメント１行目
+/// %m2			図面のコメント２行目
+/// =F			図面の保存日時(日付と時刻）
+/// =f			図面の保存日時(日付のみ)
+/// =y			図面の保存日時(西暦下２桁)
+/// =Y			図面の保存日時(元号)
+/// =m			図面の保存日時(月)
+/// =ma			図面の保存日時(英語 JAN,FEB,...)
+/// =d			図面の保存日時(日)
+/// =w			図面の保存日時(曜日)
+/// =wa			図面の保存日時(英語 SUN,MON,...)
+/// =h			図面の保存日時(時 12時間制)
+/// =H			図面の保存日時(時 24時間制)
+/// =M			図面の保存日時(分)
+/// =S			図面の保存日時(秒)
+/// =n			図面の保存日時(英 AM,PM)
+/// =N			図面の保存日時(   前,後)
+/// %y			現在の日時(西暦下２桁)
+/// &Y			現在の日時(元号)
+/// &m			現在の日時(月)
+/// &ma			現在の日時(英語 JAN,FEB,...)
+/// &d			現在の日時(日)
+/// &w			現在の日時(曜日)
+/// &wa			現在の日時(英語 SUN,MON,...)
+/// &h			現在の日時(時 12時間制)
+/// &H			現在の日時(時 24時間制)
+/// &M			現在の日時(分)
+/// &S			現在の日時(秒)
+/// &n			現在の日時(英 AM,PM)
+/// &N			現在の日時(   前,後)
+/// &T			作図時間
 /// ----------------------------------------------------------
-/// ���䕶���ꎮ DWG�ł�����TEXT,MTEXT�̏����R�[�h
+/// 制御文字一式 DWGでいうとTEXT,MTEXTの書式コード
 /// ----------------------------------------------------------
-/// ^!			����(�Ӗ��s��)
-/// ^/           �Α̊J�n
-/// ^_           �����J�n
-/// ^-           ������J�n
-/// ^#           �Α�,����,������̉���
-/// ^$1 �` ^$9   �F�ύX(�F�R�[�h1�`9�ɑ�������F)
-/// ^\"          �t�H���g���l�r�S�V�b�N�ɂ���
-/// ^&           �t�H���g�����ɖ߂�
-/// ^%           ������̐ݒ�ɖ߂�
-/// ^*           ^* �` ^^ �܂ł̐��䕶���͖����ł��̂܂ܕ\��
-/// ^^			�����܂Ő��䕶������
+/// ^!			文字(意味不明)
+/// ^/           斜体開始
+/// ^_           下線開始
+/// ^-           取消線開始
+/// ^#           斜体,下線,取消線の解除
+/// ^$1 ～ ^$9   色変更(色コード1～9に相当する色)
+/// ^\"          フォントをＭＳゴシックにする
+/// ^&           フォントを元に戻す
+/// ^%           文字種の設定に戻す
+/// ^*           ^* ～ ^^ までの制御文字は無効でそのまま表示
+/// ^^			ここまで制御文字無効
 /// ----------------------------------------------------------
-/// ���ꕶ���ꎮ DWG�ł�����TEXT,MTEXT�̏����R�[�h
+/// 特殊文字一式 DWGでいうとTEXT,MTEXTの書式コード
 /// ----------------------------------------------------------
-/// ^u           ���̕�������t�������ɂ���(������������)
-/// ^d           ���̕��������t�������ɂ���(������������)
-/// ^c           ���̕����𒆕t�������ɂ���(������������)
-/// ^o           ���̕����𒆐S�d�˕����ɂ���(��������3/4)
-/// ^w           ���p�Q���𒆐S�d�˕����ɂ��� ��^w99 �Ŋې���99
-/// ^b ^B ^n     �d�˕���(�������� ����,1/4,�[��)
-/// ^1 �` ^9		�s���ɐݒ肵�An�o�C�g���̕����������k����
-/// �E�E�E		�ϓ�����t��(�S�p) �s���Ɏw�肷��
-/// �E�E�E�		�ϓ�����t��(���p) �s���Ɏw�肷��
-///	�s���ɁE�������ċϓ�����t���ɂ������Ȃ��Ƃ��͋󔒂�S�p�󔒂�����
+/// ^u           次の文字を上付き文字にする(文字高さ半分)
+/// ^d           次の文字を下付き文字にする(文字高さ半分)
+/// ^c           次の文字を中付き文字にする(文字高さ半分)
+/// ^o           次の文字を中心重ね文字にする(文字高さ3/4)
+/// ^w           半角２字を中心重ね文字にする ○^w99 で丸数字99
+/// ^b ^B ^n     重ね文字(文字送り 半分,1/4,ゼロ)
+/// ^1 ～ ^9		行末に設定し、nバイト分の文字幅を圧縮する
+/// ・・・		均等割り付け(全角) 行末に指定する
+/// ・・・･		均等割り付け(半角) 行末に指定する
+///	行末に・を書いて均等割り付けにしたくないときは空白や全角空白を書く
 ///
 //////////////////////////////////////////////////////////////////////
-/// �摜�`��
+/// 画像描画
 ///
-/// JW-CAD�̉摜�͕����}�`�̕�����ɉ摜�̃p�����[�^���L�q����
-/// ������̍ŏ���4�������u^@BM�v�̏ꍇ�A�摜�̃p�����[�^�ł���
-/// CJwwDocument::CreateImageDictionary() �ɂ���ĉ摜�͐}�ʂɓo�^����Ă���̂�
-/// �摜��`�̃f�B�N�V���i������摜��`(IMAGEDEF)���擾����
-/// �摜�}�`(IMAGE)�Ɖ摜��`�̃��A�N�^(IMAGEDEF_REACTOR)����闬��ɂȂ�
+/// JW-CADの画像は文字図形の文字列に画像のパラメータを記述する
+/// 文字列の最初の4文字が「^@BM」の場合、画像のパラメータである
+/// CJwwDocument::CreateImageDictionary() によって画像は図面に登録されているので
+/// 画像定義のディクショナリから画像定義(IMAGEDEF)を取得して
+/// 画像図形(IMAGE)と画像定義のリアクタ(IMAGEDEF_REACTOR)を作る流れになる
 ///
-/// �p�����[�^�̗�:
-///   ^@BMC:\abc.bmp,100,100 ����΃p�X (C:\abc.bmp���T�C�Y100,100�ŕ\��)
-///   ^@BMabc.bmp,100,100    �����΃p�X (�}�ʃt�@�C���Ɠ����t�H���_�ɂ���abc.bmp��\��)
-///   ^@BM\abc.bmp,100,100   ���h���C�u���w���΃p�X (�}�ʃt�@�C���Ɠ����h���C�u�ɂ���\abc.bmp��\��)
-/// �N���b�s���O�Ɖ摜�̉�]:
-///   ^@BMabc.bmp,100,100,0.25,0.25,0.5,30 �� �摜�t�@�C���̍���1/4��蕝1/2��\�����A30�x��]
-///   ^@BMabc.bmp,100,100,0,0,1,30 �� �N���b�s���O�Ȃ��A30�x��]�̂�
-/// �摜�t�@�C���̖��ߍ���(Ver7.00�`):
-///   ^@BMP%temp%abc.bmp,100,100 �p�X���� %temp% �ɂȂ��Ă�����͖̂��ߍ��݂ł���
-///   DWGPREFIX �̃f�B���N�g���� CJwwDocument::ExtructImageFiles()�œW�J�ς�
-/// Susie�v���O���C��:
-///	 Susie�v���O�C�����g����JW-CAD�͂��܂��܂ȉ摜�t�H�[�}�b�g��������悤�ɂȂ�
-///	 ICAD(ACAD)�ŗ��p�ł��Ȃ��摜�t�@�C���́ACreateImageDictionary()�ŏ��O����
-///	 ���p�ł���摜�t�H�[�}�b�g�̊g���q:
+/// パラメータの例:
+///   ^@BMC:\abc.bmp,100,100 ←絶対パス (C:\abc.bmpをサイズ100,100で表示)
+///   ^@BMabc.bmp,100,100    ←相対パス (図面ファイルと同じフォルダにあるabc.bmpを表示)
+///   ^@BM\abc.bmp,100,100   ←ドライブ無指定絶対パス (図面ファイルと同じドライブにある\abc.bmpを表示)
+/// クリッピングと画像の回転:
+///   ^@BMabc.bmp,100,100,0.25,0.25,0.5,30 ← 画像ファイルの左下1/4より幅1/2を表示し、30度回転
+///   ^@BMabc.bmp,100,100,0,0,1,30 ← クリッピングなし、30度回転のみ
+/// 画像ファイルの埋め込み(Ver7.00～):
+///   ^@BMP%temp%abc.bmp,100,100 パス名が %temp% になっているものは埋め込みである
+///   DWGPREFIX のディレクトリに CJwwDocument::ExtructImageFiles()で展開済み
+/// Susieプラグライン:
+///	 Susieプラグインを使うとJW-CADはさまざまな画像フォーマットを扱えるようになる
+///	 ICAD(ACAD)で利用できない画像ファイルは、CreateImageDictionary()で除外する
+///	 利用できる画像フォーマットの拡張子:
 ///		.bmp, .dib, .rle, .gif, .jpg, .jpeg, .png, .tif, .tiff
-/// �⑫:
-///   �J���}���p�����[�^�̋�؂�ɂȂ��Ă���̂ŁA�摜�t�@�C�����ɃJ���}�͊܂܂�Ȃ�
+/// 補足:
+///   カンマがパラメータの区切りになっているので、画像ファイル名にカンマは含まれない
 //////////////////////////////////////////////////////////////////////
-/// ���@�t���O
+/// 寸法フラグ
 ///
-/// ���@�t���O��WORD�ł���肷��K�v���������̂ŏC��
+/// 寸法フラグはWORDでやり取りする必要があったので修正
 //////////////////////////////////////////////////////////////////////
 
 class EXTFUNC CDataMoji : public CData
 {
 protected:
-	WORD m_nSunpouFlg;      // ���@�t���O
-	DPoint m_start;         // �n�_���W
-	DPoint m_end;           // �I�_���W
-	DWORD m_nMojiShu;       // ������
-	double m_dSizeX;        // �����T�C�Y��
-	double m_dSizeY;        // �����T�C�Y�c
-	double m_dKankaku;      // �����Ԋu
-	double m_degKakudo;     // ��]�p
-	CString m_strFontName;  // �t�H���g��
-	CString m_string;       // ������
+	WORD m_nSunpouFlg;      // 寸法フラグ
+	DPoint m_start;         // 始点座標
+	DPoint m_end;           // 終点座標
+	DWORD m_nMojiShu;       // 文字種
+	double m_dSizeX;        // 文字サイズ横
+	double m_dSizeY;        // 文字サイズ縦
+	double m_dKankaku;      // 文字間隔
+	double m_degKakudo;     // 回転角
+	CString m_strFontName;  // フォント名
+	CString m_string;       // 文字列
 
 public:
-	// �V���A���C�Y
+	// シリアライズ
 	DECLARE_SERIAL(CDataMoji);
 	virtual void Serialize(CArchive& ar);
 
-	// �v���p�e�B�擾
+	// プロパティ取得
 	WORD	dimension(void) const;
 	OdGePoint3d	start(void) const;
 	OdGePoint3d	end(void) const;
@@ -662,45 +662,45 @@ public:
 	void	font(OdString value);
 	void	contents(OdString & value);
 
-	// �_���v
+	// ダンプ
 #ifdef _DEBUG
 	virtual void Dump(CDumpContext& dc) const;
 #endif
-	// ������t���O
+	// 文字種フラグ
 	enum	eMojishu {
-		eMask = 10000,	//�}�X�N�l
-		eShatai = 10000,	//�Α�
-		eFutoji = 20000		//����
+		eMask = 10000,	//マスク値
+		eShatai = 10000,	//斜体
+		eFutoji = 20000		//太字
 	};
 	enum eSunpou
 	{
-		eUnDoc = 0x0001,		// �d�l�ɂȂ��l
-		eMoji = 0x0002,			// ���@�̕����ݒ肠��
-		eZenkaku = 0x0008,		// �S�p
-		eTani = 0x0010,			// �P��
-		eTaniTsuika = 0x0020,	// �P�ʒǉ�
-		eComma = 0x0040,		// �J���}
-		eZero = 0x0080,			// �����_�ȉ��O�\������
-		eKirisute = 0x0100,		// �؂�̂�
-		eKiriage = 0x0200,		// �؂�グ
-		eMaeKigo = 0x0400,		// ���a,���a�L����O�ɂ���
-		eUshiroKigo = 0x0800,	// ���a,���a�L�������ɂ���
-		eDigit1 = 0x1000,		// �����_�P��
-		eDigit2 = 0x2000,		// �����_�Q��
-		eDigit3 = 0x3000,		// �����_�R��
+		eUnDoc = 0x0001,		// 仕様にない値
+		eMoji = 0x0002,			// 寸法の文字設定あり
+		eZenkaku = 0x0008,		// 全角
+		eTani = 0x0010,			// 単位
+		eTaniTsuika = 0x0020,	// 単位追加
+		eComma = 0x0040,		// カンマ
+		eZero = 0x0080,			// 小数点以下０表示する
+		eKirisute = 0x0100,		// 切り捨て
+		eKiriage = 0x0200,		// 切り上げ
+		eMaeKigo = 0x0400,		// 半径,直径記号を前につける
+		eUshiroKigo = 0x0800,	// 半径,直径記号を後ろにつける
+		eDigit1 = 0x1000,		// 小数点１桁
+		eDigit2 = 0x2000,		// 小数点２桁
+		eDigit3 = 0x3000,		// 小数点３桁
 	};
 };
 
 //////////////////////////////////////////////////////////////////////
-/// ���@�f�[�^�N���X
+/// 寸法データクラス
 
 class EXTFUNC CDataSunpou : public CData
 {
 protected:
-	CDataSen m_Sen;       // ���f�[�^
-	CDataMoji m_Moji;     // �����f�[�^
+	CDataSen m_Sen;       // 線データ
+	CDataMoji m_Moji;     // 文字データ
 
-	WORD m_bSxfMode;      // SXF���[�h�t���O
+	WORD m_bSxfMode;      // SXFモードフラグ
 	CDataSen m_SenHo1;    //
 	CDataSen m_SenHo2;    //
 	CDataTen m_Ten1;      //
@@ -709,7 +709,7 @@ protected:
 	CDataTen m_TenHo2;    //
 
 public:
-	// �V���A���C�Y
+	// シリアライズ
 	DECLARE_SERIAL(CDataSunpou);
 	virtual void Serialize(CArchive& ar);
 	bool	sxfSunpou(void) const { return m_bSxfMode != 0; }
@@ -722,64 +722,64 @@ public:
 	CDataTen*	getDim2Pos(void) { return &m_Ten2; }
 	CDataTen*	getExt1Pos(void) { return &m_TenHo1; }
 	CDataTen*	getExt2Pos(void) { return &m_TenHo2; }
-	// �_���v
+	// ダンプ
 #ifdef _DEBUG
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 };
 
 //////////////////////////////////////////////////////////////////////
-/// �\���b�h�f�[�^�N���X
+/// ソリッドデータクラス
 //////////////////////////////////////////////////////////////////////
-/// m_nPenStyle��101�ȏ�̏ꍇ�A�~�̃\���b�h�Ƃ��Ĉ���(�`�����ϊ�)
+/// m_nPenStyleが101以上の場合、円のソリッドとして扱う(形だけ変換)
 ///
-/// �~�\���b�h�̏ꍇ�̕ϐ��̒��g�͎��̒ʂ�
+/// 円ソリッドの場合の変数の中身は次の通り
 ///
-/// m_start : ���S
-/// m_end.x : ���a
-/// m_end.y : �G����
-/// m_DPoint2.x : �X���p
-/// m_DPoint2.y : �J�n�p
-/// m_DPoint3.x : �~�ʊp
-/// m_DPoint3.y : ��`�A�S�~���̎w��
+/// m_start : 中心
+/// m_end.x : 半径
+/// m_end.y : 扁平率
+/// m_DPoint2.x : 傾き角
+/// m_DPoint2.y : 開始角
+/// m_DPoint3.x : 円弧角
+/// m_DPoint3.y : 扇形、全円等の指定
 ///
-/// �E�~�\���b�h
-///   m_nPenStyle = 101     --- �~�\���b�h�̎w��
-///     m_DPoint3.y = -1    --- �O���~�ʃ\���b�h
-///     m_DPoint3.y = 0     --- ��`�\���b�h
-///     m_DPoint3.y = 5     --- �|�`�\���b�h
-///     m_DPoint3.y = 100   --- �S�~�\���b�h
+/// ・円ソリッド
+///   m_nPenStyle = 101     --- 円ソリッドの指定
+///     m_DPoint3.y = -1    --- 外側円弧ソリッド
+///     m_DPoint3.y = 0     --- 扇形ソリッド
+///     m_DPoint3.y = 5     --- 弓形ソリッド
+///     m_DPoint3.y = 100   --- 全円ソリッド
 ///
-/// �E�~�\���b�h
-///   m_nPenStyle = 105     --- �~�\���b�h1�̎w��
-///   m_nPenStyle = 106     --- �~�\���b�h2�̎w��
-///     m_DPoint3.y = �����̉~���a
-///  (�~�ʂƑS�~�̃t���O�ł̈Ⴂ�͖����B�~�ʊp�Ŕ��f)
+/// ・円環ソリッド
+///   m_nPenStyle = 105     --- 円環ソリッド1の指定
+///   m_nPenStyle = 106     --- 円環ソリッド2の指定
+///     m_DPoint3.y = 内側の円半径
+///  (円弧と全円のフラグでの違いは無し。円弧角で判断)
 ///
-/// �E�~���\���b�h
-///   m_nPenStyle = 111     --- �~���\���b�h�̎w��
-///     m_DPoint3.y = 0     --- �~��
-///     m_DPoint3.y = 100   --- �S�~
+/// ・円周ソリッド
+///   m_nPenStyle = 111     --- 円周ソリッドの指定
+///     m_DPoint3.y = 0     --- 円弧
+///     m_DPoint3.y = 100   --- 全円
 //////////////////////////////////////////////////////////////////////
 
 class EXTFUNC CDataSolid : public CData
 {
 protected:
-	DPoint m_start;     // ��1�_���W
-	DPoint m_end;       // ��4�_���W
-	DPoint m_DPoint2;   // ��2�_���W
-	DPoint m_DPoint3;   // ��3�_���W
-	DWORD m_Color;      // �h��Ԃ��F
+	DPoint m_start;     // 第1点座標
+	DPoint m_end;       // 第4点座標
+	DPoint m_DPoint2;   // 第2点座標
+	DPoint m_DPoint3;   // 第3点座標
+	DWORD m_Color;      // 塗りつぶし色
 
 public:
-	// �V���A���C�Y
+	// シリアライズ
 	DECLARE_SERIAL(CDataSolid);
 	virtual void Serialize(CArchive& ar);
-	// �v���p�e�B�擾
+	// プロパティ取得
 	DWORD solidColor(void) { return m_Color; }
 	OdGePoint3d	location(const int index) const;
 	void location(const int index, const OdGePoint3d value);
-	// �v���p�e�B�擾(�~/�ȉ~/�h�[�i�c/�~��)
+	// プロパティ取得(円/楕円/ドーナツ/円周)
 	void	solidColor(DWORD rgb) { m_Color = rgb; }
 	OdGePoint3d	center(void) const;
 	double	radius(void) const;
@@ -791,7 +791,7 @@ public:
 	bool	full(void) const;
 	bool	bow(void) const;
 	bool	circSector(void) const;
-	// �_���v
+	// ダンプ
 #ifdef _DEBUG
 	virtual void Dump(CDumpContext& dc) const;
 #endif
@@ -800,30 +800,30 @@ public:
 class CDataList;
 
 //////////////////////////////////////////////////////////////////////
-/// �u���b�N�f�[�^�N���X
-/// DWG �ł��� INSERT
+/// ブロックデータクラス
+/// DWG でいう INSERT
 //////////////////////////////////////////////////////////////////////
 
 class EXTFUNC CDataBlock : public CData
 {
 protected:
-	DPoint m_DPKijunTen;	// �z�u��_
-	double m_dBairitsuX;	// X�����{��
-	double m_dBairitsuY;	// Y�����{��
-	double m_radKaitenKaku;	// ��]�p
+	DPoint m_DPKijunTen;	// 配置基準点
+	double m_dBairitsuX;	// X方向倍率
+	double m_dBairitsuY;	// Y方向倍率
+	double m_radKaitenKaku;	// 回転角
 	CTypedPtrList<CObList, CDataList*>* m_pDataListList;
-	//���X�g�ւ̃|�C���^
-	DWORD m_nNumber;		// ��`�f�[�^�̒ʂ��ԍ�
+	//リストへのポインタ
+	DWORD m_nNumber;		// 定義データの通し番号
 
 public:
-	// �V���A���C�Y
+	// シリアライズ
 	DECLARE_SERIAL(CDataBlock);
 	virtual void Serialize(CArchive& ar);
 
-	// �f�[�^���X�g�擾
+	// データリスト取得
 	CDataList* GetDataList();
 	void init(CJwwDocument *pDoc);
-	// �v���p�e�B
+	// プロパティ
 	DWORD	blockNo() const;
 	OdGePoint3d	start() const;
 	double	rotation() const;
@@ -832,75 +832,75 @@ public:
 	void start(OdGePoint3d	value);
 	void rotation(double value);
 	void scale(OdGeScale3d value);
-	// �_���v
+	// ダンプ
 #ifdef _DEBUG
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 };
 
 //////////////////////////////////////////////////////////////////////
-/// �f�[�^���X�g�N���X
-/// DWG �ł��� BLOCK
-// 2014/8/8 m_time �� DWORD�ł͂Ȃ�CTime
+/// データリストクラス
+/// DWG でいう BLOCK
+// 2014/8/8 m_time は DWORDではなくCTime
 //////////////////////////////////////////////////////////////////////
 
 class EXTFUNC CDataList : public CData
 {
 public:
-	DWORD m_nNumber;        // �ʂ��ԍ�
-	DWORD m_bReffered;      // ��Q�ƃt���O
-	CTime m_time;           // ��`����
-	CString m_strName;      // �u���b�N��`����
-	CTypedPtrList<CObList, CData*> m_DataList;   // �u���b�N�Ɋ܂܂��}�`���X�g
+	DWORD m_nNumber;        // 通し番号
+	DWORD m_bReffered;      // 被参照フラグ
+	CTime m_time;           // 定義時刻
+	CString m_strName;      // ブロック定義名称
+	CTypedPtrList<CObList, CData*> m_DataList;   // ブロックに含まれる図形リスト
 
 public:
-	// �V���A���C�Y
+	// シリアライズ
 	DECLARE_SERIAL(CDataList);
 	virtual void Serialize(CArchive& ar);
-	// �v���p�e�B
+	// プロパティ
 	OdString name() const;
-	// �_���v
+	// ダンプ
 #ifdef _DEBUG
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 };
 
 //////////////////////////////////////////////////////////////////////
-/// JWW�t�@�C�� �C���|�[�g�h�L�������g�N���X
+/// JWWファイル インポートドキュメントクラス
 
 class EXTFUNC CJwwDocument : public CJwDocument
 {
 public:
-	/// JWW�t�@�C�� �w�b�_
+	/// JWWファイル ヘッダ
 	CJwwHeader	m_JwwHeader;
-	/// �}�`�f�[�^�̃��X�g(ENTITIES SECTION ����)
+	/// 図形データのリスト(ENTITIES SECTION 相当)
 	CTypedPtrList<CObList, CData*>	m_DataList;
-	/// �u���b�N�f�[�^��`���̃��X�g(BLOCKS SECTION ����)
+	/// ブロックデータ定義部のリスト(BLOCKS SECTION 相当)
 	CTypedPtrList<CObList, CDataList*>	m_DataListList;
-	/// �摜�t�@�C�����̔z��(����=���ׂẲ摜�t�@�C�� ����=���ߍ��݉摜�t�@�C���̂�)
+	/// 画像ファイル名の配列(入力=すべての画像ファイル 入力=埋め込み画像ファイルのみ)
 	std::set<CString>	m_JwwEmbbededImageFiles;
-	/// JWW�}�ʃt�@�C���̃p�X(�C���[�W�̑��΃p�X�����߂�ۂɕK�v)
+	/// JWW図面ファイルのパス(イメージの相対パスを求める際に必要)
 	CString	m_jwwPath;
-	/// �Y�t�摜�o�͐�f�B���N�g��
+	/// 添付画像出力先ディレクトリ
 	CString m_extructDir;
-	/// ��w�W�J��}��(���|�[�g�o�͗p)
+	/// 画層展開を抑制(レポート出力用)
 	BOOL m_bReadForReport;
-	// 0:��ʐ}�`������ 1:�u���b�N�}�`������
+	// 0:一般図形処理中 1:ブロック図形処理中
 	int m_iDepth;
-	/// �J�X�^��INI�t�@�C�� "JDraf 2016.ini"�̏ꏊ
+	/// カスタムINIファイル "JDraf 2016.ini"の場所
 	CString m_iniPath;
 
 public:
-	/// �R���X�g���N�^
+	/// コンストラクタ
 	CJwwDocument();
-	/// �f�X�g���N�^
+	/// デストラクタ
 	virtual ~CJwwDocument();
-	/// �V���A���C�Y
+	/// シリアライズ
 	DECLARE_SERIAL(CJwwDocument)
 	virtual void Serialize(CArchive& ar);
-	/// �v���p�e�B
+	/// プロパティ
 	void setExtructDir(LPCTSTR dir) { m_extructDir = dir; }
-	/// �J�X�^��INI�t�@�C�� "JDraf 2016.ini"�̏ꏊ
+	/// カスタムINIファイル "JDraf 2016.ini"の場所
 	void setIniPath(LPCTSTR path) { m_iniPath = path; }
 
 protected:
@@ -908,61 +908,61 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 protected:
-	void WriteImageFiles(CArchive& ar);	      // �摜�t�@�C�����ߍ���
-	void ExtructImageFiles(CArchive& ar);	  // �摜�t�@�C���W�J
-	/// �S�f�[�^����
+	void WriteImageFiles(CArchive& ar);	      // 画像ファイル埋め込み
+	void ExtructImageFiles(CArchive& ar);	  // 画像ファイル展開
+	/// 全データ消去
 	void ClearData();
 
-	// �ϊ�
+	// 変換
 public:
-	// �k�ڂƕψʂ̓K�p�Ə�����
+	// 縮尺と変位の適用と初期化
 	void DoDataScale(double &dValue);
 	void DoDataScale(struct DPoint & pValue);
 	void SetDataScale(const double dValue, const struct DPoint & pIn);
-	// �k�ڂƕψʂ��擾
+	// 縮尺と変位を取得
 	double GetDataScale();
 	void GetDataOffset(struct DPoint & pOut);
-	// RAY,XLINE�̏o�͔͈͂̌v�Z�Ɏg��
+	// RAY,XLINEの出力範囲の計算に使う
 	void SetMinMaxPt(const OdGePoint3d& min, const OdGePoint3d& max);
 	void GetMinMaxPt(OdGePoint3d& min, OdGePoint3d& max) const;
-	// ���͗p�}�ʔ͈�
+	// 入力用図面範囲
 	void GetDocumentArea(OdGePoint2d& min, OdGePoint2d& max) const;
-	// ��}�`�̐�
+	// 主図形の数
 	INT_PTR	GetDataCount() const;
-	// ��}�`�̐擪
+	// 主図形の先頭
 	POSITION GetHeadPosition() const;
-	// ��}�`�̃f�[�^���X�g
+	// 主図形のデータリスト
 	CTypedPtrList<CObList, CData*>& GetDataList() { return m_DataList; }
-	// �u���b�N�}�`�̃f�[�^���X�g
+	// ブロック図形のデータリスト
 	CTypedPtrList<CObList, CDataList*>* GetBlockList() { return &m_DataListList; }
-	// �o�[�W�������擾
+	// バージョンを取得
 	DWORD GetVersion() const;
-	// �u���b�N�[����ݒ�
+	// ブロック深さを設定
 	void SetDepth(const int depth) { m_iDepth = depth; }
-	// �u���b�N�[�����擾
+	// ブロック深さを取得
 	int GetDepth(void) const { return m_iDepth; }
-	// JWW�W�J�p�p�X��ݒ�
+	// JWW展開用パスを設定
 	void SetJwwPath(const CString& path) { m_jwwPath = path; }
-	// JWW�W�J�p�p�X���擾
+	// JWW展開用パスを取得
 	CString GetJwwPath() { return m_jwwPath; }
 
-	// �ϊ�
+	// 変換
 public:
-	/// �p���T�C�Y��`
+	/// 用紙サイズ定義
 	static const double YOUSHI_SIZE[15];
 	static const double YOUSHI_TATE[15];
-	/// �W���I�Ȑ}�ʂ̏k��
+	/// 標準的な図面の縮尺
 	static const double HYOJUN_SHAKUDO[8];
-	/// JWCAD DXF�o�͐��햼
+	/// JWCAD DXF出力線種名
 	static const char*	JWCADDXF_LTYPES[48];
-	// ATTN:��w���̕t���� (0 �ԍ��Ɩ��O 1 �ԍ��̂�)
+	// ATTN:画層名の付け方 (0 番号と名前 1 番号のみ)
 	BOOL	m_bLayerName;
-	/// ATTN:����ϊ��W��
+	/// ATTN:線種変換係数
 	double m_lineFactor;
-	/// ATTN:���C���ԍ�����v������V������w�����Ȃ�(0=����/1=���Ȃ�)
+	/// ATTN:レイヤ番号が一致したら新しい画層を作らない(0=つくる/1=作らない)
 	BOOL m_gMatchLayerNumber;
 
-	/// �_���v
+	/// ダンプ
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;

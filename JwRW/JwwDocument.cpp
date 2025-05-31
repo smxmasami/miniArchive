@@ -1,5 +1,5 @@
-//****************************************
-// JwwDocument.cpp : À‘•ƒtƒ@ƒCƒ‹
+ï»¿//****************************************
+// JwwDocument.cpp : å®Ÿè£…ãƒ•ã‚¡ã‚¤ãƒ«
 //****************************************
 
 #include "stdafx.h"
@@ -7,7 +7,7 @@
 #define SXCOL_EXT 100;
 #define SXLTP_EXT 30;
 
-// —p†ƒTƒCƒY–ˆ‚Ì‰¡•(mm)
+// ç”¨ç´™ã‚µã‚¤ã‚ºæ¯ã®æ¨ªå¹…(mm)
 const double CJwwDocument::YOUSHI_SIZE[15] =
 {
 	1189.0,    // A0
@@ -15,25 +15,25 @@ const double CJwwDocument::YOUSHI_SIZE[15] =
 	594.0,     // A2
 	420.0,     // A3
 	297.0,     // A4
-	0.0,       // g—p‚µ‚È‚¢
-	0.0,       // g—p‚µ‚È‚¢
-	0.0,       // g—p‚µ‚È‚¢
-	1682.0,    // 2A   © JWCd—l‘‚É‚Í‘‚¢‚Ä‚¢‚È‚¢
-	2378.0,    // 3A   © JWCd—l‘‚É‚Í‘‚¢‚Ä‚¢‚È‚¢
-	3364.0,    // 4A   © JWCd—l‘‚É‚Í‘‚¢‚Ä‚¢‚È‚¢
-	4756.0,    // 5A   © JWCd—l‘‚É‚Í‘‚¢‚Ä‚¢‚È‚¢
+	0.0,       // ä½¿ç”¨ã—ãªã„
+	0.0,       // ä½¿ç”¨ã—ãªã„
+	0.0,       // ä½¿ç”¨ã—ãªã„
+	1682.0,    // 2A   â† JWCä»•æ§˜æ›¸ã«ã¯æ›¸ã„ã¦ã„ãªã„
+	2378.0,    // 3A   â† JWCä»•æ§˜æ›¸ã«ã¯æ›¸ã„ã¦ã„ãªã„
+	3364.0,    // 4A   â† JWCä»•æ§˜æ›¸ã«ã¯æ›¸ã„ã¦ã„ãªã„
+	4756.0,    // 5A   â† JWCä»•æ§˜æ›¸ã«ã¯æ›¸ã„ã¦ã„ãªã„
 	10000.0,   // 10m
-	50000.0,   // 50m  © JWCd—l‘‚É‚Í‘‚¢‚Ä‚¢‚È‚¢
-	100000.0	// 100m © JWCd—l‘‚É‚Í‘‚¢‚Ä‚¢‚È‚¢
+	50000.0,   // 50m  â† JWCä»•æ§˜æ›¸ã«ã¯æ›¸ã„ã¦ã„ãªã„
+	100000.0	// 100m â† JWCä»•æ§˜æ›¸ã«ã¯æ›¸ã„ã¦ã„ãªã„
 };
 
-// —p†ƒTƒCƒY–ˆ‚Ìc•(mm)
+// ç”¨ç´™ã‚µã‚¤ã‚ºæ¯ã®ç¸¦å¹…(mm)
 //
-// 2013-11-04 JWW‚Ìd—l‚ğŠm”F‚µ‚½‚çA10m,50m,100m‚Ì—p†ƒTƒCƒY‚ªˆá‚¤‚±‚Æ‚É
-// ‹C‚ª•t‚¢‚½‚ªAJWIMPORT‚Ìd—l‚Æ‚µ‚Ä‚Í]—ˆ’Ê‚è‚¢‚­‚±‚Æ‚É‚µ‚½B
-// A4-5A ‚Í—p†¶‰º‚ğ(0,0)‚É‚·‚é‚æ‚¤‚É}Œ`‚ğˆÚ“®‚·‚éB
-// 10m,50m,100m‚Íc‰¡‹¤10m,50m,100m‚Æ‚µA(0,0)‚Í’†S‚É‚ ‚éB
-// JW‚Ì}Œ`‚Í(0,0)‚ğ’†S‚Éƒ}ƒCƒiƒX‚Ì•ûŒü‚É‚à‚ ‚é‚±‚Æ‚É’ˆÓ
+// 2013-11-04 JWWã®ä»•æ§˜ã‚’ç¢ºèªã—ãŸã‚‰ã€10m,50m,100mã®ç”¨ç´™ã‚µã‚¤ã‚ºãŒé•ã†ã“ã¨ã«
+// æ°—ãŒä»˜ã„ãŸãŒã€JWIMPORTã®ä»•æ§˜ã¨ã—ã¦ã¯å¾“æ¥é€šã‚Šã„ãã“ã¨ã«ã—ãŸã€‚
+// A4-5A ã¯ç”¨ç´™å·¦ä¸‹ã‚’(0,0)ã«ã™ã‚‹ã‚ˆã†ã«å›³å½¢ã‚’ç§»å‹•ã™ã‚‹ã€‚
+// 10m,50m,100mã¯ç¸¦æ¨ªå…±10m,50m,100mã¨ã—ã€(0,0)ã¯ä¸­å¿ƒã«ã‚ã‚‹ã€‚
+// JWã®å›³å½¢ã¯(0,0)ã‚’ä¸­å¿ƒã«ãƒã‚¤ãƒŠã‚¹ã®æ–¹å‘ã«ã‚‚ã‚ã‚‹ã“ã¨ã«æ³¨æ„
 //
 const double CJwwDocument::YOUSHI_TATE[15] =
 {
@@ -42,19 +42,19 @@ const double CJwwDocument::YOUSHI_TATE[15] =
 	420.0,     // A2
 	297.0,     // A3
 	210.0,     // A4
-	0.0,       // g—p‚µ‚È‚¢
-	0.0,       // g—p‚µ‚È‚¢
-	0.0,       // g—p‚µ‚È‚¢
+	0.0,       // ä½¿ç”¨ã—ãªã„
+	0.0,       // ä½¿ç”¨ã—ãªã„
+	0.0,       // ä½¿ç”¨ã—ãªã„
 	1189.0,    // 2A
 	1682.0,    // 3A
 	2378.0,    // 4A
 	3364.0,    // 5A
-	10000.0,   // 10m (JWW‚Í 7073.0 )
-	50000.0,   // 50m (JWW‚Í 35366.0 )
-	100000.0	// 100m (JWW‚Í 70732.0 )
+	10000.0,   // 10m (JWWã¯ 7073.0 )
+	50000.0,   // 50m (JWWã¯ 35366.0 )
+	100000.0	// 100m (JWWã¯ 70732.0 )
 };
 
-// •W€“I‚È}–Ê‚ÌkÚ
+// æ¨™æº–çš„ãªå›³é¢ã®ç¸®å°º
 const double CJwwDocument::HYOJUN_SHAKUDO[8] =
 {
 	1.0, // 1/1
@@ -68,17 +68,17 @@ const double CJwwDocument::HYOJUN_SHAKUDO[8] =
 };
 
 //****************************************
-// CJwwHeader : JWWƒtƒ@ƒCƒ‹ƒwƒbƒ_
+// CJwwHeader : JWWãƒ•ã‚¡ã‚¤ãƒ«ãƒ˜ãƒƒãƒ€
 //****************************************
 
 CJwwHeader::CJwwHeader()
 {
-	// -1 ‚ÍAƒXƒP[ƒ‹‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢ƒtƒ‰ƒO
+	// -1 ã¯ã€ã‚¹ã‚±ãƒ¼ãƒ«ãŒè¨­å®šã•ã‚Œã¦ã„ãªã„ãƒ•ãƒ©ã‚°
 	m_dJwwScale = -1;
-	// ƒIƒtƒZƒbƒg’l‚Í(0,0)‚É‰Šú‰»
+	// ã‚ªãƒ•ã‚»ãƒƒãƒˆå€¤ã¯(0,0)ã«åˆæœŸåŒ–
 	m_pJwwOffset.x = 0.0;
 	m_pJwwOffset.y = 0.0;
-	// •¶š‚ÌŠp“x•â³‚Í‚µ‚È‚¢‚É‰Šú‰»
+	// æ–‡å­—ã®è§’åº¦è£œæ­£ã¯ã—ãªã„ã«åˆæœŸåŒ–
 	m_bFixAng = FALSE;
 	m_tFixAng = 1e-10;
 }
@@ -94,39 +94,39 @@ void CJwwHeader::Serialize(CArchive& ar)
 	int i, j, n, k;
 	DWORD dummy;
 
-	// ‘‚«o‚µ
+	// æ›¸ãå‡ºã—
 	if (ar.IsStoring())
 	{
-		// JWW‚Ìƒf[ƒ^ƒtƒ@ƒCƒ‹éŒ¾
+		// JWWã®ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«å®£è¨€
 		ar.Write(m_cVersion, 8);
 
-		// ƒo[ƒWƒ‡ƒ“No.
+		// ãƒãƒ¼ã‚¸ãƒ§ãƒ³No.
 		ar << m_Version;
 
-		// ƒtƒ@ƒCƒ‹ƒƒ‚
+		// ãƒ•ã‚¡ã‚¤ãƒ«ãƒ¡ãƒ¢
 		ar << CStringA(m_strMemo);
 
-		// }–ÊƒTƒCƒY
-		// 0`4 FA0`A4
-		// 8    F2 A
-		// 9    F3 A
-		// 10   F4 A
-		// 11   F5 A
-		// 12   F10m
-		// 13   F50m
-		// 14   F100m
+		// å›³é¢ã‚µã‚¤ã‚º
+		// 0ï½4 ï¼šA0ï½A4
+		// 8    ï¼š2 A
+		// 9    ï¼š3 A
+		// 10   ï¼š4 A
+		// 11   ï¼š5 A
+		// 12   ï¼š10m
+		// 13   ï¼š50m
+		// 14   ï¼š100m
 		ar << m_nZumen;
 
-		// ‰æ‘wƒOƒ‹[ƒvE‰æ‘wó‘Ô
-		// ‘‰æ‘wƒOƒ‹[ƒv
-		// ‰æ‘wƒOƒ‹[ƒvó‘Ô(0F”ñ•\¦A1F•\¦‚Ì‚İA2F•ÒW‰Â”\A3F‘)
-		// ‰æ‘wƒOƒ‹[ƒv‚Ì‘‰æ‘w
-		// ‰æ‘wƒOƒ‹[ƒv‚ÌkÚ(‚Ì•ª•ê)
-		// ‰æ‘wƒOƒ‹[ƒv‚ÌƒvƒƒeƒNƒgw’è
-		// @(0F–³w’èA1F•\¦ó‘Ô•ÏX‰Â”\ƒvƒƒeƒNƒgw’èA2F•\¦ó‘ÔŒÅ’èƒvƒƒeƒNƒgw’è)
-		// ‰æ‘wó‘Ô(0F”ñ•\¦A1F•\¦‚Ì‚İA2F•ÒW‰Â”\A3F‘)
-		// ‰æ‘w‚ÌƒvƒƒeƒNƒgw’è
-		// @(0F–³w’èA1F•\¦ó‘Ô•ÏX‰Â”\ƒvƒƒeƒNƒgw’èA2F•\¦ó‘ÔŒÅ’èƒvƒƒeƒNƒgw’è)
+		// ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—ãƒ»ç”»å±¤çŠ¶æ…‹
+		// æ›¸è¾¼ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—
+		// ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—çŠ¶æ…‹(0ï¼šéè¡¨ç¤ºã€1ï¼šè¡¨ç¤ºã®ã¿ã€2ï¼šç·¨é›†å¯èƒ½ã€3ï¼šæ›¸è¾¼)
+		// ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—ã®æ›¸è¾¼ç”»å±¤
+		// ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—ã®ç¸®å°º(ã®åˆ†æ¯)
+		// ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—ã®ãƒ—ãƒ­ãƒ†ã‚¯ãƒˆæŒ‡å®š
+		// ã€€(0ï¼šç„¡æŒ‡å®šã€1ï¼šè¡¨ç¤ºçŠ¶æ…‹å¤‰æ›´å¯èƒ½ãƒ—ãƒ­ãƒ†ã‚¯ãƒˆæŒ‡å®šã€2ï¼šè¡¨ç¤ºçŠ¶æ…‹å›ºå®šãƒ—ãƒ­ãƒ†ã‚¯ãƒˆæŒ‡å®š)
+		// ç”»å±¤çŠ¶æ…‹(0ï¼šéè¡¨ç¤ºã€1ï¼šè¡¨ç¤ºã®ã¿ã€2ï¼šç·¨é›†å¯èƒ½ã€3ï¼šæ›¸è¾¼)
+		// ç”»å±¤ã®ãƒ—ãƒ­ãƒ†ã‚¯ãƒˆæŒ‡å®š
+		// ã€€(0ï¼šç„¡æŒ‡å®šã€1ï¼šè¡¨ç¤ºçŠ¶æ…‹å¤‰æ›´å¯èƒ½ãƒ—ãƒ­ãƒ†ã‚¯ãƒˆæŒ‡å®šã€2ï¼šè¡¨ç¤ºçŠ¶æ…‹å›ºå®šãƒ—ãƒ­ãƒ†ã‚¯ãƒˆæŒ‡å®š)
 		ar << m_nWriteGLay;
 
 		for (int nGLay = 0; nGLay < 16; nGLay++)
@@ -143,98 +143,98 @@ void CJwwHeader::Serialize(CArchive& ar)
 			}
 		}
 
-		// ƒ_ƒ~[
+		// ãƒ€ãƒŸãƒ¼
 		for (i = 0, dummy = 0; i < 14; i++)
 		{
 			ar << dummy;
 		}
 
-		// ¡–@ŠÖŒW‚Ìİ’è
-		// ŠÂ‹«İ’èƒtƒ@ƒCƒ‹‚ÌuS_COMM_8v‚Ì‡B¡–@İ’è‚ªu10v‚Ü‚½‚Íu11v‚É‚È‚Á‚Ä‚¢‚ÄA
-		// ƒtƒ@ƒCƒ‹‚Ö‚Ì•Û‘¶‚ª‚Å‚«‚éê‡‚É—LŒø‚É‚È‚èA
-		// ‚»‚êˆÈŠO‚Íum_lnSunpou1v`um_lnSunpou5v‚Íu0v‚É‚È‚éB
+		// å¯¸æ³•é–¢ä¿‚ã®è¨­å®š
+		// ç’°å¢ƒè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ã€ŒS_COMM_8ã€ã®â‘¢å¯¸æ³•è¨­å®šãŒã€Œ10ã€ã¾ãŸã¯ã€Œ11ã€ã«ãªã£ã¦ã„ã¦ã€
+		// ãƒ•ã‚¡ã‚¤ãƒ«ã¸ã®ä¿å­˜ãŒã§ãã‚‹å ´åˆã«æœ‰åŠ¹ã«ãªã‚Šã€
+		// ãã‚Œä»¥å¤–ã¯ã€Œm_lnSunpou1ã€ï½ã€Œm_lnSunpou5ã€ã¯ã€Œ0ã€ã«ãªã‚‹ã€‚
 
-		// ˆêˆÊF¡–@üFi1`9j
-		// \ˆÊFˆøoüFi1`9j
-		// •SˆÊF¡–@“_Fi1`9j
-		// çˆÊF¡–@’l‚Ì­”“_ˆÈ‰º‚ÌŒ…”i0`3j
-		// –œˆÊF¡–@’PˆÊi0:mm A1:‚j
-		// \–œˆÊF¡–@ü’[•”i0:“_ A1:–îˆó A2:‹t–îˆój
-		// •S–œˆÊF¡–@•¶šíi1`10j
+		// ä¸€ä½ï¼šå¯¸æ³•ç·šè‰²ï¼ˆ1ï½9ï¼‰
+		// åä½ï¼šå¼•å‡ºç·šè‰²ï¼ˆ1ï½9ï¼‰
+		// ç™¾ä½ï¼šå¯¸æ³•ç‚¹è‰²ï¼ˆ1ï½9ï¼‰
+		// åƒä½ï¼šå¯¸æ³•å€¤ã®å°‘æ•°ç‚¹ä»¥ä¸‹ã®æ¡æ•°ï¼ˆ0ï½3ï¼‰
+		// ä¸‡ä½ï¼šå¯¸æ³•å˜ä½ï¼ˆ0:mm ã€1:ï½ï¼‰
+		// åä¸‡ä½ï¼šå¯¸æ³•ç·šç«¯éƒ¨ï¼ˆ0:ç‚¹ ã€1:çŸ¢å° ã€2:é€†çŸ¢å°ï¼‰
+		// ç™¾ä¸‡ä½ï¼šå¯¸æ³•æ–‡å­—ç¨®ï¼ˆ1ï½10ï¼‰
 		ar << m_lnSunpou1;
-		// ˆêˆÊ`çˆÊF¡–@’l‚Ì¡–@ü‚Æ‚Ì—£‚ê
-		// @@@@@@—£‚êi0`99.9j~‚P‚OAƒ}ƒCƒiƒX‚Ìê‡‚Í1000‚ğƒvƒ‰ƒX‚µ‚Ä®”‰»‚·‚é
-		// –œˆÊ`ç–œˆÊF¡–@ü‚Ì“Ëo’·‚³
-		// @@@@@@’·‚³i0`99.9j~‚P‚OAƒ}ƒCƒiƒX‚Ìê‡‚Í1000‚ğƒvƒ‰ƒX‚µ‚Ä®”‰»‚µAX‚É10000”{‚·‚éB
+		// ä¸€ä½ï½åƒä½ï¼šå¯¸æ³•å€¤ã®å¯¸æ³•ç·šã¨ã®é›¢ã‚Œ
+		// ã€€ã€€ã€€ã€€ã€€ã€€é›¢ã‚Œï¼ˆ0ï½99.9ï¼‰Ã—ï¼‘ï¼ã€ãƒã‚¤ãƒŠã‚¹ã®å ´åˆã¯1000ã‚’ãƒ—ãƒ©ã‚¹ã—ã¦æ•´æ•°åŒ–ã™ã‚‹
+		// ä¸‡ä½ï½åƒä¸‡ä½ï¼šå¯¸æ³•ç·šã®çªå‡ºé•·ã•
+		// ã€€ã€€ã€€ã€€ã€€ã€€é•·ã•ï¼ˆ0ï½99.9ï¼‰Ã—ï¼‘ï¼ã€ãƒã‚¤ãƒŠã‚¹ã®å ´åˆã¯1000ã‚’ãƒ—ãƒ©ã‚¹ã—ã¦æ•´æ•°åŒ–ã—ã€æ›´ã«10000å€ã™ã‚‹ã€‚
 		ar << m_lnSunpou2;
-		// ˆêˆÊ`•SˆÊF–îˆó’·‚³
-		// @@@@@@’·‚³i0`99.9j~‚P‚O‚Æ‚µ‚Ä®”‰»‚·‚é
-		// çˆÊ`\–œˆÊF–îˆóŠp“x
-		// @@@@@@Šp“xi0.1`80.0j~‚P‚O‚Æ‚µ‚Ä®”‰»‚µA1000”{‚·‚é
-		// •S–œˆÊ`‰­ˆÊF‹t–îˆó‚Ìo¡–@
-		// @@@@@@¡–@i0`99.9j~‚P‚O‚Æ‚µ‚Ä®”‰»‚·‚µA1000000”{‚·‚é
+		// ä¸€ä½ï½ç™¾ä½ï¼šçŸ¢å°é•·ã•
+		// ã€€ã€€ã€€ã€€ã€€ã€€é•·ã•ï¼ˆ0ï½99.9ï¼‰Ã—ï¼‘ï¼ã¨ã—ã¦æ•´æ•°åŒ–ã™ã‚‹
+		// åƒä½ï½åä¸‡ä½ï¼šçŸ¢å°è§’åº¦
+		// ã€€ã€€ã€€ã€€ã€€ã€€è§’åº¦ï¼ˆ0.1ï½80.0ï¼‰Ã—ï¼‘ï¼ã¨ã—ã¦æ•´æ•°åŒ–ã—ã€1000å€ã™ã‚‹
+		// ç™¾ä¸‡ä½ï½å„„ä½ï¼šé€†çŸ¢å°ã®å‡ºå¯¸æ³•
+		// ã€€ã€€ã€€ã€€ã€€ã€€å¯¸æ³•ï¼ˆ0ï½99.9ï¼‰Ã—ï¼‘ï¼ã¨ã—ã¦æ•´æ•°åŒ–ã™ã—ã€1000000å€ã™ã‚‹
 		ar << m_lnSunpou3;
-		// ˆêˆÊF¡–@’l•ûŒü‚ğ•â³‚µ‚È‚¢i0F•â³—L A1F•â³–³j
-		// \ˆÊF¡–@’l‚ğ‘SŠp‚É‚·‚éi0F”¼Šp A1F‘SŠpj
-		// •SˆÊF¡–@’l‚ÌƒJƒ“ƒ}‚ğƒXƒy[ƒX‚É‚·‚éi0FƒJƒ“ƒ} A1FƒXƒy[ƒXj
-		// çˆÊF¡–@’l‚ÌƒJƒ“ƒ}‚ğ‘SŠp‚É‚·‚éi0F”¼Šp A1F‘SŠpj
-		// –œˆÊF¡–@’l‚Ì­”“_‚ğ‘SŠp‚É‚·‚éi0F”¼Šp A1F‘SŠpj
-		// \–œˆÊF¡–@’l‚É’PˆÊ‚ğ•\¦‚·‚éi0F•\¦–³ A1F•\¦—Lj
-		// •S–œˆÊF”¼Œa’l‚ÉuRv‚ğ•\¦‚·‚éi0F•\¦–³ A1F‘O•t•\¦—L A2FŒã•t•\¦—Lj
-		// ç–œˆÊF”¼Œa’l‚ÉƒJƒ“ƒ}‚ğ•\¦‚·‚éi0F•\¦–³ A1F•\¦—Lj
-		// ‰­ˆÊF”¼Œa’l‚É­”“_‚Ìu0v‚ğ•\¦‚·‚éi0F•\¦–³ A1F•\¦—Lj
+		// ä¸€ä½ï¼šå¯¸æ³•å€¤æ–¹å‘ã‚’è£œæ­£ã—ãªã„ï¼ˆ0ï¼šè£œæ­£æœ‰ ã€1ï¼šè£œæ­£ç„¡ï¼‰
+		// åä½ï¼šå¯¸æ³•å€¤ã‚’å…¨è§’ã«ã™ã‚‹ï¼ˆ0ï¼šåŠè§’ ã€1ï¼šå…¨è§’ï¼‰
+		// ç™¾ä½ï¼šå¯¸æ³•å€¤ã®ã‚«ãƒ³ãƒã‚’ã‚¹ãƒšãƒ¼ã‚¹ã«ã™ã‚‹ï¼ˆ0ï¼šã‚«ãƒ³ãƒ ã€1ï¼šã‚¹ãƒšãƒ¼ã‚¹ï¼‰
+		// åƒä½ï¼šå¯¸æ³•å€¤ã®ã‚«ãƒ³ãƒã‚’å…¨è§’ã«ã™ã‚‹ï¼ˆ0ï¼šåŠè§’ ã€1ï¼šå…¨è§’ï¼‰
+		// ä¸‡ä½ï¼šå¯¸æ³•å€¤ã®å°‘æ•°ç‚¹ã‚’å…¨è§’ã«ã™ã‚‹ï¼ˆ0ï¼šåŠè§’ ã€1ï¼šå…¨è§’ï¼‰
+		// åä¸‡ä½ï¼šå¯¸æ³•å€¤ã«å˜ä½ã‚’è¡¨ç¤ºã™ã‚‹ï¼ˆ0ï¼šè¡¨ç¤ºç„¡ ã€1ï¼šè¡¨ç¤ºæœ‰ï¼‰
+		// ç™¾ä¸‡ä½ï¼šåŠå¾„å€¤ã«ã€ŒRã€ã‚’è¡¨ç¤ºã™ã‚‹ï¼ˆ0ï¼šè¡¨ç¤ºç„¡ ã€1ï¼šå‰ä»˜è¡¨ç¤ºæœ‰ ã€2ï¼šå¾Œä»˜è¡¨ç¤ºæœ‰ï¼‰
+		// åƒä¸‡ä½ï¼šåŠå¾„å€¤ã«ã‚«ãƒ³ãƒã‚’è¡¨ç¤ºã™ã‚‹ï¼ˆ0ï¼šè¡¨ç¤ºç„¡ ã€1ï¼šè¡¨ç¤ºæœ‰ï¼‰
+		// å„„ä½ï¼šåŠå¾„å€¤ã«å°‘æ•°ç‚¹ã®ã€Œ0ã€ã‚’è¡¨ç¤ºã™ã‚‹ï¼ˆ0ï¼šè¡¨ç¤ºç„¡ ã€1ï¼šè¡¨ç¤ºæœ‰ï¼‰
 		ar << m_lnSunpou4;
-		// ˆêˆÊ@F¡–@’l‚ğÎ‚ß•¶š‚É‚·‚éi0F’Êí•¶š A1FÎ‚ß•¶šj
-		// \ˆÊ@F¡–@’l‚ğ‘¾•¶š‚É‚·‚éi0F’Êí•¶š A1F‘¾•¶šj
-		// •SˆÊ@FŠp“x’PˆÊi0F“x’PˆÊ A1F“x•ª•b’PˆÊ A2F“x’PˆÊ‚Åußv‚Ì•\¦‚È‚µj
-		// çˆÊ@FŠp“x’PˆÊ‚Ì­”“_ˆÈ‰º‚ÌŒ…”i0`6j
-		// –œˆÊ@F¡–@}Œ`‚É‚·‚éi0F¡–@}Œ`‚É‚µ‚È‚¢ A1F¡–@}Œ`‚É‚·‚éj
-		// \–œˆÊF”ÍˆÍ‘I‘ğ‚Ì‚Æ‚«¡–@}Œ`‚ğüFEí‚Ì‘®«‚Å‘I‘ği0F‘I‘ğ‚µ‚È‚¢ A1F‘I‘ğ‚·‚éj
-		// •S–œˆÊF•\¦¬”“_ˆÈ‰º‚Ìˆ—i0:lÌŒÜ“ü@1:ØÌ@2:Øãj(Ver.4.02ˆÈ~j
+		// ä¸€ä½ã€€ï¼šå¯¸æ³•å€¤ã‚’æ–œã‚æ–‡å­—ã«ã™ã‚‹ï¼ˆ0ï¼šé€šå¸¸æ–‡å­— ã€1ï¼šæ–œã‚æ–‡å­—ï¼‰
+		// åä½ã€€ï¼šå¯¸æ³•å€¤ã‚’å¤ªæ–‡å­—ã«ã™ã‚‹ï¼ˆ0ï¼šé€šå¸¸æ–‡å­— ã€1ï¼šå¤ªæ–‡å­—ï¼‰
+		// ç™¾ä½ã€€ï¼šè§’åº¦å˜ä½ï¼ˆ0ï¼šåº¦å˜ä½ ã€1ï¼šåº¦åˆ†ç§’å˜ä½ ã€2ï¼šåº¦å˜ä½ã§ã€Œï¾Ÿã€ã®è¡¨ç¤ºãªã—ï¼‰
+		// åƒä½ã€€ï¼šè§’åº¦å˜ä½ã®å°‘æ•°ç‚¹ä»¥ä¸‹ã®æ¡æ•°ï¼ˆ0ï½6ï¼‰
+		// ä¸‡ä½ã€€ï¼šå¯¸æ³•å›³å½¢ã«ã™ã‚‹ï¼ˆ0ï¼šå¯¸æ³•å›³å½¢ã«ã—ãªã„ ã€1ï¼šå¯¸æ³•å›³å½¢ã«ã™ã‚‹ï¼‰
+		// åä¸‡ä½ï¼šç¯„å›²é¸æŠã®ã¨ãå¯¸æ³•å›³å½¢ã‚’ç·šè‰²ãƒ»ç¨®ã®å±æ€§ã§é¸æŠï¼ˆ0ï¼šé¸æŠã—ãªã„ ã€1ï¼šé¸æŠã™ã‚‹ï¼‰
+		// ç™¾ä¸‡ä½ï¼šè¡¨ç¤ºå°æ•°ç‚¹ä»¥ä¸‹ã®å‡¦ç†ï¼ˆ0:å››æ¨äº”å…¥ã€€1:åˆ‡æ¨ã€€2:åˆ‡ä¸Šï¼‰(Ver.4.02ä»¥é™ï¼‰
 		ar << m_lnSunpou5;
 
-		// ƒ_ƒ~[
+		// ãƒ€ãƒŸãƒ¼
 		ar << dummy;
 
-		// ü•`‰æ‚ÌÅ‘å•
-		// 1‚©‚ç100 ü•‚ÍƒsƒNƒZƒ‹’PˆÊ‚Åw’è
-		// -1‚©‚ç-100 ü•‚Í abs(1/N)ƒ~ƒŠ’PˆÊ‚Åw’è(-16->1/16ƒ~ƒŠ)
-		//uü•‚ğ1/100mm’PˆÊ‚Æ‚·‚év‚ªİ’è‚³‚ê‚Ä‚¢‚é‚Æ‚«‚Í-300‚ğw’è(-100‚æ‚è¬‚³‚¢)
+		// ç·šæç”»ã®æœ€å¤§å¹…
+		// 1ã‹ã‚‰100 ç·šå¹…ã¯ãƒ”ã‚¯ã‚»ãƒ«å˜ä½ã§æŒ‡å®š
+		// -1ã‹ã‚‰-100 ç·šå¹…ã¯ abs(1/N)ãƒŸãƒªå˜ä½ã§æŒ‡å®š(-16->1/16ãƒŸãƒª)
+		//ã€Œç·šå¹…ã‚’1/100mmå˜ä½ã¨ã™ã‚‹ã€ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã¨ãã¯-300ã‚’æŒ‡å®š(-100ã‚ˆã‚Šå°ã•ã„)
 		ar << m_nMaxDrawWid;
 
-		// ƒvƒŠƒ“ƒ^o—Í”ÍˆÍ‚ÌŒ´“_(X,Y)
+		// ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›ç¯„å›²ã®åŸç‚¹(X,Y)
 		ar << m_DPPrtGenten.x;
 		ar << m_DPPrtGenten.y;
 
-		// ƒvƒŠƒ“ƒ^o—Í”{—¦
+		// ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›å€ç‡
 		ar << m_dPrtBairitsu;
 
-		// ƒvƒŠƒ“ƒ^90‹‰ñ“]o—ÍAƒvƒŠƒ“ƒ^o—ÍŠî€“_ˆÊ’u
-		// ˆêˆÊFƒvƒŠƒ“ƒ^90‹‰ñ“]o—Í
-		// \ˆÊFƒvƒŠƒ“ƒ^o—ÍŠî€“_ˆÊ’u‚Ìw’èi0:–³w’èjiVer.3.00ˆÈ~j
-		//  @  7:¶ã   8:’†ã  9:‰Eã
-		//   @ 4:¶’†   5:’†’†  6:‰E’†
-		//    @1:¶‰º   2:’†‰º  3:‰E‰º
+		// ãƒ—ãƒªãƒ³ã‚¿90Â°å›è»¢å‡ºåŠ›ã€ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›åŸºæº–ç‚¹ä½ç½®
+		// ä¸€ä½ï¼šãƒ—ãƒªãƒ³ã‚¿90Â°å›è»¢å‡ºåŠ›
+		// åä½ï¼šãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›åŸºæº–ç‚¹ä½ç½®ã®æŒ‡å®šï¼ˆ0:ç„¡æŒ‡å®šï¼‰ï¼ˆVer.3.00ä»¥é™ï¼‰
+		//  ã€€  7:å·¦ä¸Š   8:ä¸­ä¸Š  9:å³ä¸Š
+		//   ã€€ 4:å·¦ä¸­   5:ä¸­ä¸­  6:å³ä¸­
+		//    ã€€1:å·¦ä¸‹   2:ä¸­ä¸‹  3:å³ä¸‹
 		ar << m_nPrtSet;
 
-		// –Ú·İ’èƒ‚[ƒh
-		// ˆêˆÊ(0F–³w’èA1F–Ú·•\¦)
-		// \ˆÊ(0F}–Ê¡–@w’èA1FÀ¡w’è)
-		// |’l‚ÌA–Ú·“Çæ‚è•s‰Â
+		// ç›®ç››è¨­å®šãƒ¢ãƒ¼ãƒ‰
+		// ä¸€ä½(0ï¼šç„¡æŒ‡å®šã€1ï¼šç›®ç››è¡¨ç¤º)
+		// åä½(0ï¼šå›³é¢å¯¸æ³•æŒ‡å®šã€1ï¼šå®Ÿå¯¸æŒ‡å®š)
+		// ï¼å€¤ã®æ™‚ã€ç›®ç››èª­å–ã‚Šä¸å¯
 		ar << m_nMemoriMode;
 
-		// –Ú·•\¦Å¬ŠÔŠuƒhƒbƒg
+		// ç›®ç››è¡¨ç¤ºæœ€å°é–“éš”ãƒ‰ãƒƒãƒˆ
 		ar << m_dMemoriHyoujiMin;
 
-		// –Ú·•\¦ŠÔŠu(X,Y)
+		// ç›®ç››è¡¨ç¤ºé–“éš”(X,Y)
 		ar << m_dMemoriX;
 		ar << m_dMemoriY;
 
-		// –Ú·Šî€“_(X,Y)
+		// ç›®ç››åŸºæº–ç‚¹(X,Y)
 		ar << m_DpMemoriKijunTen.x;
 		ar << m_DpMemoriKijunTen.y;
 
-		// ‰æ‘w–¼
+		// ç”»å±¤å
 		for (n = 0; n <= 15; n++)
 		{
 			for (k = 0; k <= 15; k++)
@@ -243,44 +243,44 @@ void CJwwHeader::Serialize(CArchive& ar)
 			}
 		}
 
-		// ‰æ‘wƒOƒ‹[ƒv–¼
+		// ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—å
 		for (n = 0; n <= 15; n++)
 		{
 			ar << CStringA(m_aStrGLayName[n]);
 		}
 
-		// “ú‰eŒvZ‚ÌğŒ
-		// ‘ª’è–Ê‚‚³
-		// ˆÜ“x
-		// 9`15‚Ì‘ª’è‚Ìw’è
-		// •Ç–Ê“ú‰e‘ª’è–Ê‚‚³
+		// æ—¥å½±è¨ˆç®—ã®æ¡ä»¶
+		// æ¸¬å®šé¢é«˜ã•
+		// ç·¯åº¦
+		// 9ï½15ã®æ¸¬å®šã®æŒ‡å®š
+		// å£é¢æ—¥å½±æ¸¬å®šé¢é«˜ã•
 		ar << m_dKageLevel;
 		ar << m_dKageIdo;
 		ar << m_nKage9_15JiFlg;
 		ar << m_dKabeKageLevel;
 
-		// “V‹ó}‚ÌğŒiVer.3.00ˆÈ~)
-		// ‘ª’è–Ê‚‚³
-		// “V‹ó}‚Ì”¼Œa–‚Q
+		// å¤©ç©ºå›³ã®æ¡ä»¶ï¼ˆVer.3.00ä»¥é™)
+		// æ¸¬å®šé¢é«˜ã•
+		// å¤©ç©ºå›³ã®åŠå¾„ï¼Šï¼’
 		if (m_Version >= 300)
 		{
 			ar << m_dTenkuuZuLevel;
 			ar << m_dTenkuuZuEnkoR;
 		}
-		// 2.5D‚ÌŒvZ’PˆÊ(0ˆÈŠO‚Ímm’PˆÊ‚ÅŒvZ)
+		// 2.5Dã®è¨ˆç®—å˜ä½(0ä»¥å¤–ã¯mmå˜ä½ã§è¨ˆç®—)
 		ar << m_nMMTani3D;
 
-		// •Û‘¶‚Ì‰æ–Ê”{—¦(“Ç‚Ş‚Æ‘O‰æ–Ê”{—¦‚É‚È‚é)
+		// ä¿å­˜æ™‚ã®ç”»é¢å€ç‡(èª­è¾¼ã‚€ã¨å‰ç”»é¢å€ç‡ã«ãªã‚‹)
 		ar << m_dBairitsu;
 		ar << m_DPGenten.x;
 		ar << m_DPGenten.y;
 
-		// ”ÍˆÍ‹L‰¯”{—¦‚ÆŠî€“_(X,Y)
+		// ç¯„å›²è¨˜æ†¶å€ç‡ã¨åŸºæº–ç‚¹(X,Y)
 		ar << m_dHanniBairitsu;
 		ar << m_DPHanniGenten.x;
 		ar << m_DPHanniGenten.y;
 
-		// ƒ}[ƒNƒWƒƒƒ“ƒv”{—¦AŠî€“_(X,Y)‚¨‚æ‚Ñ‰æ‘wƒOƒ‹[ƒv
+		// ãƒãƒ¼ã‚¯ã‚¸ãƒ£ãƒ³ãƒ—å€ç‡ã€åŸºæº–ç‚¹(X,Y)ãŠã‚ˆã³ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—
 		if (m_Version >= 300)
 		{
 			for (n = 1; n <= 8; n++)
@@ -301,46 +301,46 @@ void CJwwHeader::Serialize(CArchive& ar)
 			}
 		}
 
-		// •¶š‚Ì•`‰æó‘Ô(Ver.4.05ˆÈ~j
+		// æ–‡å­—ã®æç”»çŠ¶æ…‹(Ver.4.05ä»¥é™ï¼‰
 		if (m_Version >= 300)
 		{
-			ar << m_dDm11;		//ƒ_ƒ~[
-			ar << m_dDm12;		//ƒ_ƒ~[
-			ar << m_dDm13;		//ƒ_ƒ~[
-			ar << m_lnDm1;			//ƒ_ƒ~[
-			ar << m_dDm21;		//ƒ_ƒ~[
-			ar << m_dDm22;		//ƒ_ƒ~[
-			ar << m_dMojiBG;	//(Ver.4.04ˆÈ‘O‚Íƒ_ƒ~[j
-			//•¶š—ñ”ÍˆÍ‚ğ”wŒiF‚Å•`‰æ‚·‚é‚Æ‚«‚Ì”ÍˆÍ‘¡–@
-			ar << m_nMojiBG;		//(Ver.4.04ˆÈ‘O‚Íƒ_ƒ~[j
-			//\ˆÊ:•¶ši¡–@}Œ`¤ƒuƒƒbƒN}Œ`j‚ğÅŒã‚É•`‰æ
-			//ˆêˆÊ:1 :—ÖŠsE”ÍˆÍ‚ğ”wŒiF‚Å•`‰æ‚µ‚È‚¢
-			//	2 :•¶š‚Ì—ÖŠs‚ğ”wŒiF‚Å•`‰æ‚·‚é
-			//	3 :•¶š—ñ”ÍˆÍ‚ğ”wŒiF‚Å•`‰æ‚·‚é
+			ar << m_dDm11;		//ãƒ€ãƒŸãƒ¼
+			ar << m_dDm12;		//ãƒ€ãƒŸãƒ¼
+			ar << m_dDm13;		//ãƒ€ãƒŸãƒ¼
+			ar << m_lnDm1;			//ãƒ€ãƒŸãƒ¼
+			ar << m_dDm21;		//ãƒ€ãƒŸãƒ¼
+			ar << m_dDm22;		//ãƒ€ãƒŸãƒ¼
+			ar << m_dMojiBG;	//(Ver.4.04ä»¥å‰ã¯ãƒ€ãƒŸãƒ¼ï¼‰
+			//æ–‡å­—åˆ—ç¯„å›²ã‚’èƒŒæ™¯è‰²ã§æç”»ã™ã‚‹ã¨ãã®ç¯„å›²å¢—å¯¸æ³•
+			ar << m_nMojiBG;		//(Ver.4.04ä»¥å‰ã¯ãƒ€ãƒŸãƒ¼ï¼‰
+			//åä½:æ–‡å­—ï¼ˆå¯¸æ³•å›³å½¢ï½¤ãƒ–ãƒ­ãƒƒã‚¯å›³å½¢ï¼‰ã‚’æœ€å¾Œã«æç”»
+			//ä¸€ä½:1 :è¼ªéƒ­ãƒ»ç¯„å›²ã‚’èƒŒæ™¯è‰²ã§æç”»ã—ãªã„
+			//	2 :æ–‡å­—ã®è¼ªéƒ­ã‚’èƒŒæ™¯è‰²ã§æç”»ã™ã‚‹
+			//	3 :æ–‡å­—åˆ—ç¯„å›²ã‚’èƒŒæ™¯è‰²ã§æç”»ã™ã‚‹
 		}
 
-		// •¡üŠÔŠu
+		// è¤‡ç·šé–“éš”
 		for (n = 0; n <= 9; n++)
 		{
 			ar << m_adFukusenSuuchi[n];
 		}
 
-		// —¼‘¤•¡ü‚Ì—¯üo‚Ì¡–@
+		// ä¸¡å´è¤‡ç·šã®ç•™ç·šå‡ºã®å¯¸æ³•
 		ar << m_dRyoygawaFukusenTomeDe;
 
-		// F”Ô†‚²‚Æ‚Ì‰æ–Ê•\¦FAü•
-		// ‰æ–Ê•\¦F(0F”wŒiFA1`8FüFA9FƒOƒŒ[F)
-		// ü•(1`16)
+		// è‰²ç•ªå·ã”ã¨ã®ç”»é¢è¡¨ç¤ºè‰²ã€ç·šå¹…
+		// ç”»é¢è¡¨ç¤ºè‰²(0ï¼šèƒŒæ™¯è‰²ã€1ï½8ï¼šç·šè‰²ã€9ï¼šã‚°ãƒ¬ãƒ¼è‰²)
+		// ç·šå¹…(1ï½16)
 		for (n = 0; n <= 9; n++)
 		{
 			ar << m_aPenColor[n];
 			ar << m_anPenWidth[n];
 		}
 
-		// F”Ô†‚²‚Æ‚ÌƒvƒŠƒ“ƒ^o—ÍFAü•AÀ“_”¼Œa
-		// ƒvƒŠƒ“ƒ^o—ÍF(0F”wŒiFA1`8FüFA9FƒOƒŒ[F)
-		// ü•(1`500)
-		// À“_”¼Œa(0.1`10)
+		// è‰²ç•ªå·ã”ã¨ã®ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›è‰²ã€ç·šå¹…ã€å®Ÿç‚¹åŠå¾„
+		// ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›è‰²(0ï¼šèƒŒæ™¯è‰²ã€1ï½8ï¼šç·šè‰²ã€9ï¼šã‚°ãƒ¬ãƒ¼è‰²)
+		// ç·šå¹…(1ï½500)
+		// å®Ÿç‚¹åŠå¾„(0.1ï½10)
 		for (n = 0; n <= 9; n++)
 		{
 			ar << m_aPrtPenColor[n];
@@ -348,7 +348,7 @@ void CJwwHeader::Serialize(CArchive& ar)
 			ar << m_adPrtTenHankei[n];
 		}
 
-		// üí”Ô†2‚©‚ç9‚Ü‚Å‚Ìƒpƒ^[ƒ“A1ƒ†ƒjƒbƒg‚Ìƒhƒbƒg”Aƒsƒbƒ`AƒvƒŠƒ“ƒ^o—Íƒsƒbƒ`
+		// ç·šç¨®ç•ªå·2ã‹ã‚‰9ã¾ã§ã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã€1ãƒ¦ãƒ‹ãƒƒãƒˆã®ãƒ‰ãƒƒãƒˆæ•°ã€ãƒ”ãƒƒãƒã€ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›ãƒ”ãƒƒãƒ
 		for (n = 2; n <= 9; n++)
 		{
 			ar << m_alLType[n];
@@ -357,7 +357,7 @@ void CJwwHeader::Serialize(CArchive& ar)
 			ar << m_anPrtTokushuSenPich[n];
 		}
 
-		// ƒ‰ƒ“ƒ_ƒ€ü1‚©‚ç5‚Ü‚Å‚Ìƒpƒ^[ƒ“A‰æ–Ê•\¦U•Eƒsƒbƒ`AƒvƒŠƒ“ƒ^o—ÍU•Eƒsƒbƒ`
+		// ãƒ©ãƒ³ãƒ€ãƒ ç·š1ã‹ã‚‰5ã¾ã§ã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã€ç”»é¢è¡¨ç¤ºæŒ¯å¹…ãƒ»ãƒ”ãƒƒãƒã€ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›æŒ¯å¹…ãƒ»ãƒ”ãƒƒãƒ
 		for (n = 11; n <= 15; n++)
 		{
 			ar << m_alLType[n];
@@ -367,7 +367,7 @@ void CJwwHeader::Serialize(CArchive& ar)
 			ar << m_anPrtTokushuSenPich[n];
 		}
 
-		// ”{’·üí”Ô†6‚©‚ç9‚Ü‚Å‚Ìƒpƒ^[ƒ“A1ƒ†ƒjƒbƒg‚Ìƒhƒbƒg”Aƒsƒbƒ`AƒvƒŠƒ“ƒ^o—Íƒsƒbƒ`
+		// å€é•·ç·šç¨®ç•ªå·6ã‹ã‚‰9ã¾ã§ã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã€1ãƒ¦ãƒ‹ãƒƒãƒˆã®ãƒ‰ãƒƒãƒˆæ•°ã€ãƒ”ãƒƒãƒã€ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›ãƒ”ãƒƒãƒ
 		for (n = 16; n <= 19; n++)
 		{
 			ar << m_alLType[n];
@@ -376,143 +376,143 @@ void CJwwHeader::Serialize(CArchive& ar)
 			ar << m_anPrtTokushuSenPich[n];
 		}
 
-		// À“_‚ğ‰æ–Ê•`‰æ‚Ìw’è”¼Œa‚Å•`‰æ
+		// å®Ÿç‚¹ã‚’ç”»é¢æç”»æ™‚ã®æŒ‡å®šåŠå¾„ã§æç”»
 		ar << m_nDrawGamenTen;
 
-		// À“_‚ğƒvƒŠƒ“ƒ^o—ÍAw’è”¼Œa‚Å‘‚­
+		// å®Ÿç‚¹ã‚’ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›æ™‚ã€æŒ‡å®šåŠå¾„ã§æ›¸ã
 		ar << m_nDrawPrtTen;
 
-		// BitMapEƒ\ƒŠƒbƒh‚ğÅ‰‚É•`‰æ‚·‚é
+		// BitMapãƒ»ã‚½ãƒªãƒƒãƒ‰ã‚’æœ€åˆã«æç”»ã™ã‚‹
 		ar << m_nBitMapFirstDraw;
-		// \ˆÊFƒ\ƒŠƒbƒh•`‰æ‡
-		//  0:‰æ‘w‡        (+1):F‡
-		//  3:‰æ‘w‹t‡      (+2):F‹t‡
-		//  6:ˆóüo—Íİ’è‡
-		// ˆêˆÊF
-		//  0:BitMapEƒ\ƒŠƒbƒh‚ğÅ‰‚É•`‰æ‚µ‚È‚¢
-		//  1:BitMapEƒ\ƒŠƒbƒh‚ğÅ‰‚É•`‰æ
-		//  2:ƒ\ƒŠƒbƒh‚ğÅ‰‚É•`‰æ
-		// ‹t•`‰æ
+		// åä½ï¼šã‚½ãƒªãƒƒãƒ‰æç”»é †
+		//  0:ç”»å±¤é †        (+1):è‰²é †
+		//  3:ç”»å±¤é€†é †      (+2):è‰²é€†é †
+		//  6:å°åˆ·å‡ºåŠ›è¨­å®šé †
+		// ä¸€ä½ï¼š
+		//  0:BitMapãƒ»ã‚½ãƒªãƒƒãƒ‰ã‚’æœ€åˆã«æç”»ã—ãªã„
+		//  1:BitMapãƒ»ã‚½ãƒªãƒƒãƒ‰ã‚’æœ€åˆã«æç”»
+		//  2:ã‚½ãƒªãƒƒãƒ‰ã‚’æœ€åˆã«æç”»
+		// é€†æç”»
 		ar << m_nGyakuDraw;
 
-		// ‹tƒT[ƒ`
+		// é€†ã‚µãƒ¼ãƒ
 		ar << m_nGyakuSearch;
 
-		// ƒJƒ‰[ˆóü
+		// ã‚«ãƒ©ãƒ¼å°åˆ·
 		ar << m_nColorPrint;
 
-		// ‰æ‘w‡‚Ìˆóü
+		// ç”»å±¤é †ã®å°åˆ·
 		ar << m_nLayJunPrint;
 
-		// F”Ô†‡‚Ìˆóü
+		// è‰²ç•ªå·é †ã®å°åˆ·
 		ar << m_nColJunPrint;
 
-		// ‰æ‘wƒOƒ‹[ƒv‚Ü‚½‚Í‰æ‘w‚²‚Æ‚ÌƒvƒŠƒ“ƒ^˜A‘±o—Íw’è
+		// ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—ã¾ãŸã¯ç”»å±¤ã”ã¨ã®ãƒ—ãƒªãƒ³ã‚¿é€£ç¶šå‡ºåŠ›æŒ‡å®š
 		ar << m_nPrtRenzoku;
 
-		// ƒvƒŠƒ“ƒ^‹¤’Ê‰æ‘w(•\¦‚Ì‚İ‰æ‘w)‚ÌƒOƒŒ[o—Íw’è
+		// ãƒ—ãƒªãƒ³ã‚¿å…±é€šç”»å±¤(è¡¨ç¤ºã®ã¿ç”»å±¤)ã®ã‚°ãƒ¬ãƒ¼å‡ºåŠ›æŒ‡å®š
 		ar << m_nPrtKyoutsuuGray;
 
-		// ƒvƒŠƒ“ƒ^o—Í‚É•\¦‚Ì‚İ‰æ‘w‚Ío—Í‚µ‚È‚¢
+		// ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›æ™‚ã«è¡¨ç¤ºã®ã¿ç”»å±¤ã¯å‡ºåŠ›ã—ãªã„
 		ar << m_nPrtDispOnlyNonDraw;
 
 		if (m_Version >= 223)
 		{
-			// ì}ŠÔiVer.2.23ˆÈ~j
+			// ä½œå›³æ™‚é–“ï¼ˆVer.2.23ä»¥é™ï¼‰
 			ar << m_lnDrawTime;
 
-			// 2.5D‚Ìn“_ˆÊ’u‚ªİ’è‚³‚ê‚Ä‚¢‚é‚Ìƒtƒ‰ƒOiVer.2.23ˆÈ~j
-			// ˆêˆÊF“§‹}‚Ì‹“_ˆÊ’uİ’èÏ‚İƒtƒ‰ƒO
-			// \ˆÊF’¹áÕ}‚Ì‹“_ˆÊ’uİ’èÏ‚İƒtƒ‰ƒO
-			// •SˆÊFƒAƒCƒ\ƒ}‚Ì‹“_ˆÊ’uİ’èÏ‚İƒtƒ‰ƒO
+			// 2.5Dã®å§‹ç‚¹ä½ç½®ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹æ™‚ã®ãƒ•ãƒ©ã‚°ï¼ˆVer.2.23ä»¥é™ï¼‰
+			// ä¸€ä½ï¼šé€è¦–å›³ã®è¦–ç‚¹ä½ç½®è¨­å®šæ¸ˆã¿ãƒ•ãƒ©ã‚°
+			// åä½ï¼šé³¥ç°å›³ã®è¦–ç‚¹ä½ç½®è¨­å®šæ¸ˆã¿ãƒ•ãƒ©ã‚°
+			// ç™¾ä½ï¼šã‚¢ã‚¤ã‚½ãƒ¡å›³ã®è¦–ç‚¹ä½ç½®è¨­å®šæ¸ˆã¿ãƒ•ãƒ©ã‚°
 			ar << m_nEyeInit;
 
-			// 2.5D‚Ì“§‹}E’¹áÕ}EƒAƒCƒ\ƒ}‚Ì‹“_…•½ŠpiVer.2.23ˆÈ~j
-			ar << m_dEye_H_Ichi_1; //*100•K—v?
+			// 2.5Dã®é€è¦–å›³ãƒ»é³¥ç°å›³ãƒ»ã‚¢ã‚¤ã‚½ãƒ¡å›³ã®è¦–ç‚¹æ°´å¹³è§’ï¼ˆVer.2.23ä»¥é™ï¼‰
+			ar << m_dEye_H_Ichi_1; //*100å¿…è¦?
 			ar << m_dEye_H_Ichi_2;
 			ar << m_dEye_H_Ichi_3;
 
-			// 2.5D‚Ì“§‹}‚Ì‹“_‚‚³E‹“_—£‚êiVer.2.23ˆÈ~j
+			// 2.5Dã®é€è¦–å›³ã®è¦–ç‚¹é«˜ã•ãƒ»è¦–ç‚¹é›¢ã‚Œï¼ˆVer.2.23ä»¥é™ï¼‰
 			ar << m_dEye_Z_Ichi_1;
 			ar << m_dEye_Y_Ichi_1;
 
-			// 2.5D‚Ì’¹áÕ}‚Ì‹“_‚‚³E‹“_—£‚êiVer.2.23ˆÈ~j
+			// 2.5Dã®é³¥ç°å›³ã®è¦–ç‚¹é«˜ã•ãƒ»è¦–ç‚¹é›¢ã‚Œï¼ˆVer.2.23ä»¥é™ï¼‰
 			ar << m_dEye_Z_Ichi_2;
 			ar << m_dEye_Y_Ichi_2;
 
-			// 2.5D‚ÌƒAƒCƒ\ƒ}‚Ì‹“_‚’¼ŠpiVer.2.23ˆÈ~j
+			// 2.5Dã®ã‚¢ã‚¤ã‚½ãƒ¡å›³ã®è¦–ç‚¹å‚ç›´è§’ï¼ˆVer.2.23ä»¥é™ï¼‰
 			ar << m_dEye_V_Ichi_3;
 		}
 
-		// ü‚Ì’·‚³w’è‚ÌÅI’liVer.2.25ˆÈ~j
+		// ç·šã®é•·ã•æŒ‡å®šã®æœ€çµ‚å€¤ï¼ˆVer.2.25ä»¥é™ï¼‰
 		if (m_Version >= 225)
 		{
 			ar << m_dSenNagasaSnpou;
 		}
 
-		// ‹éŒ`¡–@‰¡¡–@Ec¡–@w’è‚ÌÅI’liVer.2.25ˆÈ~j
+		// çŸ©å½¢å¯¸æ³•æ¨ªå¯¸æ³•ãƒ»ç¸¦å¯¸æ³•æŒ‡å®šã®æœ€çµ‚å€¤ï¼ˆVer.2.25ä»¥é™ï¼‰
 		if (m_Version >= 225)
 		{
 			ar << m_dBoxSunpouX;
 			ar << m_dBoxSunpouY;
 		}
 
-		// ‰~‚Ì”¼Œaw’è‚ÌÅI’liVer.2.25ˆÈ~j
+		// å††ã®åŠå¾„æŒ‡å®šã®æœ€çµ‚å€¤ï¼ˆVer.2.25ä»¥é™ï¼‰
 		if (m_Version >= 225)
 		{
 			ar << m_dEnHankeiSnpou;
 		}
 
-		// ƒ\ƒŠƒbƒh‚ğ”CˆÓF‚Å‘‚­ƒtƒ‰ƒOAƒ\ƒŠƒbƒh‚Ì”CˆÓF‚ÌŠù’è’liVer.2.30ˆÈ~j
+		// ã‚½ãƒªãƒƒãƒ‰ã‚’ä»»æ„è‰²ã§æ›¸ããƒ•ãƒ©ã‚°ã€ã‚½ãƒªãƒƒãƒ‰ã®ä»»æ„è‰²ã®æ—¢å®šå€¤ï¼ˆVer.2.30ä»¥é™ï¼‰
 		if (m_Version >= 230)
 		{
 			ar << m_nSolidNinniColor;
 			ar << m_SolidColor;	// RGB
 		}
 
-		// SXF‘Î‰Šg’£üF’è‹`iVer.4.20ˆÈ~j
-		// ‰æ–Ê•\¦F
-		// ‰æ–Ê•\¦ü•
-		// üF–¼
-		// ƒvƒŠƒ“ƒ^o—ÍF
-		// ƒvƒŠƒ“ƒ^o—Íü•
-		// “_”¼Œa
+		// SXFå¯¾å¿œæ‹¡å¼µç·šè‰²å®šç¾©ï¼ˆVer.4.20ä»¥é™ï¼‰
+		// ç”»é¢è¡¨ç¤ºè‰²
+		// ç”»é¢è¡¨ç¤ºç·šå¹…
+		// ç·šè‰²å
+		// ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›è‰²
+		// ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›ç·šå¹…
+		// ç‚¹åŠå¾„
 		if (m_Version >= 420)
 		{
 			int n1;
 
-			for (n = 0; n <= 256; n++)	////// ‰æ–Ê•\¦F
+			for (n = 0; n <= 256; n++)	////// ç”»é¢è¡¨ç¤ºè‰²
 			{
-				n1 = n + SXCOL_EXT;		//F”Ô†‚ÌƒIƒtƒZƒbƒg = +100
+				n1 = n + SXCOL_EXT;		//è‰²ç•ªå·ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ = +100
 				ar << m_aPenColor[n1];
 				ar << m_anPenWidth[n1];
 			}
-			for (n = 0; n <= 256; n++)	////// ƒvƒŠƒ“ƒ^o—ÍF
+			for (n = 0; n <= 256; n++)	////// ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›è‰²
 			{
 				ar << CStringA(m_astrUDColorName[n]);
-				n1 = n + SXCOL_EXT;	//F”Ô†‚ÌƒIƒtƒZƒbƒg = +100
+				n1 = n + SXCOL_EXT;	//è‰²ç•ªå·ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ = +100
 				ar << m_aPrtPenColor[n1];
 				ar << m_anPrtPenWidth[n1];
 				ar << m_adPrtTenHankei[n1];
 			}
 
-			// SXF‘Î‰Šg’£üí’è‹`iVer.4.20ˆÈ~j
-			// ƒpƒ^[ƒ“
-			// 1ƒ†ƒjƒbƒg‚Ìƒhƒbƒg”
-			// ƒsƒbƒ`
-			// ƒvƒŠƒ“ƒ^o—Íƒsƒbƒ`
-			// üí–¼
-			// ƒZƒOƒƒ“ƒg”
-			// ƒsƒbƒ`ü•ª‚Ì’·‚³A‹ó”’’·‚³‚ÌŒJ‚è•Ô‚µ
-			for (n = 0; n <= 32; n++)	////// üíƒpƒ^[ƒ“
+			// SXFå¯¾å¿œæ‹¡å¼µç·šç¨®å®šç¾©ï¼ˆVer.4.20ä»¥é™ï¼‰
+			// ãƒ‘ã‚¿ãƒ¼ãƒ³
+			// 1ãƒ¦ãƒ‹ãƒƒãƒˆã®ãƒ‰ãƒƒãƒˆæ•°
+			// ãƒ”ãƒƒãƒ
+			// ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›ãƒ”ãƒƒãƒ
+			// ç·šç¨®å
+			// ã‚»ã‚°ãƒ¡ãƒ³ãƒˆæ•°
+			// ãƒ”ãƒƒãƒç·šåˆ†ã®é•·ã•ã€ç©ºç™½é•·ã•ã®ç¹°ã‚Šè¿”ã—
+			for (n = 0; n <= 32; n++)	////// ç·šç¨®ãƒ‘ã‚¿ãƒ¼ãƒ³
 			{
-				n1 = n + SXLTP_EXT;   //üí”Ô†‚ÌƒIƒtƒZƒbƒg = +30
+				n1 = n + SXLTP_EXT;   //ç·šç¨®ç•ªå·ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ = +30
 				ar << m_alLType[n1];
 				ar << m_anTokushuSenUintDot[n1];
 				ar << m_anTokushuSenPich[n1];
 				ar << m_anPrtTokushuSenPich[n1];
 			}
-			for (n = 0; n <= 32; n++)	////// üíƒpƒ‰ƒ[ƒ^
+			for (n = 0; n <= 32; n++)	////// ç·šç¨®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 			{
 				ar << CStringA(m_astrUDLTypeName[n]);
 				ar << m_anUDLTypeSegment[n];
@@ -523,7 +523,7 @@ void CJwwHeader::Serialize(CArchive& ar)
 			}
 		}
 
-		// •¶ší1‚©‚ç10‚Ü‚Å‚Ì•¶š•A‚‚³AŠÔŠuAF”Ô†
+		// æ–‡å­—ç¨®1ã‹ã‚‰10ã¾ã§ã®æ–‡å­—å¹…ã€é«˜ã•ã€é–“éš”ã€è‰²ç•ªå·
 		for (i = 1; i <= 10; i++)
 		{
 			ar << m_adMojiX[i];
@@ -532,39 +532,39 @@ void CJwwHeader::Serialize(CArchive& ar)
 			ar << m_anMojiCol[i];
 		}
 
-		// ‘‚İ•¶š‚Ì•¶š•A‚‚³AŠÔŠuAF”Ô†A•¶š”Ô†
+		// æ›¸è¾¼ã¿æ–‡å­—ã®æ–‡å­—å¹…ã€é«˜ã•ã€é–“éš”ã€è‰²ç•ªå·ã€æ–‡å­—ç•ªå·
 		ar << m_dMojiSizeX;
 		ar << m_dMojiSizeY;
 		ar << m_dMojiKankaku;
 		ar << m_nMojiColor;
 		ar << m_nMojiShu;
 
-		// •¶šˆÊ’u®—‚ÌsŠÔA•¶š”
+		// æ–‡å­—ä½ç½®æ•´ç†ã®è¡Œé–“ã€æ–‡å­—æ•°
 		ar << m_dMojiSeiriGyouKan;
 		ar << m_dMojiSeiriSuu;
 
-		// •¶šŠî€“_‚Ì‚¸‚êˆÊ’ug—p‚Ìƒtƒ‰ƒO
+		// æ–‡å­—åŸºæº–ç‚¹ã®ãšã‚Œä½ç½®ä½¿ç”¨ã®ãƒ•ãƒ©ã‚°
 		ar << m_nMojiKijunZureOn;
 
-		// •¶šŠî€“_‚Ì‰¡•ûŒü‚Ì‚¸‚êˆÊ’u¶A’†A‰E
+		// æ–‡å­—åŸºæº–ç‚¹ã®æ¨ªæ–¹å‘ã®ãšã‚Œä½ç½®å·¦ã€ä¸­ã€å³
 		ar << m_adMojiKijunZureX[0];
 		ar << m_adMojiKijunZureX[1];
 		ar << m_adMojiKijunZureX[2];
 
-		// •¶šŠî€“_‚Ìc•ûŒü‚Ì‚¸‚êˆÊ’u‰ºA’†Aã
+		// æ–‡å­—åŸºæº–ç‚¹ã®ç¸¦æ–¹å‘ã®ãšã‚Œä½ç½®ä¸‹ã€ä¸­ã€ä¸Š
 		ar << m_adMojiKijunZureY[0];
 		ar << m_adMojiKijunZureY[1];
 		ar << m_adMojiKijunZureY[2];
 
 		TRACE("Finish saving header.\n");
 	}
-	// “Ç‚İ‚İ
+	// èª­ã¿è¾¼ã¿
 	else
 	{
-		// JWW‚Ìƒf[ƒ^ƒtƒ@ƒCƒ‹éŒ¾
+		// JWWã®ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«å®£è¨€
 		ar.Read(m_cVersion, 8);
 
-		// ƒo[ƒWƒ‡ƒ“No.
+		// ãƒãƒ¼ã‚¸ãƒ§ãƒ³No.
 		ar >> m_Version;
 		if (m_Version < 230)
 		{
@@ -572,30 +572,30 @@ void CJwwHeader::Serialize(CArchive& ar)
 			AfxThrowUserException();
 		}
 
-		// ƒtƒ@ƒCƒ‹ƒƒ‚
+		// ãƒ•ã‚¡ã‚¤ãƒ«ãƒ¡ãƒ¢
 		ar >> m_strMemo;
 
-		// }–ÊƒTƒCƒY
-		// 0`4 FA0`A4
-		// 8    F2 A
-		// 9    F3 A
-		// 10   F4 A
-		// 11   F5 A
-		// 12   F10m
-		// 13   F50m
-		// 14   F100m
+		// å›³é¢ã‚µã‚¤ã‚º
+		// 0ï½4 ï¼šA0ï½A4
+		// 8    ï¼š2 A
+		// 9    ï¼š3 A
+		// 10   ï¼š4 A
+		// 11   ï¼š5 A
+		// 12   ï¼š10m
+		// 13   ï¼š50m
+		// 14   ï¼š100m
 		ar >> m_nZumen;
 
-		// ‰æ‘wƒOƒ‹[ƒvE‰æ‘wó‘Ô
-		// ‘‰æ‘wƒOƒ‹[ƒv
-		// ‰æ‘wƒOƒ‹[ƒvó‘Ô(0F”ñ•\¦A1F•\¦‚Ì‚İA2F•ÒW‰Â”\A3F‘)
-		// ‰æ‘wƒOƒ‹[ƒv‚Ì‘‰æ‘w
-		// ‰æ‘wƒOƒ‹[ƒv‚ÌkÚ(‚Ì•ª•ê)
-		// ‰æ‘wƒOƒ‹[ƒv‚ÌƒvƒƒeƒNƒgw’è
-		// @(0F–³w’èA1F•\¦ó‘Ô•ÏX‰Â”\ƒvƒƒeƒNƒgw’èA2F•\¦ó‘ÔŒÅ’èƒvƒƒeƒNƒgw’è)
-		// ‰æ‘wó‘Ô(0F”ñ•\¦A1F•\¦‚Ì‚İA2F•ÒW‰Â”\A3F‘)
-		// ‰æ‘w‚ÌƒvƒƒeƒNƒgw’è
-		// @(0F–³w’èA1F•\¦ó‘Ô•ÏX‰Â”\ƒvƒƒeƒNƒgw’èA2F•\¦ó‘ÔŒÅ’èƒvƒƒeƒNƒgw’è)
+		// ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—ãƒ»ç”»å±¤çŠ¶æ…‹
+		// æ›¸è¾¼ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—
+		// ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—çŠ¶æ…‹(0ï¼šéè¡¨ç¤ºã€1ï¼šè¡¨ç¤ºã®ã¿ã€2ï¼šç·¨é›†å¯èƒ½ã€3ï¼šæ›¸è¾¼)
+		// ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—ã®æ›¸è¾¼ç”»å±¤
+		// ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—ã®ç¸®å°º(ã®åˆ†æ¯)
+		// ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—ã®ãƒ—ãƒ­ãƒ†ã‚¯ãƒˆæŒ‡å®š
+		// ã€€(0ï¼šç„¡æŒ‡å®šã€1ï¼šè¡¨ç¤ºçŠ¶æ…‹å¤‰æ›´å¯èƒ½ãƒ—ãƒ­ãƒ†ã‚¯ãƒˆæŒ‡å®šã€2ï¼šè¡¨ç¤ºçŠ¶æ…‹å›ºå®šãƒ—ãƒ­ãƒ†ã‚¯ãƒˆæŒ‡å®š)
+		// ç”»å±¤çŠ¶æ…‹(0ï¼šéè¡¨ç¤ºã€1ï¼šè¡¨ç¤ºã®ã¿ã€2ï¼šç·¨é›†å¯èƒ½ã€3ï¼šæ›¸è¾¼)
+		// ç”»å±¤ã®ãƒ—ãƒ­ãƒ†ã‚¯ãƒˆæŒ‡å®š
+		// ã€€(0ï¼šç„¡æŒ‡å®šã€1ï¼šè¡¨ç¤ºçŠ¶æ…‹å¤‰æ›´å¯èƒ½ãƒ—ãƒ­ãƒ†ã‚¯ãƒˆæŒ‡å®šã€2ï¼šè¡¨ç¤ºçŠ¶æ…‹å›ºå®šãƒ—ãƒ­ãƒ†ã‚¯ãƒˆæŒ‡å®š)
 		ar >> m_nWriteGLay;
 
 		for (int nGLay = 0; nGLay < 16; nGLay++)
@@ -612,98 +612,98 @@ void CJwwHeader::Serialize(CArchive& ar)
 			}
 		}
 
-		// ƒ_ƒ~[
+		// ãƒ€ãƒŸãƒ¼
 		for (i = 0; i < 14; i++)
 		{
 			ar >> dummy;
 		}
 
-		// ¡–@ŠÖŒW‚Ìİ’è
-		// ŠÂ‹«İ’èƒtƒ@ƒCƒ‹‚ÌuS_COMM_8v‚Ì‡B¡–@İ’è‚ªu10v‚Ü‚½‚Íu11v‚É‚È‚Á‚Ä‚¢‚ÄA
-		// ƒtƒ@ƒCƒ‹‚Ö‚Ì•Û‘¶‚ª‚Å‚«‚éê‡‚É—LŒø‚É‚È‚èA
-		// ‚»‚êˆÈŠO‚Íum_lnSunpou1v`um_lnSunpou5v‚Íu0v‚É‚È‚éB
+		// å¯¸æ³•é–¢ä¿‚ã®è¨­å®š
+		// ç’°å¢ƒè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ã€ŒS_COMM_8ã€ã®â‘¢å¯¸æ³•è¨­å®šãŒã€Œ10ã€ã¾ãŸã¯ã€Œ11ã€ã«ãªã£ã¦ã„ã¦ã€
+		// ãƒ•ã‚¡ã‚¤ãƒ«ã¸ã®ä¿å­˜ãŒã§ãã‚‹å ´åˆã«æœ‰åŠ¹ã«ãªã‚Šã€
+		// ãã‚Œä»¥å¤–ã¯ã€Œm_lnSunpou1ã€ï½ã€Œm_lnSunpou5ã€ã¯ã€Œ0ã€ã«ãªã‚‹ã€‚
 
-		// ˆêˆÊF¡–@üFi1`9j
-		// \ˆÊFˆøoüFi1`9j
-		// •SˆÊF¡–@“_Fi1`9j
-		// çˆÊF¡–@’l‚Ì­”“_ˆÈ‰º‚ÌŒ…”i0`3j
-		// –œˆÊF¡–@’PˆÊi0:mm A1:‚j
-		// \–œˆÊF¡–@ü’[•”i0:“_ A1:–îˆó A2:‹t–îˆój
-		// •S–œˆÊF¡–@•¶šíi1`10j
+		// ä¸€ä½ï¼šå¯¸æ³•ç·šè‰²ï¼ˆ1ï½9ï¼‰
+		// åä½ï¼šå¼•å‡ºç·šè‰²ï¼ˆ1ï½9ï¼‰
+		// ç™¾ä½ï¼šå¯¸æ³•ç‚¹è‰²ï¼ˆ1ï½9ï¼‰
+		// åƒä½ï¼šå¯¸æ³•å€¤ã®å°‘æ•°ç‚¹ä»¥ä¸‹ã®æ¡æ•°ï¼ˆ0ï½3ï¼‰
+		// ä¸‡ä½ï¼šå¯¸æ³•å˜ä½ï¼ˆ0:mm ã€1:ï½ï¼‰
+		// åä¸‡ä½ï¼šå¯¸æ³•ç·šç«¯éƒ¨ï¼ˆ0:ç‚¹ ã€1:çŸ¢å° ã€2:é€†çŸ¢å°ï¼‰
+		// ç™¾ä¸‡ä½ï¼šå¯¸æ³•æ–‡å­—ç¨®ï¼ˆ1ï½10ï¼‰
 		ar >> m_lnSunpou1;
-		// ˆêˆÊ`çˆÊF¡–@’l‚Ì¡–@ü‚Æ‚Ì—£‚ê
-		// @@@@@@—£‚êi0`99.9j~‚P‚OAƒ}ƒCƒiƒX‚Ìê‡‚Í1000‚ğƒvƒ‰ƒX‚µ‚Ä®”‰»‚·‚é
-		// –œˆÊ`ç–œˆÊF¡–@ü‚Ì“Ëo’·‚³
-		// @@@@@@’·‚³i0`99.9j~‚P‚OAƒ}ƒCƒiƒX‚Ìê‡‚Í1000‚ğƒvƒ‰ƒX‚µ‚Ä®”‰»‚µAX‚É10000”{‚·‚éB
+		// ä¸€ä½ï½åƒä½ï¼šå¯¸æ³•å€¤ã®å¯¸æ³•ç·šã¨ã®é›¢ã‚Œ
+		// ã€€ã€€ã€€ã€€ã€€ã€€é›¢ã‚Œï¼ˆ0ï½99.9ï¼‰Ã—ï¼‘ï¼ã€ãƒã‚¤ãƒŠã‚¹ã®å ´åˆã¯1000ã‚’ãƒ—ãƒ©ã‚¹ã—ã¦æ•´æ•°åŒ–ã™ã‚‹
+		// ä¸‡ä½ï½åƒä¸‡ä½ï¼šå¯¸æ³•ç·šã®çªå‡ºé•·ã•
+		// ã€€ã€€ã€€ã€€ã€€ã€€é•·ã•ï¼ˆ0ï½99.9ï¼‰Ã—ï¼‘ï¼ã€ãƒã‚¤ãƒŠã‚¹ã®å ´åˆã¯1000ã‚’ãƒ—ãƒ©ã‚¹ã—ã¦æ•´æ•°åŒ–ã—ã€æ›´ã«10000å€ã™ã‚‹ã€‚
 		ar >> m_lnSunpou2;
-		// ˆêˆÊ`•SˆÊF–îˆó’·‚³
-		// @@@@@@’·‚³i0`99.9j~‚P‚O‚Æ‚µ‚Ä®”‰»‚·‚é
-		// çˆÊ`\–œˆÊF–îˆóŠp“x
-		// @@@@@@Šp“xi0.1`80.0j~‚P‚O‚Æ‚µ‚Ä®”‰»‚µA1000”{‚·‚é
-		// •S–œˆÊ`‰­ˆÊF‹t–îˆó‚Ìo¡–@
-		// @@@@@@¡–@i0`99.9j~‚P‚O‚Æ‚µ‚Ä®”‰»‚·‚µA1000000”{‚·‚é
+		// ä¸€ä½ï½ç™¾ä½ï¼šçŸ¢å°é•·ã•
+		// ã€€ã€€ã€€ã€€ã€€ã€€é•·ã•ï¼ˆ0ï½99.9ï¼‰Ã—ï¼‘ï¼ã¨ã—ã¦æ•´æ•°åŒ–ã™ã‚‹
+		// åƒä½ï½åä¸‡ä½ï¼šçŸ¢å°è§’åº¦
+		// ã€€ã€€ã€€ã€€ã€€ã€€è§’åº¦ï¼ˆ0.1ï½80.0ï¼‰Ã—ï¼‘ï¼ã¨ã—ã¦æ•´æ•°åŒ–ã—ã€1000å€ã™ã‚‹
+		// ç™¾ä¸‡ä½ï½å„„ä½ï¼šé€†çŸ¢å°ã®å‡ºå¯¸æ³•
+		// ã€€ã€€ã€€ã€€ã€€ã€€å¯¸æ³•ï¼ˆ0ï½99.9ï¼‰Ã—ï¼‘ï¼ã¨ã—ã¦æ•´æ•°åŒ–ã™ã—ã€1000000å€ã™ã‚‹
 		ar >> m_lnSunpou3;
-		// ˆêˆÊF¡–@’l•ûŒü‚ğ•â³‚µ‚È‚¢i0F•â³—L A1F•â³–³j
-		// \ˆÊF¡–@’l‚ğ‘SŠp‚É‚·‚éi0F”¼Šp A1F‘SŠpj
-		// •SˆÊF¡–@’l‚ÌƒJƒ“ƒ}‚ğƒXƒy[ƒX‚É‚·‚éi0FƒJƒ“ƒ} A1FƒXƒy[ƒXj
-		// çˆÊF¡–@’l‚ÌƒJƒ“ƒ}‚ğ‘SŠp‚É‚·‚éi0F”¼Šp A1F‘SŠpj
-		// –œˆÊF¡–@’l‚Ì­”“_‚ğ‘SŠp‚É‚·‚éi0F”¼Šp A1F‘SŠpj
-		// \–œˆÊF¡–@’l‚É’PˆÊ‚ğ•\¦‚·‚éi0F•\¦–³ A1F•\¦—Lj
-		// •S–œˆÊF”¼Œa’l‚ÉuRv‚ğ•\¦‚·‚éi0F•\¦–³ A1F‘O•t•\¦—L A2FŒã•t•\¦—Lj
-		// ç–œˆÊF”¼Œa’l‚ÉƒJƒ“ƒ}‚ğ•\¦‚·‚éi0F•\¦–³ A1F•\¦—Lj
-		// ‰­ˆÊF”¼Œa’l‚É­”“_‚Ìu0v‚ğ•\¦‚·‚éi0F•\¦–³ A1F•\¦—Lj
+		// ä¸€ä½ï¼šå¯¸æ³•å€¤æ–¹å‘ã‚’è£œæ­£ã—ãªã„ï¼ˆ0ï¼šè£œæ­£æœ‰ ã€1ï¼šè£œæ­£ç„¡ï¼‰
+		// åä½ï¼šå¯¸æ³•å€¤ã‚’å…¨è§’ã«ã™ã‚‹ï¼ˆ0ï¼šåŠè§’ ã€1ï¼šå…¨è§’ï¼‰
+		// ç™¾ä½ï¼šå¯¸æ³•å€¤ã®ã‚«ãƒ³ãƒã‚’ã‚¹ãƒšãƒ¼ã‚¹ã«ã™ã‚‹ï¼ˆ0ï¼šã‚«ãƒ³ãƒ ã€1ï¼šã‚¹ãƒšãƒ¼ã‚¹ï¼‰
+		// åƒä½ï¼šå¯¸æ³•å€¤ã®ã‚«ãƒ³ãƒã‚’å…¨è§’ã«ã™ã‚‹ï¼ˆ0ï¼šåŠè§’ ã€1ï¼šå…¨è§’ï¼‰
+		// ä¸‡ä½ï¼šå¯¸æ³•å€¤ã®å°‘æ•°ç‚¹ã‚’å…¨è§’ã«ã™ã‚‹ï¼ˆ0ï¼šåŠè§’ ã€1ï¼šå…¨è§’ï¼‰
+		// åä¸‡ä½ï¼šå¯¸æ³•å€¤ã«å˜ä½ã‚’è¡¨ç¤ºã™ã‚‹ï¼ˆ0ï¼šè¡¨ç¤ºç„¡ ã€1ï¼šè¡¨ç¤ºæœ‰ï¼‰
+		// ç™¾ä¸‡ä½ï¼šåŠå¾„å€¤ã«ã€ŒRã€ã‚’è¡¨ç¤ºã™ã‚‹ï¼ˆ0ï¼šè¡¨ç¤ºç„¡ ã€1ï¼šå‰ä»˜è¡¨ç¤ºæœ‰ ã€2ï¼šå¾Œä»˜è¡¨ç¤ºæœ‰ï¼‰
+		// åƒä¸‡ä½ï¼šåŠå¾„å€¤ã«ã‚«ãƒ³ãƒã‚’è¡¨ç¤ºã™ã‚‹ï¼ˆ0ï¼šè¡¨ç¤ºç„¡ ã€1ï¼šè¡¨ç¤ºæœ‰ï¼‰
+		// å„„ä½ï¼šåŠå¾„å€¤ã«å°‘æ•°ç‚¹ã®ã€Œ0ã€ã‚’è¡¨ç¤ºã™ã‚‹ï¼ˆ0ï¼šè¡¨ç¤ºç„¡ ã€1ï¼šè¡¨ç¤ºæœ‰ï¼‰
 		ar >> m_lnSunpou4;
-		// ˆêˆÊ@F¡–@’l‚ğÎ‚ß•¶š‚É‚·‚éi0F’Êí•¶š A1FÎ‚ß•¶šj
-		// \ˆÊ@F¡–@’l‚ğ‘¾•¶š‚É‚·‚éi0F’Êí•¶š A1F‘¾•¶šj
-		// •SˆÊ@FŠp“x’PˆÊi0F“x’PˆÊ A1F“x•ª•b’PˆÊ A2F“x’PˆÊ‚Åußv‚Ì•\¦‚È‚µj
-		// çˆÊ@FŠp“x’PˆÊ‚Ì­”“_ˆÈ‰º‚ÌŒ…”i0`6j
-		// –œˆÊ@F¡–@}Œ`‚É‚·‚éi0F¡–@}Œ`‚É‚µ‚È‚¢ A1F¡–@}Œ`‚É‚·‚éj
-		// \–œˆÊF”ÍˆÍ‘I‘ğ‚Ì‚Æ‚«¡–@}Œ`‚ğüFEí‚Ì‘®«‚Å‘I‘ği0F‘I‘ğ‚µ‚È‚¢ A1F‘I‘ğ‚·‚éj
-		// •S–œˆÊF•\¦¬”“_ˆÈ‰º‚Ìˆ—i0:lÌŒÜ“ü@1:ØÌ@2:Øãj(Ver.4.02ˆÈ~j
+		// ä¸€ä½ã€€ï¼šå¯¸æ³•å€¤ã‚’æ–œã‚æ–‡å­—ã«ã™ã‚‹ï¼ˆ0ï¼šé€šå¸¸æ–‡å­— ã€1ï¼šæ–œã‚æ–‡å­—ï¼‰
+		// åä½ã€€ï¼šå¯¸æ³•å€¤ã‚’å¤ªæ–‡å­—ã«ã™ã‚‹ï¼ˆ0ï¼šé€šå¸¸æ–‡å­— ã€1ï¼šå¤ªæ–‡å­—ï¼‰
+		// ç™¾ä½ã€€ï¼šè§’åº¦å˜ä½ï¼ˆ0ï¼šåº¦å˜ä½ ã€1ï¼šåº¦åˆ†ç§’å˜ä½ ã€2ï¼šåº¦å˜ä½ã§ã€Œï¾Ÿã€ã®è¡¨ç¤ºãªã—ï¼‰
+		// åƒä½ã€€ï¼šè§’åº¦å˜ä½ã®å°‘æ•°ç‚¹ä»¥ä¸‹ã®æ¡æ•°ï¼ˆ0ï½6ï¼‰
+		// ä¸‡ä½ã€€ï¼šå¯¸æ³•å›³å½¢ã«ã™ã‚‹ï¼ˆ0ï¼šå¯¸æ³•å›³å½¢ã«ã—ãªã„ ã€1ï¼šå¯¸æ³•å›³å½¢ã«ã™ã‚‹ï¼‰
+		// åä¸‡ä½ï¼šç¯„å›²é¸æŠã®ã¨ãå¯¸æ³•å›³å½¢ã‚’ç·šè‰²ãƒ»ç¨®ã®å±æ€§ã§é¸æŠï¼ˆ0ï¼šé¸æŠã—ãªã„ ã€1ï¼šé¸æŠã™ã‚‹ï¼‰
+		// ç™¾ä¸‡ä½ï¼šè¡¨ç¤ºå°æ•°ç‚¹ä»¥ä¸‹ã®å‡¦ç†ï¼ˆ0:å››æ¨äº”å…¥ã€€1:åˆ‡æ¨ã€€2:åˆ‡ä¸Šï¼‰(Ver.4.02ä»¥é™ï¼‰
 		ar >> m_lnSunpou5;
 
-		// ƒ_ƒ~[
+		// ãƒ€ãƒŸãƒ¼
 		ar >> dummy;
 
-		// üˆóü‚ÌÅ‘å•(1`100,-1`-100,-300)
-		// 1‚©‚ç100 ü•‚ÍƒsƒNƒZƒ‹’PˆÊ‚Åw’è
-		// -1‚©‚ç-100 ü•‚Í abs(1/N)ƒ~ƒŠ’PˆÊ‚Åw’è(-16->1/16ƒ~ƒŠ)
-		//uü•‚ğ1/100mm’PˆÊ‚Æ‚·‚év‚ªİ’è‚³‚ê‚Ä‚¢‚é‚Æ‚«‚Í-300‚ğw’è(-100‚æ‚è¬‚³‚¢)
+		// ç·šå°åˆ·ã®æœ€å¤§å¹…(1ï½100,-1ï½-100,-300)
+		// 1ã‹ã‚‰100 ç·šå¹…ã¯ãƒ”ã‚¯ã‚»ãƒ«å˜ä½ã§æŒ‡å®š
+		// -1ã‹ã‚‰-100 ç·šå¹…ã¯ abs(1/N)ãƒŸãƒªå˜ä½ã§æŒ‡å®š(-16->1/16ãƒŸãƒª)
+		//ã€Œç·šå¹…ã‚’1/100mmå˜ä½ã¨ã™ã‚‹ã€ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã¨ãã¯-300ã‚’æŒ‡å®š(-100ã‚ˆã‚Šå°ã•ã„)
 		ar >> m_nMaxDrawWid;
 
-		// ƒvƒŠƒ“ƒ^o—Í”ÍˆÍ‚ÌŒ´“_(X,Y)
+		// ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›ç¯„å›²ã®åŸç‚¹(X,Y)
 		ar >> m_DPPrtGenten.x;
 		ar >> m_DPPrtGenten.y;
 
-		// ƒvƒŠƒ“ƒ^o—Í”{—¦
+		// ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›å€ç‡
 		ar >> m_dPrtBairitsu;
 
-		// ƒvƒŠƒ“ƒ^90‹‰ñ“]o—ÍAƒvƒŠƒ“ƒ^o—ÍŠî€“_ˆÊ’u
-		// ˆêˆÊFƒvƒŠƒ“ƒ^90‹‰ñ“]o—Í
-		// \ˆÊFƒvƒŠƒ“ƒ^o—ÍŠî€“_ˆÊ’u‚Ìw’èi0:–³w’èjiVer.3.00ˆÈ~j
-		//  @  7:¶ã   8:’†ã  9:‰Eã
-		//   @ 4:¶’†   5:’†’†  6:‰E’†
-		//    @1:¶‰º   2:’†‰º  3:‰E‰º
+		// ãƒ—ãƒªãƒ³ã‚¿90Â°å›è»¢å‡ºåŠ›ã€ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›åŸºæº–ç‚¹ä½ç½®
+		// ä¸€ä½ï¼šãƒ—ãƒªãƒ³ã‚¿90Â°å›è»¢å‡ºåŠ›
+		// åä½ï¼šãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›åŸºæº–ç‚¹ä½ç½®ã®æŒ‡å®šï¼ˆ0:ç„¡æŒ‡å®šï¼‰ï¼ˆVer.3.00ä»¥é™ï¼‰
+		//  ã€€  7:å·¦ä¸Š   8:ä¸­ä¸Š  9:å³ä¸Š
+		//   ã€€ 4:å·¦ä¸­   5:ä¸­ä¸­  6:å³ä¸­
+		//    ã€€1:å·¦ä¸‹   2:ä¸­ä¸‹  3:å³ä¸‹
 		ar >> m_nPrtSet;
 
-		// –Ú·İ’èƒ‚[ƒh
-		// ˆêˆÊ(0F–³w’èA1F–Ú·•\¦)
-		// \ˆÊ(0F}–Ê¡–@w’èA1FÀ¡w’è)
-		// |’l‚ÌA–Ú·“Çæ‚è•s‰Â
+		// ç›®ç››è¨­å®šãƒ¢ãƒ¼ãƒ‰
+		// ä¸€ä½(0ï¼šç„¡æŒ‡å®šã€1ï¼šç›®ç››è¡¨ç¤º)
+		// åä½(0ï¼šå›³é¢å¯¸æ³•æŒ‡å®šã€1ï¼šå®Ÿå¯¸æŒ‡å®š)
+		// ï¼å€¤ã®æ™‚ã€ç›®ç››èª­å–ã‚Šä¸å¯
 		ar >> m_nMemoriMode;
 
-		// –Ú·•\¦Å¬ŠÔŠuƒhƒbƒg
+		// ç›®ç››è¡¨ç¤ºæœ€å°é–“éš”ãƒ‰ãƒƒãƒˆ
 		ar >> m_dMemoriHyoujiMin;
 
-		// –Ú·•\¦ŠÔŠu(X,Y)
+		// ç›®ç››è¡¨ç¤ºé–“éš”(X,Y)
 		ar >> m_dMemoriX;
 		ar >> m_dMemoriY;
 
-		// –Ú·Šî€“_(X,Y)
+		// ç›®ç››åŸºæº–ç‚¹(X,Y)
 		ar >> m_DpMemoriKijunTen.x;
 		ar >> m_DpMemoriKijunTen.y;
 
-		// ‰æ‘w–¼
+		// ç”»å±¤å
 		for (n = 0; n <= 15; n++)
 		{
 			for (k = 0; k <= 15; k++)
@@ -712,25 +712,25 @@ void CJwwHeader::Serialize(CArchive& ar)
 			}
 		}
 
-		// ‰æ‘wƒOƒ‹[ƒv–¼
+		// ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—å
 		for (n = 0; n <= 15; n++)
 		{
 			ar >> m_aStrGLayName[n];
 		}
 
-		// “ú‰eŒvZ‚ÌğŒ
-		// ‘ª’è–Ê‚‚³
-		// ˆÜ“x
-		// 9`15‚Ì‘ª’è‚Ìw’è
-		// •Ç–Ê“ú‰e‘ª’è–Ê‚‚³
+		// æ—¥å½±è¨ˆç®—ã®æ¡ä»¶
+		// æ¸¬å®šé¢é«˜ã•
+		// ç·¯åº¦
+		// 9ï½15ã®æ¸¬å®šã®æŒ‡å®š
+		// å£é¢æ—¥å½±æ¸¬å®šé¢é«˜ã•
 		ar >> m_dKageLevel;
 		ar >> m_dKageIdo;
 		ar >> m_nKage9_15JiFlg;
 		ar >> m_dKabeKageLevel;
 
-		// “V‹ó}‚ÌğŒiVer.3.00ˆÈ~)
-		// ‘ª’è–Ê‚‚³
-		// “V‹ó}‚Ì”¼Œa–‚Q
+		// å¤©ç©ºå›³ã®æ¡ä»¶ï¼ˆVer.3.00ä»¥é™)
+		// æ¸¬å®šé¢é«˜ã•
+		// å¤©ç©ºå›³ã®åŠå¾„ï¼Šï¼’
 		if (m_Version >= 300)
 		{
 			ar >> m_dTenkuuZuLevel;
@@ -744,20 +744,20 @@ void CJwwHeader::Serialize(CArchive& ar)
 			m_dTenkuuZuLevel = 0.0;
 			m_dTenkuuZuEnkoR = 0.0;
 		}
-		// 2.5D‚ÌŒvZ’PˆÊ(0ˆÈŠO‚Ímm’PˆÊ‚ÅŒvZ)
+		// 2.5Dã®è¨ˆç®—å˜ä½(0ä»¥å¤–ã¯mmå˜ä½ã§è¨ˆç®—)
 		ar >> m_nMMTani3D;
 
-		// •Û‘¶‚Ì‰æ–Ê”{—¦(“Ç‚Ş‚Æ‘O‰æ–Ê”{—¦‚É‚È‚é)
+		// ä¿å­˜æ™‚ã®ç”»é¢å€ç‡(èª­è¾¼ã‚€ã¨å‰ç”»é¢å€ç‡ã«ãªã‚‹)
 		ar >> m_dBairitsu;
 		ar >> m_DPGenten.x;
 		ar >> m_DPGenten.y;
 
-		// ”ÍˆÍ‹L‰¯”{—¦‚ÆŠî€“_(X,Y)
+		// ç¯„å›²è¨˜æ†¶å€ç‡ã¨åŸºæº–ç‚¹(X,Y)
 		ar >> m_dHanniBairitsu;
 		ar >> m_DPHanniGenten.x;
 		ar >> m_DPHanniGenten.y;
 
-		// ƒ}[ƒNƒWƒƒƒ“ƒv”{—¦AŠî€“_(X,Y)‚¨‚æ‚Ñ‰æ‘wƒOƒ‹[ƒv
+		// ãƒãƒ¼ã‚¯ã‚¸ãƒ£ãƒ³ãƒ—å€ç‡ã€åŸºæº–ç‚¹(X,Y)ãŠã‚ˆã³ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—
 		if (m_Version >= 300)
 		{
 			for (n = 1; n <= 8; n++)
@@ -777,7 +777,7 @@ void CJwwHeader::Serialize(CArchive& ar)
 				ar >> m_DPZoomJumpGenten[n].y;
 				m_nZoomJumpGLay[n] = 0xffffffff;
 			}
-			// ”{—¦=1,’†S(0,0)‚Í–¢g—p‚Ìˆó‚Å‚à‚ ‚é
+			// å€ç‡=1,ä¸­å¿ƒ(0,0)ã¯æœªä½¿ç”¨ã®å°ã§ã‚‚ã‚ã‚‹
 			for (; n <= 8; n++)
 			{
 				m_dZoomJumpBairitsu[n] = 1.0;
@@ -787,50 +787,50 @@ void CJwwHeader::Serialize(CArchive& ar)
 			}
 		}
 
-		// •¶š‚Ì•`‰æó‘Ô(Ver.4.05ˆÈ~j
+		// æ–‡å­—ã®æç”»çŠ¶æ…‹(Ver.4.05ä»¥é™ï¼‰
 		if (m_Version >= 300)
 		{
-			ar >> m_dDm11;		//ƒ_ƒ~[
-			ar >> m_dDm12;		//ƒ_ƒ~[
-			ar >> m_dDm13;		//ƒ_ƒ~[
-			ar >> m_lnDm1;			//ƒ_ƒ~[
-			ar >> m_dDm21;		//ƒ_ƒ~[
-			ar >> m_dDm22;		//ƒ_ƒ~[
-			ar >> m_dMojiBG;	//(Ver.4.04ˆÈ‘O‚Íƒ_ƒ~[j
-			//•¶š—ñ”ÍˆÍ‚ğ”wŒiF‚Å•`‰æ‚·‚é‚Æ‚«‚Ì”ÍˆÍ‘¡–@
-			ar >> m_nMojiBG;		//(Ver.4.04ˆÈ‘O‚Íƒ_ƒ~[j
-			//\ˆÊ:•¶ši¡–@}Œ`¤ƒuƒƒbƒN}Œ`j‚ğÅŒã‚É•`‰æ
-			//ˆêˆÊ:1 :—ÖŠsE”ÍˆÍ‚ğ”wŒiF‚Å•`‰æ‚µ‚È‚¢
-			//	2 :•¶š‚Ì—ÖŠs‚ğ”wŒiF‚Å•`‰æ‚·‚é
-			//	3 :•¶š—ñ”ÍˆÍ‚ğ”wŒiF‚Å•`‰æ‚·‚é
+			ar >> m_dDm11;		//ãƒ€ãƒŸãƒ¼
+			ar >> m_dDm12;		//ãƒ€ãƒŸãƒ¼
+			ar >> m_dDm13;		//ãƒ€ãƒŸãƒ¼
+			ar >> m_lnDm1;			//ãƒ€ãƒŸãƒ¼
+			ar >> m_dDm21;		//ãƒ€ãƒŸãƒ¼
+			ar >> m_dDm22;		//ãƒ€ãƒŸãƒ¼
+			ar >> m_dMojiBG;	//(Ver.4.04ä»¥å‰ã¯ãƒ€ãƒŸãƒ¼ï¼‰
+			//æ–‡å­—åˆ—ç¯„å›²ã‚’èƒŒæ™¯è‰²ã§æç”»ã™ã‚‹ã¨ãã®ç¯„å›²å¢—å¯¸æ³•
+			ar >> m_nMojiBG;		//(Ver.4.04ä»¥å‰ã¯ãƒ€ãƒŸãƒ¼ï¼‰
+			//åä½:æ–‡å­—ï¼ˆå¯¸æ³•å›³å½¢ï½¤ãƒ–ãƒ­ãƒƒã‚¯å›³å½¢ï¼‰ã‚’æœ€å¾Œã«æç”»
+			//ä¸€ä½:1 :è¼ªéƒ­ãƒ»ç¯„å›²ã‚’èƒŒæ™¯è‰²ã§æç”»ã—ãªã„
+			//	2 :æ–‡å­—ã®è¼ªéƒ­ã‚’èƒŒæ™¯è‰²ã§æç”»ã™ã‚‹
+			//	3 :æ–‡å­—åˆ—ç¯„å›²ã‚’èƒŒæ™¯è‰²ã§æç”»ã™ã‚‹
 		}
 		else
 		{
 			m_dMojiBG = 0.0;
 			m_nMojiBG = 0;
 		}
-		// •¡üŠÔŠu
+		// è¤‡ç·šé–“éš”
 		for (n = 0; n <= 9; n++)
 		{
 			ar >> m_adFukusenSuuchi[n];
 		}
 
-		// —¼‘¤•¡ü‚Ì—¯üo‚Ì¡–@
+		// ä¸¡å´è¤‡ç·šã®ç•™ç·šå‡ºã®å¯¸æ³•
 		ar >> m_dRyoygawaFukusenTomeDe;
 
-		// F”Ô†‚²‚Æ‚Ì‰æ–Ê•\¦FAü•
-		// ‰æ–Ê•\¦F(0F”wŒiFA1`8FüFA9FƒOƒŒ[F)
-		// ü•(1`16)
+		// è‰²ç•ªå·ã”ã¨ã®ç”»é¢è¡¨ç¤ºè‰²ã€ç·šå¹…
+		// ç”»é¢è¡¨ç¤ºè‰²(0ï¼šèƒŒæ™¯è‰²ã€1ï½8ï¼šç·šè‰²ã€9ï¼šã‚°ãƒ¬ãƒ¼è‰²)
+		// ç·šå¹…(1ï½16)
 		for (n = 0; n <= 9; n++)
 		{
 			ar >> m_aPenColor[n];
 			ar >> m_anPenWidth[n];
 		}
 
-		// F”Ô†‚²‚Æ‚ÌƒvƒŠƒ“ƒ^o—ÍFAü•AÀ“_”¼Œa
-		// ƒvƒŠƒ“ƒ^o—ÍF(0F”wŒiFA1`8FüFA9FƒOƒŒ[F)
-		// ü•(1`500)
-		// À“_”¼Œa(0.1`10)
+		// è‰²ç•ªå·ã”ã¨ã®ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›è‰²ã€ç·šå¹…ã€å®Ÿç‚¹åŠå¾„
+		// ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›è‰²(0ï¼šèƒŒæ™¯è‰²ã€1ï½8ï¼šç·šè‰²ã€9ï¼šã‚°ãƒ¬ãƒ¼è‰²)
+		// ç·šå¹…(1ï½500)
+		// å®Ÿç‚¹åŠå¾„(0.1ï½10)
 		for (n = 0; n <= 9; n++)
 		{
 			ar >> m_aPrtPenColor[n];
@@ -838,7 +838,7 @@ void CJwwHeader::Serialize(CArchive& ar)
 			ar >> m_adPrtTenHankei[n];
 		}
 
-		// üí”Ô†2‚©‚ç9‚Ü‚Å‚Ìƒpƒ^[ƒ“A1ƒ†ƒjƒbƒg‚Ìƒhƒbƒg”Aƒsƒbƒ`AƒvƒŠƒ“ƒ^o—Íƒsƒbƒ`
+		// ç·šç¨®ç•ªå·2ã‹ã‚‰9ã¾ã§ã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã€1ãƒ¦ãƒ‹ãƒƒãƒˆã®ãƒ‰ãƒƒãƒˆæ•°ã€ãƒ”ãƒƒãƒã€ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›ãƒ”ãƒƒãƒ
 		for (n = 2; n <= 9; n++)
 		{
 			ar >> m_alLType[n];
@@ -847,7 +847,7 @@ void CJwwHeader::Serialize(CArchive& ar)
 			ar >> m_anPrtTokushuSenPich[n];
 		}
 
-		// ƒ‰ƒ“ƒ_ƒ€ü1‚©‚ç5‚Ü‚Å‚Ìƒpƒ^[ƒ“A‰æ–Ê•\¦U•Eƒsƒbƒ`AƒvƒŠƒ“ƒ^o—ÍU•Eƒsƒbƒ`
+		// ãƒ©ãƒ³ãƒ€ãƒ ç·š1ã‹ã‚‰5ã¾ã§ã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã€ç”»é¢è¡¨ç¤ºæŒ¯å¹…ãƒ»ãƒ”ãƒƒãƒã€ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›æŒ¯å¹…ãƒ»ãƒ”ãƒƒãƒ
 		for (n = 11; n <= 15; n++)
 		{
 			ar >> m_alLType[n];
@@ -857,7 +857,7 @@ void CJwwHeader::Serialize(CArchive& ar)
 			ar >> m_anPrtTokushuSenPich[n];
 		}
 
-		// ”{’·üí”Ô†6‚©‚ç9‚Ü‚Å‚Ìƒpƒ^[ƒ“A1ƒ†ƒjƒbƒg‚Ìƒhƒbƒg”Aƒsƒbƒ`AƒvƒŠƒ“ƒ^o—Íƒsƒbƒ`
+		// å€é•·ç·šç¨®ç•ªå·6ã‹ã‚‰9ã¾ã§ã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã€1ãƒ¦ãƒ‹ãƒƒãƒˆã®ãƒ‰ãƒƒãƒˆæ•°ã€ãƒ”ãƒƒãƒã€ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›ãƒ”ãƒƒãƒ
 		for (n = 16; n <= 19; n++)
 		{
 			ar >> m_alLType[n];
@@ -866,58 +866,58 @@ void CJwwHeader::Serialize(CArchive& ar)
 			ar >> m_anPrtTokushuSenPich[n];
 		}
 
-		// À“_‚ğ‰æ–Ê•`‰æ‚Ìw’è”¼Œa‚Å•`‰æ
+		// å®Ÿç‚¹ã‚’ç”»é¢æç”»æ™‚ã®æŒ‡å®šåŠå¾„ã§æç”»
 		ar >> m_nDrawGamenTen;
 
-		// À“_‚ğƒvƒŠƒ“ƒ^o—ÍAw’è”¼Œa‚Å‘‚­
+		// å®Ÿç‚¹ã‚’ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›æ™‚ã€æŒ‡å®šåŠå¾„ã§æ›¸ã
 		ar >> m_nDrawPrtTen;
 
-		// BitMapEƒ\ƒŠƒbƒh‚ğÅ‰‚É•`‰æ‚·‚é
+		// BitMapãƒ»ã‚½ãƒªãƒƒãƒ‰ã‚’æœ€åˆã«æç”»ã™ã‚‹
 		ar >> m_nBitMapFirstDraw;
-		// \ˆÊFƒ\ƒŠƒbƒh•`‰æ‡
-		//  0:‰æ‘w‡        (+1):F‡
-		//  3:‰æ‘w‹t‡      (+2):F‹t‡
-		//  6:ˆóüo—Íİ’è‡
-		// ˆêˆÊF
-		//  0:BitMapEƒ\ƒŠƒbƒh‚ğÅ‰‚É•`‰æ‚µ‚È‚¢
-		//  1:BitMapEƒ\ƒŠƒbƒh‚ğÅ‰‚É•`‰æ
-		//  2:ƒ\ƒŠƒbƒh‚ğÅ‰‚É•`‰æ
-		// ‹t•`‰æ
+		// åä½ï¼šã‚½ãƒªãƒƒãƒ‰æç”»é †
+		//  0:ç”»å±¤é †        (+1):è‰²é †
+		//  3:ç”»å±¤é€†é †      (+2):è‰²é€†é †
+		//  6:å°åˆ·å‡ºåŠ›è¨­å®šé †
+		// ä¸€ä½ï¼š
+		//  0:BitMapãƒ»ã‚½ãƒªãƒƒãƒ‰ã‚’æœ€åˆã«æç”»ã—ãªã„
+		//  1:BitMapãƒ»ã‚½ãƒªãƒƒãƒ‰ã‚’æœ€åˆã«æç”»
+		//  2:ã‚½ãƒªãƒƒãƒ‰ã‚’æœ€åˆã«æç”»
+		// é€†æç”»
 		ar >> m_nGyakuDraw;
 
-		// ‹tƒT[ƒ`
+		// é€†ã‚µãƒ¼ãƒ
 		ar >> m_nGyakuSearch;
 
-		// ƒJƒ‰[ˆóü
+		// ã‚«ãƒ©ãƒ¼å°åˆ·
 		ar >> m_nColorPrint;
 
-		// ‰æ‘w‡‚Ìˆóü
+		// ç”»å±¤é †ã®å°åˆ·
 		ar >> m_nLayJunPrint;
 
-		// F”Ô†‡‚Ìˆóü
+		// è‰²ç•ªå·é †ã®å°åˆ·
 		ar >> m_nColJunPrint;
 
-		// ‰æ‘wƒOƒ‹[ƒv‚Ü‚½‚Í‰æ‘w‚²‚Æ‚ÌƒvƒŠƒ“ƒ^˜A‘±o—Íw’è
+		// ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—ã¾ãŸã¯ç”»å±¤ã”ã¨ã®ãƒ—ãƒªãƒ³ã‚¿é€£ç¶šå‡ºåŠ›æŒ‡å®š
 		ar >> m_nPrtRenzoku;
 
-		// ƒvƒŠƒ“ƒ^‹¤’Ê‰æ‘w(•\¦‚Ì‚İ‰æ‘w)‚ÌƒOƒŒ[o—Íw’è
+		// ãƒ—ãƒªãƒ³ã‚¿å…±é€šç”»å±¤(è¡¨ç¤ºã®ã¿ç”»å±¤)ã®ã‚°ãƒ¬ãƒ¼å‡ºåŠ›æŒ‡å®š
 		ar >> m_nPrtKyoutsuuGray;
 
-		// ƒvƒŠƒ“ƒ^o—Í‚É•\¦‚Ì‚İ‰æ‘w‚Ío—Í‚µ‚È‚¢
+		// ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›æ™‚ã«è¡¨ç¤ºã®ã¿ç”»å±¤ã¯å‡ºåŠ›ã—ãªã„
 		ar >> m_nPrtDispOnlyNonDraw;
 
 		if (m_Version >= 223)
 		{
-			// ì}ŠÔiVer.2.23ˆÈ~j
+			// ä½œå›³æ™‚é–“ï¼ˆVer.2.23ä»¥é™ï¼‰
 			ar >> m_lnDrawTime;
 
-			// 2.5D‚Ìn“_ˆÊ’u‚ªİ’è‚³‚ê‚Ä‚¢‚é‚Ìƒtƒ‰ƒOiVer.2.23ˆÈ~j
-			// ˆêˆÊF“§‹}‚Ì‹“_ˆÊ’uİ’èÏ‚İƒtƒ‰ƒO
-			// \ˆÊF’¹áÕ}‚Ì‹“_ˆÊ’uİ’èÏ‚İƒtƒ‰ƒO
-			// •SˆÊFƒAƒCƒ\ƒ}‚Ì‹“_ˆÊ’uİ’èÏ‚İƒtƒ‰ƒO
+			// 2.5Dã®å§‹ç‚¹ä½ç½®ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹æ™‚ã®ãƒ•ãƒ©ã‚°ï¼ˆVer.2.23ä»¥é™ï¼‰
+			// ä¸€ä½ï¼šé€è¦–å›³ã®è¦–ç‚¹ä½ç½®è¨­å®šæ¸ˆã¿ãƒ•ãƒ©ã‚°
+			// åä½ï¼šé³¥ç°å›³ã®è¦–ç‚¹ä½ç½®è¨­å®šæ¸ˆã¿ãƒ•ãƒ©ã‚°
+			// ç™¾ä½ï¼šã‚¢ã‚¤ã‚½ãƒ¡å›³ã®è¦–ç‚¹ä½ç½®è¨­å®šæ¸ˆã¿ãƒ•ãƒ©ã‚°
 			ar >> m_nEyeInit;
 
-			// 2.5D‚Ì“§‹}E’¹áÕ}EƒAƒCƒ\ƒ}‚Ì‹“_…•½ŠpiVer.2.23ˆÈ~j
+			// 2.5Dã®é€è¦–å›³ãƒ»é³¥ç°å›³ãƒ»ã‚¢ã‚¤ã‚½ãƒ¡å›³ã®è¦–ç‚¹æ°´å¹³è§’ï¼ˆVer.2.23ä»¥é™ï¼‰
 			DWORD dEye_H_Ichi_1, dEye_H_Ichi_2, dEye_H_Ichi_3;
 			ar >> dEye_H_Ichi_1;
 			ar >> dEye_H_Ichi_2;
@@ -929,15 +929,15 @@ void CJwwHeader::Serialize(CArchive& ar)
 			m_dEye_H_Ichi_2 = dEye_H_Ichi_2;
 			m_dEye_H_Ichi_3 = dEye_H_Ichi_3;
 
-			// 2.5D‚Ì“§‹}‚Ì‹“_‚‚³E‹“_—£‚êiVer.2.23ˆÈ~j
+			// 2.5Dã®é€è¦–å›³ã®è¦–ç‚¹é«˜ã•ãƒ»è¦–ç‚¹é›¢ã‚Œï¼ˆVer.2.23ä»¥é™ï¼‰
 			ar >> m_dEye_Z_Ichi_1;
 			ar >> m_dEye_Y_Ichi_1;
 
-			// 2.5D‚Ì’¹áÕ}‚Ì‹“_‚‚³E‹“_—£‚êiVer.2.23ˆÈ~j
+			// 2.5Dã®é³¥ç°å›³ã®è¦–ç‚¹é«˜ã•ãƒ»è¦–ç‚¹é›¢ã‚Œï¼ˆVer.2.23ä»¥é™ï¼‰
 			ar >> m_dEye_Z_Ichi_2;
 			ar >> m_dEye_Y_Ichi_2;
 
-			// 2.5D‚ÌƒAƒCƒ\ƒ}‚Ì‹“_‚’¼ŠpiVer.2.23ˆÈ~j
+			// 2.5Dã®ã‚¢ã‚¤ã‚½ãƒ¡å›³ã®è¦–ç‚¹å‚ç›´è§’ï¼ˆVer.2.23ä»¥é™ï¼‰
 			ar >> m_dEye_V_Ichi_3;
 		}
 		else
@@ -954,7 +954,7 @@ void CJwwHeader::Serialize(CArchive& ar)
 			m_dEye_V_Ichi_3 = 0.0;
 		}
 
-		// ü‚Ì’·‚³w’è‚ÌÅI’liVer.2.25ˆÈ~j
+		// ç·šã®é•·ã•æŒ‡å®šã®æœ€çµ‚å€¤ï¼ˆVer.2.25ä»¥é™ï¼‰
 		if (m_Version >= 225)
 		{
 			ar >> m_dSenNagasaSnpou;
@@ -964,7 +964,7 @@ void CJwwHeader::Serialize(CArchive& ar)
 			m_dSenNagasaSnpou = 0.0;
 		}
 
-		// ‹éŒ`¡–@‰¡¡–@Ec¡–@w’è‚ÌÅI’liVer.2.25ˆÈ~j
+		// çŸ©å½¢å¯¸æ³•æ¨ªå¯¸æ³•ãƒ»ç¸¦å¯¸æ³•æŒ‡å®šã®æœ€çµ‚å€¤ï¼ˆVer.2.25ä»¥é™ï¼‰
 		if (m_Version >= 225)
 		{
 			ar >> m_dBoxSunpouX;
@@ -976,7 +976,7 @@ void CJwwHeader::Serialize(CArchive& ar)
 			m_dBoxSunpouY = 0.0;
 		}
 
-		// ‰~‚Ì”¼Œaw’è‚ÌÅI’liVer.2.25ˆÈ~j
+		// å††ã®åŠå¾„æŒ‡å®šã®æœ€çµ‚å€¤ï¼ˆVer.2.25ä»¥é™ï¼‰
 		if (m_Version >= 225)
 		{
 			ar >> m_dEnHankeiSnpou;
@@ -986,7 +986,7 @@ void CJwwHeader::Serialize(CArchive& ar)
 			m_dEnHankeiSnpou = 0.0;
 		}
 
-		// ƒ\ƒŠƒbƒh‚ğ”CˆÓF‚Å‘‚­ƒtƒ‰ƒOAƒ\ƒŠƒbƒh‚Ì”CˆÓF‚ÌŠù’è’liVer.2.30ˆÈ~j
+		// ã‚½ãƒªãƒƒãƒ‰ã‚’ä»»æ„è‰²ã§æ›¸ããƒ•ãƒ©ã‚°ã€ã‚½ãƒªãƒƒãƒ‰ã®ä»»æ„è‰²ã®æ—¢å®šå€¤ï¼ˆVer.2.30ä»¥é™ï¼‰
 		if (m_Version >= 230)
 		{
 			ar >> m_nSolidNinniColor;
@@ -998,49 +998,49 @@ void CJwwHeader::Serialize(CArchive& ar)
 			m_SolidColor = 0;
 		}
 
-		// SXF‘Î‰Šg’£üF’è‹`iVer.4.20ˆÈ~j
-		// ‰æ–Ê•\¦F
-		// ‰æ–Ê•\¦ü•
-		// üF–¼
-		// ƒvƒŠƒ“ƒ^o—ÍF
-		// ƒvƒŠƒ“ƒ^o—Íü•
-		// “_”¼Œa
+		// SXFå¯¾å¿œæ‹¡å¼µç·šè‰²å®šç¾©ï¼ˆVer.4.20ä»¥é™ï¼‰
+		// ç”»é¢è¡¨ç¤ºè‰²
+		// ç”»é¢è¡¨ç¤ºç·šå¹…
+		// ç·šè‰²å
+		// ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›è‰²
+		// ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›ç·šå¹…
+		// ç‚¹åŠå¾„
 		if (m_Version >= 420)
 		{
 			int n1;
 
-			for (n = 0; n <= 256; n++)	////// ‰æ–Ê•\¦F
+			for (n = 0; n <= 256; n++)	////// ç”»é¢è¡¨ç¤ºè‰²
 			{
-				n1 = n + SXCOL_EXT;		//F”Ô†‚ÌƒIƒtƒZƒbƒg = +100
+				n1 = n + SXCOL_EXT;		//è‰²ç•ªå·ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ = +100
 				ar >> m_aPenColor[n1];
 				ar >> m_anPenWidth[n1];
 			}
-			for (n = 0; n <= 256; n++)	////// ƒvƒŠƒ“ƒ^o—ÍF
+			for (n = 0; n <= 256; n++)	////// ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›è‰²
 			{
 				ar >> m_astrUDColorName[n];
-				n1 = n + SXCOL_EXT;	//F”Ô†‚ÌƒIƒtƒZƒbƒg = +100
+				n1 = n + SXCOL_EXT;	//è‰²ç•ªå·ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ = +100
 				ar >> m_aPrtPenColor[n1];
 				ar >> m_anPrtPenWidth[n1];
 				ar >> m_adPrtTenHankei[n1];
 			}
 
-			// SXF‘Î‰Šg’£üí’è‹`iVer.4.20ˆÈ~j
-			// ƒpƒ^[ƒ“
-			// 1ƒ†ƒjƒbƒg‚Ìƒhƒbƒg”
-			// ƒsƒbƒ`
-			// ƒvƒŠƒ“ƒ^o—Íƒsƒbƒ`
-			// üí–¼
-			// ƒZƒOƒƒ“ƒg”
-			// ƒsƒbƒ`ü•ª‚Ì’·‚³A‹ó”’’·‚³‚ÌŒJ‚è•Ô‚µ
-			for (n = 0; n <= 32; n++)	////// üíƒpƒ^[ƒ“
+			// SXFå¯¾å¿œæ‹¡å¼µç·šç¨®å®šç¾©ï¼ˆVer.4.20ä»¥é™ï¼‰
+			// ãƒ‘ã‚¿ãƒ¼ãƒ³
+			// 1ãƒ¦ãƒ‹ãƒƒãƒˆã®ãƒ‰ãƒƒãƒˆæ•°
+			// ãƒ”ãƒƒãƒ
+			// ãƒ—ãƒªãƒ³ã‚¿å‡ºåŠ›ãƒ”ãƒƒãƒ
+			// ç·šç¨®å
+			// ã‚»ã‚°ãƒ¡ãƒ³ãƒˆæ•°
+			// ãƒ”ãƒƒãƒç·šåˆ†ã®é•·ã•ã€ç©ºç™½é•·ã•ã®ç¹°ã‚Šè¿”ã—
+			for (n = 0; n <= 32; n++)	////// ç·šç¨®ãƒ‘ã‚¿ãƒ¼ãƒ³
 			{
-				n1 = n + SXLTP_EXT;   //üí”Ô†‚ÌƒIƒtƒZƒbƒg = +30
+				n1 = n + SXLTP_EXT;   //ç·šç¨®ç•ªå·ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ = +30
 				ar >> m_alLType[n1];
 				ar >> m_anTokushuSenUintDot[n1];
 				ar >> m_anTokushuSenPich[n1];
 				ar >> m_anPrtTokushuSenPich[n1];
 			}
-			for (n = 0; n <= 32; n++)	////// üíƒpƒ‰ƒ[ƒ^
+			for (n = 0; n <= 32; n++)	////// ç·šç¨®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 			{
 				ar >> m_astrUDLTypeName[n];
 				ar >> m_anUDLTypeSegment[n];
@@ -1052,10 +1052,10 @@ void CJwwHeader::Serialize(CArchive& ar)
 		}
 		else
 		{
-			// TODO: SXFF,üí‚ÌŠù’è’l‚ğİ’è‚·‚×‚«
+			// TODO: SXFè‰²,ç·šç¨®ã®æ—¢å®šå€¤ã‚’è¨­å®šã™ã¹ã
 		}
 
-		// •¶ší1‚©‚ç10‚Ü‚Å‚Ì•¶š•A‚‚³AŠÔŠuAF”Ô†
+		// æ–‡å­—ç¨®1ã‹ã‚‰10ã¾ã§ã®æ–‡å­—å¹…ã€é«˜ã•ã€é–“éš”ã€è‰²ç•ªå·
 		for (i = 1; i <= 10; i++)
 		{
 			ar >> m_adMojiX[i];
@@ -1064,33 +1064,33 @@ void CJwwHeader::Serialize(CArchive& ar)
 			ar >> m_anMojiCol[i];
 		}
 
-		// ‘‚İ•¶š‚Ì•¶š•A‚‚³AŠÔŠuAF”Ô†A•¶š”Ô†
+		// æ›¸è¾¼ã¿æ–‡å­—ã®æ–‡å­—å¹…ã€é«˜ã•ã€é–“éš”ã€è‰²ç•ªå·ã€æ–‡å­—ç•ªå·
 		ar >> m_dMojiSizeX;
 		ar >> m_dMojiSizeY;
 		ar >> m_dMojiKankaku;
 		ar >> m_nMojiColor;
 		ar >> m_nMojiShu;
 
-		// •¶šˆÊ’u®—‚ÌsŠÔA•¶š”
+		// æ–‡å­—ä½ç½®æ•´ç†ã®è¡Œé–“ã€æ–‡å­—æ•°
 		ar >> m_dMojiSeiriGyouKan;
 		ar >> m_dMojiSeiriSuu;
 
-		// •¶šŠî€“_‚Ì‚¸‚êˆÊ’ug—p‚Ìƒtƒ‰ƒO
+		// æ–‡å­—åŸºæº–ç‚¹ã®ãšã‚Œä½ç½®ä½¿ç”¨ã®ãƒ•ãƒ©ã‚°
 		ar >> m_nMojiKijunZureOn;
 
-		// •¶šŠî€“_‚Ì‰¡•ûŒü‚Ì‚¸‚êˆÊ’u¶A’†A‰E
+		// æ–‡å­—åŸºæº–ç‚¹ã®æ¨ªæ–¹å‘ã®ãšã‚Œä½ç½®å·¦ã€ä¸­ã€å³
 		ar >> m_adMojiKijunZureX[0];
 		ar >> m_adMojiKijunZureX[1];
 		ar >> m_adMojiKijunZureX[2];
 
-		// •¶šŠî€“_‚Ìc•ûŒü‚Ì‚¸‚êˆÊ’u‰ºA’†Aã
+		// æ–‡å­—åŸºæº–ç‚¹ã®ç¸¦æ–¹å‘ã®ãšã‚Œä½ç½®ä¸‹ã€ä¸­ã€ä¸Š
 		ar >> m_adMojiKijunZureY[0];
 		ar >> m_adMojiKijunZureY[1];
 		ar >> m_adMojiKijunZureY[2];
 
 		TRACE("Finish reading header.\n");
 
-		// kÚ‚ÆƒIƒtƒZƒbƒg‚ğİ’è
+		// ç¸®å°ºã¨ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’è¨­å®š
 		DPoint pDummy;
 		pDummy.x = 0.0;
 		pDummy.y = 0.0;
@@ -1098,13 +1098,13 @@ void CJwwHeader::Serialize(CArchive& ar)
 	}
 }
 
-// ƒXƒP[ƒ‹“K—p
+// ã‚¹ã‚±ãƒ¼ãƒ«é©ç”¨
 void CJwwHeader::DoDataScale(double & dValue)
 {
 	dValue *= m_dJwwScale;
 }
 
-// ƒXƒP[ƒ‹“K—p
+// ã‚¹ã‚±ãƒ¼ãƒ«é©ç”¨
 void CJwwHeader::DoDataScale(struct DPoint & pValue)
 {
 	if (m_pDoc->GetDepth() == 0)
@@ -1119,19 +1119,19 @@ void CJwwHeader::DoDataScale(struct DPoint & pValue)
 	}
 }
 
-// ƒXƒP[ƒ‹İ’è
+// ã‚¹ã‚±ãƒ¼ãƒ«è¨­å®š
 void CJwwHeader::SetDataScale(const double dValue, const struct DPoint & pIn)
 {
-	// }–Ê‚©‚ç“Ç‚İæ‚èAIMPORT—p
+	// å›³é¢ã‹ã‚‰èª­ã¿å–ã‚Šã€IMPORTç”¨
 	if (dValue < 0.0)
 	{
-		// Šù’è’l‚Í}¡‚Ì‚Ü‚Üg—p‚·‚é
+		// æ—¢å®šå€¤ã¯å›³å¯¸ã®ã¾ã¾ä½¿ç”¨ã™ã‚‹
 		m_dJwwScale = 1.0;
 
-		// İ’è‚ğ“Ç‚ñ‚ÅAkÚƒ‚[ƒh‚ğİ’è(0:—p†A1:Å‘åkÚA2:ƒ†[ƒUw’è)
+		// è¨­å®šã‚’èª­ã‚“ã§ã€ç¸®å°ºãƒ¢ãƒ¼ãƒ‰ã‚’è¨­å®š(0:ç”¨ç´™ã€1:æœ€å¤§ç¸®å°ºã€2:ãƒ¦ãƒ¼ã‚¶æŒ‡å®š)
 		DWORD dwValue = GetPrivateProfileInt(_T("JwwIN"), _T("Paper"), 1, m_pDoc->m_iniPath);
 		//DWORD dwValue = FXAPI()->fdt_getconfintW(L"JwwIN",L"Paper",1);
-		if (dwValue == 1) // uÀ¡vˆê”Ô‘å‚«‚È‰æ‘wƒOƒ‹[ƒvkÚ‚ğ“K—p
+		if (dwValue == 1) // ã€Œå®Ÿå¯¸ã€ä¸€ç•ªå¤§ããªç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—ç¸®å°ºã‚’é©ç”¨
 		{
 			m_dJwwScale = 0.0;
 			for (int i = 0; i < 16; i++)
@@ -1146,9 +1146,9 @@ void CJwwHeader::SetDataScale(const double dValue, const struct DPoint & pIn)
 				m_dJwwScale = 1.0;
 			}
 		}
-		else if (dwValue == 2) // ƒ†[ƒU‚ªw’è‚µ‚½kÚ‚ğg—p
+		else if (dwValue == 2) // ãƒ¦ãƒ¼ã‚¶ãŒæŒ‡å®šã—ãŸç¸®å°ºã‚’ä½¿ç”¨
 		{
-			// •ÏŠ·kÚ‚ğ“ü—Í 2013.10.28 ’l‚Å‚Í‚È‚­‰æ‘wƒOƒ‹[ƒv”Ô†‚Åw’è‚·‚é
+			// å¤‰æ›ç¸®å°ºã‚’å…¥åŠ› 2013.10.28 å€¤ã§ã¯ãªãç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—ç•ªå·ã§æŒ‡å®šã™ã‚‹
 			TCHAR buf[32] = { 0 };
 			GetPrivateProfileString(_T("JwwIN"), _T("Scale"), _T("0"), buf, 32, m_pDoc->m_iniPath);
 			//FXAPI()->fdt_getconfstringA("JwwIN","Scale","0",buf,32);
@@ -1166,8 +1166,8 @@ void CJwwHeader::SetDataScale(const double dValue, const struct DPoint & pIn)
 				m_dJwwScale = 1.0;
 			}
 		}
-		// ƒIƒtƒZƒbƒg‚ğ—p†ƒTƒCƒY‚©‚ç‹‚ß‚Ü‚·
-		// 0`4:A0`A4, 8:2A, 9:3A, 10:4A, 11:5A
+		// ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’ç”¨ç´™ã‚µã‚¤ã‚ºã‹ã‚‰æ±‚ã‚ã¾ã™
+		// 0ï½4:A0ï½A4, 8:2A, 9:3A, 10:4A, 11:5A
 		if ((0 <= m_nZumen && m_nZumen <= 4) || (8 <= m_nZumen && m_nZumen <= 11))
 		{
 			m_pJwwOffset.x = CJwwDocument::YOUSHI_SIZE[m_nZumen] / 2.0 * m_dJwwScale;
@@ -1179,7 +1179,7 @@ void CJwwHeader::SetDataScale(const double dValue, const struct DPoint & pIn)
 			m_pJwwOffset.y = 0.0;
 		}
 	}
-	// ˆø”‚ğİ’èAEXPORT—p
+	// å¼•æ•°ã‚’è¨­å®šã€EXPORTç”¨
 	else
 	{
 		m_dJwwScale = dValue;
@@ -1188,42 +1188,42 @@ void CJwwHeader::SetDataScale(const double dValue, const struct DPoint & pIn)
 	}
 }
 
-// ƒXƒP[ƒ‹æ“¾
+// ã‚¹ã‚±ãƒ¼ãƒ«å–å¾—
 double CJwwHeader::GetDataScale()
 {
 	return m_dJwwScale;
 }
 
-// ƒIƒtƒZƒbƒgæ“¾
+// ã‚ªãƒ•ã‚»ãƒƒãƒˆå–å¾—
 void CJwwHeader::GetDataOffset(struct DPoint & pOut)
 {
 	pOut.x = m_pJwwOffset.x;
 	pOut.y = m_pJwwOffset.y;
 }
 
-// o—Í”ÍˆÍİ’è
+// å‡ºåŠ›ç¯„å›²è¨­å®š
 void CJwwHeader::SetMinMaxPt(const OdGePoint3d& min, const OdGePoint3d& max)
 {
 	m_pJwwMinPt = min;
 	m_pJwwMaxPt = max;
 }
 
-// o—Í”ÍˆÍæ“¾
+// å‡ºåŠ›ç¯„å›²å–å¾—
 void CJwwHeader::GetMinMaxPt(OdGePoint3d& min, OdGePoint3d& max) const
 {
 	min = m_pJwwMinPt;
 	max = m_pJwwMaxPt;
 }
 
-// “ü—Í—p}–Ê”ÍˆÍ
+// å…¥åŠ›ç”¨å›³é¢ç¯„å›²
 void CJwwHeader::GetDocumentArea(OdGePoint2d& min, OdGePoint2d& max) const
 {
-	// ¶‰º(0,0)‚Æ‚µ‚Ä—p†ƒTƒCƒY‚Æ‘‚«‚İkÚ‚Å}–Ê”ÍˆÍ‚ğİ’è‚µ‚Ü‚·
+	// å·¦ä¸‹(0,0)ã¨ã—ã¦ç”¨ç´™ã‚µã‚¤ã‚ºã¨æ›¸ãè¾¼ã¿ç¸®å°ºã§å›³é¢ç¯„å›²ã‚’è¨­å®šã—ã¾ã™
 	min.x = 0.0;
 	min.y = 0.0;
 	max.x = CJwwDocument::YOUSHI_SIZE[m_nZumen] * m_dJwwScale;
 	max.y = CJwwDocument::YOUSHI_TATE[m_nZumen] * m_dJwwScale;
-	// —p†ƒTƒCƒY‚ª 12:10m, 13:50m, 14:100m ‚Ì‚Æ‚«‚Í’†S‚ğ(0,0)‚É‚µ‚Ü‚·
+	// ç”¨ç´™ã‚µã‚¤ã‚ºãŒ 12:10m, 13:50m, 14:100m ã®ã¨ãã¯ä¸­å¿ƒã‚’(0,0)ã«ã—ã¾ã™
 	if (12 <= m_nZumen && m_nZumen <= 14)
 	{
 		max /= 2.0;
@@ -1232,10 +1232,10 @@ void CJwwHeader::GetDocumentArea(OdGePoint2d& min, OdGePoint2d& max) const
 	}
 }
 
-// •¶šŠp“x•â³İ’è‚ğæ“¾
+// æ–‡å­—è§’åº¦è£œæ­£è¨­å®šã‚’å–å¾—
 void CJwwHeader::SetTextOrthoTol()
 {
-	// ƒAƒvƒŠƒP[ƒVƒ‡ƒ“–¼‚ğæ“¾
+	// ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³åã‚’å–å¾—
 	TCHAR buf[32];
 	CString appname(_T("JwwOut"));
 	GetPrivateProfileString(appname, _T("Command"), _T("_JWEXPORT"), buf, 32, m_pDoc->m_iniPath);
@@ -1248,7 +1248,7 @@ void CJwwHeader::SetTextOrthoTol()
 	m_tFixAng = pow(10.0, -prec);
 }
 
-// •¶šŠp“x•â³İ’è‚ğæ“¾
+// æ–‡å­—è§’åº¦è£œæ­£è¨­å®šã‚’å–å¾—
 BOOL CJwwHeader::GetTextOrthoTol(double& tVal)
 {
 	tVal = m_tFixAng;
@@ -1258,7 +1258,7 @@ BOOL CJwwHeader::GetTextOrthoTol(double& tVal)
 void CJwwHeader::Dump(CDumpContext &dc) const
 {
 	CObject::Dump(dc);
-	// JWW‚Ìƒf[ƒ^ƒtƒ@ƒCƒ‹éŒ¾
+	// JWWã®ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«å®£è¨€
 	dc << "\n----- CJwwHeader -----\n";
 	if (strncmp(m_cVersion, "JwwData.", 8) != 0)
 	{
@@ -1274,7 +1274,7 @@ void CJwwHeader::Dump(CDumpContext &dc) const
 #endif	//_DEBUG
 
 //****************************************
-// CData	: JWW }Œ`Šî–{ƒNƒ‰ƒX
+// CData	: JWW å›³å½¢åŸºæœ¬ã‚¯ãƒ©ã‚¹
 //****************************************
 
 IMPLEMENT_SERIAL(CData, CObject, VERSIONABLE_SCHEMA);
@@ -1339,7 +1339,7 @@ CData& CData::operator=(const CData src)
 
 void CData::Serialize(CArchive& ar)
 {
-	// ƒwƒbƒ_î•ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Û
+	// ãƒ˜ãƒƒãƒ€æƒ…å ±ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã‚’ä¿æŒ
 	/* ATTN
 	CJwwDocument *pDoc;
 	pDoc = static_cast<CJwwDocument*>(ar.m_pDocument);
@@ -1347,30 +1347,30 @@ void CData::Serialize(CArchive& ar)
 	*/
 	if (ar.IsStoring())
 	{
-		ar << m_lGroup;            //‹Èü‘®«”Ô†
-		ar << m_nPenStyle;          //üí”Ô†
-		ar << m_nPenColor;          //üF”Ô†
+		ar << m_lGroup;            //æ›²ç·šå±æ€§ç•ªå·
+		ar << m_nPenStyle;          //ç·šç¨®ç•ªå·
+		ar << m_nPenColor;          //ç·šè‰²ç•ªå·
 		if (version(ar) >= eVer351)
 		{
-			ar << m_nPenWidth;      //üF•
+			ar << m_nPenWidth;      //ç·šè‰²å¹…
 		}
-		ar << m_nLayer;             //‰æ‘w”Ô†
-		ar << m_nGLayer;            //‰æ‘wƒOƒ‹[ƒv”Ô†
-		ar << m_sFlg;               //‘®«ƒtƒ‰ƒO
+		ar << m_nLayer;             //ç”»å±¤ç•ªå·
+		ar << m_nGLayer;            //ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—ç•ªå·
+		ar << m_sFlg;               //å±æ€§ãƒ•ãƒ©ã‚°
 	}
 	else
 	{
-		ar >> m_lGroup;            //‹Èü‘®«”Ô†
-		ar >> m_nPenStyle;          //üí”Ô†
-		ar >> m_nPenColor;          //üF”Ô†
+		ar >> m_lGroup;            //æ›²ç·šå±æ€§ç•ªå·
+		ar >> m_nPenStyle;          //ç·šç¨®ç•ªå·
+		ar >> m_nPenColor;          //ç·šè‰²ç•ªå·
 		m_nPenWidth = 0;
 		if (version(ar) >= eVer351)
 		{
-			ar >> m_nPenWidth;      //üF•
+			ar >> m_nPenWidth;      //ç·šè‰²å¹…
 		}
-		ar >> m_nLayer;             //‰æ‘w”Ô†
-		ar >> m_nGLayer;            //‰æ‘wƒOƒ‹[ƒv”Ô†
-		ar >> m_sFlg;               //‘®«ƒtƒ‰ƒO
+		ar >> m_nLayer;             //ç”»å±¤ç•ªå·
+		ar >> m_nGLayer;            //ç”»å±¤ã‚°ãƒ«ãƒ¼ãƒ—ç•ªå·
+		ar >> m_sFlg;               //å±æ€§ãƒ•ãƒ©ã‚°
 	}
 }
 
@@ -1391,7 +1391,7 @@ void CData::Dump(class CDumpContext & dc) const
 #endif	//_DEBUG
 
 //****************************************
-// CDataSen : JWW üƒf[ƒ^ƒNƒ‰ƒX
+// CDataSen : JWW ç·šãƒ‡ãƒ¼ã‚¿ã‚¯ãƒ©ã‚¹
 //****************************************
 
 IMPLEMENT_SERIAL(CDataSen, CData, VERSIONABLE_SCHEMA);
@@ -1458,7 +1458,7 @@ void CDataSen::Dump(class CDumpContext & dc) const
 #endif	//_DEBUG
 
 //****************************************
-// CDataEnko : JWW ‰~ŒÊƒf[ƒ^ƒNƒ‰ƒX
+// CDataEnko : JWW å††å¼§ãƒ‡ãƒ¼ã‚¿ã‚¯ãƒ©ã‚¹
 //****************************************
 
 IMPLEMENT_SERIAL(CDataEnko, CData, VERSIONABLE_SCHEMA);
@@ -1492,7 +1492,7 @@ void CDataEnko::Serialize(CArchive& ar)
 		ar >> m_dHenpeiRitsu;
 		ar >> m_bZenEnFlg;
 
-		//TRACE("‰~ŒÊ x=%f, y=%f, r=%f, st=%f, size=%f, tilt=%f, ratio=%f, flg1=%d\n",
+		//TRACE("å††å¼§ x=%f, y=%f, r=%f, st=%f, size=%f, tilt=%f, ratio=%f, flg1=%d\n",
 		//	m_start.x, m_start.y, m_dHankei,
 		//	OdaToDegree(m_radKaishiKaku), OdaToDegree(m_radEnkoKaku), OdaToDegree(m_radKatamukiKaku),
 		//	m_dHenpeiRitsu, m_bZenEnFlg);
@@ -1591,7 +1591,7 @@ void CDataEnko::Dump(class CDumpContext & dc) const
 #endif	//_DEBUG
 
 //****************************************
-// CDataTen : JWW “_ƒf[ƒ^ƒNƒ‰ƒX
+// CDataTen : JWW ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚¯ãƒ©ã‚¹
 //****************************************
 
 IMPLEMENT_SERIAL(CDataTen, CData, VERSIONABLE_SCHEMA);
@@ -1634,7 +1634,7 @@ void CDataTen::Serialize(CArchive& ar)
 			m_radKaitenKaku = 0.0;
 			m_dBairitsu = 1.0;
 		}
-		m_nPenStyle = 1;	// SHAPE‚ğg—p‚·‚é‚È‚ç•s—v
+		m_nPenStyle = 1;	// SHAPEã‚’ä½¿ç”¨ã™ã‚‹ãªã‚‰ä¸è¦
 
 		DoDataScale(ar, m_start);
 		DoDataScale(ar, m_dBairitsu);
@@ -1688,7 +1688,7 @@ void CDataTen::Dump(class CDumpContext & dc) const
 #endif	//_DEBUG
 
 //////////////////////////////////////////////////////////////////////
-// •¶šƒf[ƒ^ƒNƒ‰ƒX
+// æ–‡å­—ãƒ‡ãƒ¼ã‚¿ã‚¯ãƒ©ã‚¹
 
 IMPLEMENT_SERIAL(CDataMoji, CData, VERSIONABLE_SCHEMA);
 
@@ -1701,11 +1701,11 @@ void CDataMoji::Serialize(CArchive& ar)
 		DoDataScale(ar, m_dSizeX);
 		DoDataScale(ar, m_dSizeY);
 		DoDataScale(ar, m_dKankaku);
-		// •¶š‚Ì¡–@ƒtƒ‰ƒO‚Íü•‚Å•Û‘¶‚·‚é
+		// æ–‡å­—ã®å¯¸æ³•ãƒ•ãƒ©ã‚°ã¯ç·šå¹…ã§ä¿å­˜ã™ã‚‹
 		m_nPenWidth = m_nSunpouFlg;
-		// }Œ`‹¤’Êƒf[ƒ^‚ğ•Û‘¶
+		// å›³å½¢å…±é€šãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜
 		CData::Serialize(ar);
-		// •¶šŒÅ—L‚Ìƒf[ƒ^‚ğ•Û‘¶
+		// æ–‡å­—å›ºæœ‰ã®ãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜
 		ar << m_start.x;
 		ar << m_start.y;
 		ar << m_end.x;
@@ -1720,13 +1720,13 @@ void CDataMoji::Serialize(CArchive& ar)
 	}
 	else
 	{
-		// }Œ`‹¤’Êƒf[ƒ^‚ğæ“¾
+		// å›³å½¢å…±é€šãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—
 		CData::Serialize(ar);
-		// •¶š‚Ì¡–@ƒtƒ‰ƒO‚Íü•‚É‚ ‚é
+		// æ–‡å­—ã®å¯¸æ³•ãƒ•ãƒ©ã‚°ã¯ç·šå¹…ã«ã‚ã‚‹
 		m_nSunpouFlg = m_nPenWidth;
-		// ü•‚Íƒyƒ“F‚©‚çİ’è(0)‚É‚·‚é
+		// ç·šå¹…ã¯ãƒšãƒ³è‰²ã‹ã‚‰è¨­å®š(0)ã«ã™ã‚‹
 		m_nPenWidth = 0;
-		// •¶šŒÅ—L‚Ìƒf[ƒ^‚ğæ“¾
+		// æ–‡å­—å›ºæœ‰ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—
 		ar >> m_start.x;
 		ar >> m_start.y;
 		ar >> m_end.x;
@@ -1869,7 +1869,7 @@ void	CDataMoji::spacing(double value)
 void	CDataMoji::rotation(double value)
 {
 	m_degKakudo = OdaToDegree(value);
-	// Šp“x•â³(2016-12-15)
+	// è§’åº¦è£œæ­£(2016-12-15)
 	double tVal;
 	if (m_pHeader->GetTextOrthoTol(tVal))
 	{
@@ -1888,7 +1888,7 @@ void	CDataMoji::rotation(double value)
 
 void	CDataMoji::font(OdString value)
 {
-	// c‘‚«ƒtƒHƒ“ƒg‚Ìİ’è‚Í CData::m_flags ‚Éİ’è
+	// ç¸¦æ›¸ããƒ•ã‚©ãƒ³ãƒˆã®è¨­å®šã¯ CData::m_flags ã«è¨­å®š
 	WORD flag = flags();
 	if (value[0] == _T('@'))
 	{
@@ -1900,7 +1900,7 @@ void	CDataMoji::font(OdString value)
 		flags(flag & ~CData::eTate);
 	}
 
-	// •¶ší‚Ì‘¾šEÎ‘Ìİ’è‚ğíœ(0`9999‚ÉØ‚è‹l‚ß‚é)
+	// æ–‡å­—ç¨®ã®å¤ªå­—ãƒ»æ–œä½“è¨­å®šã‚’å‰Šé™¤(0ï½9999ã«åˆ‡ã‚Šè©°ã‚ã‚‹)
 	m_nMojiShu %= CDataMoji::eMask;
 
 	int pos = value.find(_T(" Bold"));
@@ -1916,7 +1916,7 @@ void	CDataMoji::font(OdString value)
 		value.deleteChars(pos, 7);
 	}
 
-	// ƒtƒHƒ“ƒg–¼‚ğİ’è
+	// ãƒ•ã‚©ãƒ³ãƒˆåã‚’è¨­å®š
 	m_strFontName = (LPCTSTR)value;
 }
 
@@ -1945,7 +1945,7 @@ void CDataMoji::Dump(class CDumpContext & dc) const
 #endif	//_DEBUG
 
 //****************************************
-// CDataSunpou : JWW ¡–@ƒf[ƒ^ƒNƒ‰ƒX
+// CDataSunpou : JWW å¯¸æ³•ãƒ‡ãƒ¼ã‚¿ã‚¯ãƒ©ã‚¹
 //****************************************
 
 IMPLEMENT_SERIAL(CDataSunpou, CData, VERSIONABLE_SCHEMA);
@@ -1985,7 +1985,7 @@ void CDataSunpou::Serialize(CArchive& ar)
 			m_TenHo2.Serialize(ar);
 		}
 
-		// ¡–@}Œ`‚ÌƒŒƒCƒ„[‚ÆƒOƒ‹[ƒv‚ğC³
+		// å¯¸æ³•å›³å½¢ã®ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã‚°ãƒ«ãƒ¼ãƒ—ã‚’ä¿®æ­£
 		m_Sen.layer(m_nLayer);
 		m_Sen.group(m_nGLayer);
 		m_Moji.layer(m_nLayer);
@@ -2034,7 +2034,7 @@ void CDataSunpou::Dump(class CDumpContext & dc) const
 #endif	//_DEBUG
 
 //****************************************
-// CDataSolid	: JWW ƒ\ƒŠƒbƒhƒf[ƒ^ƒNƒ‰ƒX
+// CDataSolid	: JWW ã‚½ãƒªãƒƒãƒ‰ãƒ‡ãƒ¼ã‚¿ã‚¯ãƒ©ã‚¹
 //****************************************
 
 IMPLEMENT_SERIAL(CDataSolid, CData, VERSIONABLE_SCHEMA);
@@ -2045,7 +2045,7 @@ void CDataSolid::Serialize(CArchive& ar)
 
 	if (ar.IsStoring())
 	{
-		// •’Ê‚Ìƒ\ƒŠƒbƒhƒf[ƒ^‚Ìê‡
+		// æ™®é€šã®ã‚½ãƒªãƒƒãƒ‰ãƒ‡ãƒ¼ã‚¿ã®å ´åˆ
 		if (m_nPenStyle < 101)
 		{
 			DoDataScale(ar, m_start);
@@ -2053,12 +2053,12 @@ void CDataSolid::Serialize(CArchive& ar)
 			DoDataScale(ar, m_DPoint2);
 			DoDataScale(ar, m_DPoint3);
 		}
-		// ‰~‚Ìƒ\ƒŠƒbƒhƒf[ƒ^‚Ìê‡
+		// å††ã®ã‚½ãƒªãƒƒãƒ‰ãƒ‡ãƒ¼ã‚¿ã®å ´åˆ
 		else
 		{
 			DoDataScale(ar, m_start);
 			DoDataScale(ar, m_end.x);
-			// ƒh[ƒiƒcƒ\ƒŠƒbƒh‚Ìê‡
+			// ãƒ‰ãƒ¼ãƒŠãƒ„ã‚½ãƒªãƒƒãƒ‰ã®å ´åˆ
 			if ((m_nPenStyle == 105) || (m_nPenStyle == 106))
 			{
 				DoDataScale(ar, m_DPoint3.y);
@@ -2074,7 +2074,7 @@ void CDataSolid::Serialize(CArchive& ar)
 		ar << m_DPoint3.x;
 		ar << m_DPoint3.y;
 
-		// ƒyƒ“”Ô†‚ª10‚Ì‚Æ‚«‚ÍA”CˆÓ‚ÌF‚ªİ’è‚³‚ê‚Ä‚¢‚é
+		// ãƒšãƒ³ç•ªå·ãŒ10ã®ã¨ãã¯ã€ä»»æ„ã®è‰²ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹
 		if (10 == m_nPenColor)
 		{
 			ar << m_Color;	// RGB
@@ -2091,13 +2091,13 @@ void CDataSolid::Serialize(CArchive& ar)
 		ar >> m_DPoint3.x;
 		ar >> m_DPoint3.y;
 
-		// ƒyƒ“”Ô†‚ª10‚Ì‚Æ‚«‚ÍA”CˆÓ‚ÌF‚ªİ’è‚³‚ê‚Ä‚¢‚é
+		// ãƒšãƒ³ç•ªå·ãŒ10ã®ã¨ãã¯ã€ä»»æ„ã®è‰²ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹
 		if (10 == m_nPenColor)
 		{
 			ar >> m_Color;	// RGB
 		}
 
-		// •’Ê‚Ìƒ\ƒŠƒbƒhƒf[ƒ^‚Ìê‡
+		// æ™®é€šã®ã‚½ãƒªãƒƒãƒ‰ãƒ‡ãƒ¼ã‚¿ã®å ´åˆ
 		if (m_nPenStyle < 101)
 		{
 			DoDataScale(ar, m_start);
@@ -2105,12 +2105,12 @@ void CDataSolid::Serialize(CArchive& ar)
 			DoDataScale(ar, m_DPoint2);
 			DoDataScale(ar, m_DPoint3);
 		}
-		// ‰~‚Ìƒ\ƒŠƒbƒhƒf[ƒ^‚Ìê‡
+		// å††ã®ã‚½ãƒªãƒƒãƒ‰ãƒ‡ãƒ¼ã‚¿ã®å ´åˆ
 		else
 		{
 			DoDataScale(ar, m_start);
 			DoDataScale(ar, m_end.x);
-			// ƒh[ƒiƒcƒ\ƒŠƒbƒh‚Ìê‡
+			// ãƒ‰ãƒ¼ãƒŠãƒ„ã‚½ãƒªãƒƒãƒ‰ã®å ´åˆ
 			if ((m_nPenStyle == 105) || (m_nPenStyle == 106))
 			{
 				DoDataScale(ar, m_DPoint3.y);
@@ -2171,17 +2171,17 @@ OdGePoint3d	CDataSolid::center(void) const
 
 double CDataSolid::radius(void) const
 {
-	return m_end.x;	// ‰~ŠÂƒ\ƒŠƒbƒh‚Å‚ÍŠOŒa
+	return m_end.x;	// å††ç’°ã‚½ãƒªãƒƒãƒ‰ã§ã¯å¤–å¾„
 }
 
 double  CDataSolid::inner(void) const
 {
-	return m_DPoint3.y; // ‰~ŠÂƒ\ƒŠƒbƒh‚Ì“àŒa
+	return m_DPoint3.y; // å††ç’°ã‚½ãƒªãƒƒãƒ‰ã®å†…å¾„
 }
 
 double CDataSolid::flattenings(void) const
 {
-	return m_end.y;	// G•½—¦
+	return m_end.y;	// æ‰å¹³ç‡
 }
 
 double CDataSolid::start(void) const
@@ -2229,7 +2229,7 @@ void CDataSolid::Dump(class CDumpContext & dc) const
 #endif	//_DEBUG
 
 //****************************************
-// CDataBlock	: JWW ƒuƒƒbƒNƒf[ƒ^ƒNƒ‰ƒX
+// CDataBlock	: JWW ãƒ–ãƒ­ãƒƒã‚¯ãƒ‡ãƒ¼ã‚¿ã‚¯ãƒ©ã‚¹
 //****************************************
 
 IMPLEMENT_SERIAL(CDataBlock, CData, VERSIONABLE_SCHEMA);
@@ -2238,8 +2238,8 @@ void CDataBlock::Serialize(CArchive& ar)
 {
 	CData::Serialize(ar);
 
-	// ƒŠƒXƒg•”‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Û
-	// 2017/3/6 JWSƒtƒ@ƒCƒ‹‚ÌƒuƒƒbƒN‚É‘Î‰
+	// ãƒªã‚¹ãƒˆéƒ¨ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã‚’ä¿æŒ
+	// 2017/3/6 JWSãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ–ãƒ­ãƒƒã‚¯ã«å¯¾å¿œ
 	CJwDocument *pDoc = (CJwDocument *)(ar.m_pDocument);
 	m_pDataListList = pDoc->GetBlockList();
 
@@ -2267,7 +2267,7 @@ void CDataBlock::Serialize(CArchive& ar)
 	}
 }
 
-// ƒf[ƒ^ƒŠƒXƒgæ“¾
+// ãƒ‡ãƒ¼ã‚¿ãƒªã‚¹ãƒˆå–å¾—
 CDataList* CDataBlock::GetDataList()
 {
 	CDataList* pDataList;
@@ -2350,7 +2350,7 @@ void CDataBlock::Dump(class CDumpContext & dc) const
 #endif	//_DEBUG
 
 //****************************************
-// CDataList : JWW ƒf[ƒ^ƒŠƒXƒgƒNƒ‰ƒX
+// CDataList : JWW ãƒ‡ãƒ¼ã‚¿ãƒªã‚¹ãƒˆã‚¯ãƒ©ã‚¹
 //****************************************
 
 IMPLEMENT_SERIAL(CDataList, CData, VERSIONABLE_SCHEMA);
@@ -2363,34 +2363,34 @@ void CDataList::Serialize(CArchive& ar)
 	{
 		ar << m_nNumber;
 		ar << m_bReffered;
-		// 2017/2/15 CTime‚ğo—Í‚·‚é‚Æ64bit®”‚ğo—Í‚µ‚Ä‚µ‚Ü‚¤‚ª
-		// JWWƒtƒ@ƒCƒ‹‚Å‚Í32bit®”‚ğo—Í‚·‚×‚«‚Å‚ ‚é
+		// 2017/2/15 CTimeã‚’å‡ºåŠ›ã™ã‚‹ã¨64bitæ•´æ•°ã‚’å‡ºåŠ›ã—ã¦ã—ã¾ã†ãŒ
+		// JWWãƒ•ã‚¡ã‚¤ãƒ«ã§ã¯32bitæ•´æ•°ã‚’å‡ºåŠ›ã™ã¹ãã§ã‚ã‚‹
 		UINT32 tm32 = (UINT32)m_time.GetTime();
 		ar << tm32;
 		//ar << m_time;
-		// 2017/2/15 V7.00‚È‚Ì‚ÅƒuƒƒbƒN–¼‚ÌŒã‚ë‚ÉSXFƒuƒƒbƒNí•Ê‚ª
-		// ƒuƒƒbƒN–¼‚É‚È‚¢‚Æ‚«‚Í’Ç‰Á‚·‚é(4:ì}•”•i)
+		// 2017/2/15 V7.00ãªã®ã§ãƒ–ãƒ­ãƒƒã‚¯åã®å¾Œã‚ã«SXFãƒ–ãƒ­ãƒƒã‚¯ç¨®åˆ¥ãŒ
+		// ãƒ–ãƒ­ãƒƒã‚¯åã«ãªã„ã¨ãã¯è¿½åŠ ã™ã‚‹(4:ä½œå›³éƒ¨å“)
 		if (m_strName.Find(_T("@@SfigorgFlag@@")) < 0)
 		{
 			m_strName += _T("@@SfigorgFlag@@4");
 		}
-		// ƒuƒƒbƒN–¼‚ÍMBCS•¶š—ñ‚Æ‚µ‚Äo—Í
+		// ãƒ–ãƒ­ãƒƒã‚¯åã¯MBCSæ–‡å­—åˆ—ã¨ã—ã¦å‡ºåŠ›
 		ar << CStringA(m_strName);
 	}
 	else
 	{
 		ar >> m_nNumber;
 		ar >> m_bReffered;
-		// MFC‚Í32bit®”‚©64bit®”‚©‚ğ“KØ‚É”»’è‚µ‚Ä“Ç‚İ‚ñ‚Å‚­‚ê‚é
+		// MFCã¯32bitæ•´æ•°ã‹64bitæ•´æ•°ã‹ã‚’é©åˆ‡ã«åˆ¤å®šã—ã¦èª­ã¿è¾¼ã‚“ã§ãã‚Œã‚‹
 		ar >> m_time;
-		// MFC‚ÍMBCS•¶š—ñ‚©Unicode•¶š—ñ‚©‚ğ“KØ‚É”»’è‚µ‚Ä“Ç‚İ‚ñ‚Å‚­‚ê‚é
+		// MFCã¯MBCSæ–‡å­—åˆ—ã‹Unicodeæ–‡å­—åˆ—ã‹ã‚’é©åˆ‡ã«åˆ¤å®šã—ã¦èª­ã¿è¾¼ã‚“ã§ãã‚Œã‚‹
 		ar >> m_strName;
-		// Ver.4.10 ˆÈ~A–¼‘O‚ÌŒã‚ë‚É
-		// "@@SfigorgFlag@@"‚É‘±‚¯‚ÄA•¡‡}Œ`í•Êƒtƒ‰ƒO‚ğ•t‰Á
-		// 1:•”•ª}(”ŠwÀ•WŒn)
-		// 2:•”•ª}(‘ª’nÀ•WŒn)A
-		// 3:ì}ƒOƒ‹[ƒv
-		// 4:ì}•”•i
+		// Ver.4.10 ä»¥é™ã€åå‰ã®å¾Œã‚ã«
+		// "@@SfigorgFlag@@"ã«ç¶šã‘ã¦ã€è¤‡åˆå›³å½¢ç¨®åˆ¥ãƒ•ãƒ©ã‚°ã‚’ä»˜åŠ 
+		// 1:éƒ¨åˆ†å›³(æ•°å­¦åº§æ¨™ç³»)
+		// 2:éƒ¨åˆ†å›³(æ¸¬åœ°åº§æ¨™ç³»)ã€
+		// 3:ä½œå›³ã‚°ãƒ«ãƒ¼ãƒ—
+		// 4:ä½œå›³éƒ¨å“
 	}
 	m_DataList.Serialize(ar);
 }
@@ -2415,20 +2415,20 @@ void CDataList::Dump(class CDumpContext & dc) const
 #endif	//_DEBUG
 
 //****************************************
-// CJwwDocument	: JWW ƒtƒ@ƒCƒ‹ƒNƒ‰ƒX
+// CJwwDocument	: JWW ãƒ•ã‚¡ã‚¤ãƒ«ã‚¯ãƒ©ã‚¹
 //****************************************
 
 CJwwDocument::CJwwDocument()
 {
-	// ƒwƒbƒ_[‚©‚çƒhƒLƒ…ƒƒ“ƒg‚Ö‚ÌQÆ‚ğ‰Šú‰»
+	// ãƒ˜ãƒƒãƒ€ãƒ¼ã‹ã‚‰ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã¸ã®å‚ç…§ã‚’åˆæœŸåŒ–
 	m_JwwHeader.m_pDoc = this;
-	// —v‘f”‚Ì’²¸‚Ì‚Æ‚«‚Í‰æ‘œ‚ğ“WŠJ‚µ‚È‚¢(Šù’è‚Í‚·‚é)
+	// è¦ç´ æ•°ã®èª¿æŸ»ã®ã¨ãã¯ç”»åƒã‚’å±•é–‹ã—ãªã„(æ—¢å®šã¯ã™ã‚‹)
 	m_bReadForReport = FALSE;
-	// ATTN:‰æ‘w–¼‚Ì•t‚¯•û
+	// ATTN:ç”»å±¤åã®ä»˜ã‘æ–¹
 	m_bLayerName = FALSE;
-	// ATTN:üíÚ“xŒW”
+	// ATTN:ç·šç¨®å°ºåº¦ä¿‚æ•°
 	m_lineFactor = 1.0;
-	// ATTN:“¯‚¶”Ô†‚Ì‰æ‘w‚ğì‚ç‚È‚¢
+	// ATTN:åŒã˜ç•ªå·ã®ç”»å±¤ã‚’ä½œã‚‰ãªã„
 	m_gMatchLayerNumber = TRUE;
 }
 
@@ -2463,52 +2463,52 @@ END_MESSAGE_MAP()
 
 void CJwwDocument::Serialize(CArchive& ar)
 {
-	// ‰æ‘œƒtƒ@ƒCƒ‹‚Ì‘Š‘ÎƒpƒX‚ğ‰ğŒˆ‚·‚é‚½‚ß‚ÉJWWƒtƒ@ƒCƒ‹ƒpƒX‚ğ‹L‰¯
+	// ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã®ç›¸å¯¾ãƒ‘ã‚¹ã‚’è§£æ±ºã™ã‚‹ãŸã‚ã«JWWãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’è¨˜æ†¶
 	m_jwwPath = ar.GetFile()->GetFilePath();
-	// JWWƒtƒ@ƒCƒ‹‚É‘‚«‚İ
+	// JWWãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãè¾¼ã¿
 	if (ar.IsStoring())
 	{
-		// ƒwƒbƒ_‘
+		// ãƒ˜ãƒƒãƒ€æ›¸è¾¼
 		m_JwwHeader.Serialize(ar);
 
-		// }Œ`ƒf[ƒ^‚Ìo—Í
+		// å›³å½¢ãƒ‡ãƒ¼ã‚¿ã®å‡ºåŠ›
 		SetDepth(0);
 		m_DataList.Serialize(ar);
 
-		// }Œ`”’²¸‚Ì‚Æ‚«‚ÍˆÈ‰º‚Ìˆ—‚ğs‚í‚È‚¢
+		// å›³å½¢æ•°èª¿æŸ»ã®ã¨ãã¯ä»¥ä¸‹ã®å‡¦ç†ã‚’è¡Œã‚ãªã„
 		if (m_bReadForReport)
 			return;
 
-		// ƒuƒƒbƒN}Œ`‚Ìo—Í
+		// ãƒ–ãƒ­ãƒƒã‚¯å›³å½¢ã®å‡ºåŠ›
 		SetDepth(1);
 		m_DataListList.Serialize(ar);
 
-		// –„‚ß‚İ‰æ‘œ‚Ìo—Í
+		// åŸ‹ã‚è¾¼ã¿ç”»åƒã®å‡ºåŠ›
 		//WriteImageFiles(ar);
 	}
-	// JWWƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚İ
+	// JWWãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã¿
 	else
 	{
 		ClearData();
-		// ƒwƒbƒ_“Ç
+		// ãƒ˜ãƒƒãƒ€èª­è¾¼
 		m_JwwHeader.Serialize(ar);
 		SetDepth(0);
-		// }Œ`ƒf[ƒ^‚Ì“ü—Í
+		// å›³å½¢ãƒ‡ãƒ¼ã‚¿ã®å…¥åŠ›
 		m_DataList.Serialize(ar);
 		SetDepth(1);
-		// ƒuƒƒbƒN}Œ`‚Ì“ü—Í
+		// ãƒ–ãƒ­ãƒƒã‚¯å›³å½¢ã®å…¥åŠ›
 		m_DataListList.Serialize(ar);
-		// –„‚ß‚İ‰æ‘œ‚Ì“WŠJ‚ğŠJn
+		// åŸ‹ã‚è¾¼ã¿ç”»åƒã®å±•é–‹ã‚’é–‹å§‹
 		//ExtructImageFiles(ar);
 	}
 }
 
 #if 0
 // ***********************************************************
-//   ‰æ‘œƒtƒ@ƒCƒ‹–„‚ß‚İ
+//   ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«åŸ‹ã‚è¾¼ã¿
 // ***********************************************************
 //     DWORD nFiles;
-//     -- nFiles ‰ñŒJ‚è•Ô‚µ --
+//     -- nFiles å›ç¹°ã‚Šè¿”ã— --
 //     CSting embFile;
 //     DWORD nFileSize;
 //     BYTE  baFile[nFileSize];
@@ -2516,11 +2516,11 @@ void CJwwDocument::Serialize(CArchive& ar)
 // ***********************************************************
 void CJwwDocument::WriteImageFiles(CArchive& ar)
 {
-	// ‰æ‘œƒtƒ@ƒCƒ‹‚ÌŒÂ”‚ğo—Í
+	// ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã®å€‹æ•°ã‚’å‡ºåŠ›
 	DWORD	nFiles = (DWORD)m_JwwEmbbededImageFiles.size();
 	ar << nFiles;
 
-	// ‰æ‘œƒtƒ@ƒCƒ‹‚ğˆ³k‚µ–„‚ß‚Ş
+	// ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã‚’åœ§ç¸®ã—åŸ‹ã‚è¾¼ã‚€
 	std::set<CString>::iterator pos;
 	for (pos = m_JwwEmbbededImageFiles.begin(); pos != m_JwwEmbbededImageFiles.end(); pos++)
 	{
@@ -2535,73 +2535,73 @@ void CJwwDocument::WriteImageFiles(CArchive& ar)
 		TCHAR	path2[MAX_PATH];
 
 		//////////////////////////////////////////////////////
-		// ‰æ‘œƒtƒ@ƒCƒ‹ ‚Æ ˆ³kƒtƒ@ƒCƒ‹ ‚ÌƒpƒX–¼‚ğ—pˆÓ‚·‚é
+		// ç”»åƒãƒ•ã‚¡ã‚¤ãƒ« ã¨ åœ§ç¸®ãƒ•ã‚¡ã‚¤ãƒ« ã®ãƒ‘ã‚¹åã‚’ç”¨æ„ã™ã‚‹
 		//////////////////////////////////////////////////////
-		// ‚±‚ÌW‡‚É‰æ‘œƒtƒ@ƒCƒ‹‚ÌƒpƒX–¼‚ª“ü‚Á‚Ä‚¢‚é
+		// ã“ã®é›†åˆã«ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹åãŒå…¥ã£ã¦ã„ã‚‹
 		inFile = (*pos);
-		// ˆêƒtƒ@ƒCƒ‹ƒfƒBƒŒƒNƒgƒŠ‚ğæ“¾
+		// ä¸€æ™‚ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å–å¾—
 		GetTempPath(MAX_PATH, (LPTSTR)path);
 		GetLongPathName(path, path2, MAX_PATH);
-		// ˆ³kƒtƒ@ƒCƒ‹‚ÌƒpƒX–¼ˆêƒtƒ@ƒCƒ‹ƒfƒBƒŒƒNƒgƒŠ{“ü—Íƒtƒ@ƒCƒ‹(ƒtƒ@ƒCƒ‹‚ÆŠg’£q){".gz"
+		// åœ§ç¸®ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹åï¼ä¸€æ™‚ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªï¼‹å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«(ãƒ•ã‚¡ã‚¤ãƒ«ã¨æ‹¡å¼µå­)ï¼‹".gz"
 		_tcscpy_s(path, MAX_PATH, inFile);
 		outFile.Format(_T("%s%s.gz"), path2, PathFindFileName(path));
 		//////////////////////////////////////////////////////
-		// ˆ³kƒtƒ@ƒCƒ‹‚ğì¬
+		// åœ§ç¸®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆ
 		//////////////////////////////////////////////////////
-		// ‰æ‘œƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İƒI[ƒvƒ“
+		// ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿ã‚ªãƒ¼ãƒ—ãƒ³
 		FILE* pFile = NULL;
 		_tfopen_s(&pFile, inFile, _T("rb"));
 		if (pFile == NULL)
 		{
-			//printf(_T("\n‰æ‘œƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒGƒ‰[(%d) : %s"), errno, (LPCTSTR)inFile );
+			//printf(_T("\nç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã‚¨ãƒ©ãƒ¼(%d) : %s"), errno, (LPCTSTR)inFile );
 			continue;
 		}
-		// ˆ³kƒtƒ@ƒCƒ‹‚ğ‘‚«‚İƒI[ƒvƒ“
+		// åœ§ç¸®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ›¸ãè¾¼ã¿ã‚ªãƒ¼ãƒ—ãƒ³
 		memset(buf, 0, BUFSIZ);
 		WideCharToMultiByte(CP_ACP, 0, outFile, outFile.GetLength(), (LPSTR)(LPVOID)buf, BUFSIZ, NULL, NULL);
 		gzFile	zFile = gzopen((LPCSTR)buf, "wb");
 		if (zFile == NULL)
 		{
-			//printf(_T("\nˆ³kƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒGƒ‰[(%d) : %s"), errno, (LPCTSTR)outFile );
+			//printf(_T("\nåœ§ç¸®ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã‚¨ãƒ©ãƒ¼(%d) : %s"), errno, (LPCTSTR)outFile );
 			fclose(pFile);
 			continue;
 		}
-		// ‰æ‘œƒtƒ@ƒCƒ‹‚ğgzip‚Åˆ³k
+		// ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã‚’gzipã§åœ§ç¸®
 		bool	bFileError = false;
 		while (!feof(pFile))
 		{
 			nReadSize = (UINT)fread(buf, 1, BUFSIZ, pFile);
 			if (ferror(pFile))
 			{
-				//printf(_T("\n‰æ‘œƒtƒ@ƒCƒ‹ƒŠ[ƒhƒGƒ‰[ : %s"), (LPCTSTR)inFile );
+				//printf(_T("\nç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ãƒªãƒ¼ãƒ‰ã‚¨ãƒ©ãƒ¼ : %s"), (LPCTSTR)inFile );
 				bFileError = true;
 				break;
 			}
 			nWriteSize = gzwrite(zFile, buf, nReadSize);
 			if (nWriteSize < 0)
 			{
-				//printf(_T("\nˆ³kƒtƒ@ƒCƒ‹ƒ‰ƒCƒgƒGƒ‰[ : %s"), (LPCTSTR)outFile );
+				//printf(_T("\nåœ§ç¸®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ©ã‚¤ãƒˆã‚¨ãƒ©ãƒ¼ : %s"), (LPCTSTR)outFile );
 				bFileError = true;
 				break;
 			}
 		}
-		// ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
+		// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
 		fclose(pFile);
 		gzclose(zFile);
 		//////////////////////////////////////////////////////
-		// ˆ³kƒtƒ@ƒCƒ‹‚ğJWWƒtƒ@ƒCƒ‹‚É’Ç‰Á‚·‚é
+		// åœ§ç¸®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’JWWãƒ•ã‚¡ã‚¤ãƒ«ã«è¿½åŠ ã™ã‚‹
 		//////////////////////////////////////////////////////
 		if (!bFileError)
 		{
 			CFile	gz(outFile, CFile::modeRead | CFile::typeBinary);
-			// ˆ³kƒtƒ@ƒCƒ‹–¼(ƒfƒBƒŒƒNƒgƒŠ‚È‚µ)‚ğ}–Êƒtƒ@ƒCƒ‹‚ÉƒRƒs[‚·‚é
+			// åœ§ç¸®ãƒ•ã‚¡ã‚¤ãƒ«å(ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãªã—)ã‚’å›³é¢ãƒ•ã‚¡ã‚¤ãƒ«ã«ã‚³ãƒ”ãƒ¼ã™ã‚‹
 			_tcscpy_s(path, MAX_PATH, outFile);
 			embFile = PathFindFileName(path);
 			ar << CStringA(embFile);
-			// ƒtƒ@ƒCƒ‹ƒTƒCƒY‚ğ}–Êƒtƒ@ƒCƒ‹‚ÉƒRƒs[‚·‚é
+			// ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºã‚’å›³é¢ãƒ•ã‚¡ã‚¤ãƒ«ã«ã‚³ãƒ”ãƒ¼ã™ã‚‹
 			nFileSize = (UINT)gz.GetLength();
 			ar << nFileSize;
-			// ˆ³kƒf[ƒ^‚ğ}–Êƒtƒ@ƒCƒ‹‚ÉƒRƒs[‚·‚é
+			// åœ§ç¸®ãƒ‡ãƒ¼ã‚¿ã‚’å›³é¢ãƒ•ã‚¡ã‚¤ãƒ«ã«ã‚³ãƒ”ãƒ¼ã™ã‚‹
 			while (nFileSize > 0)
 			{
 				nReadSize = gz.Read(buf, BUFSIZ);
@@ -2610,15 +2610,15 @@ void CJwwDocument::WriteImageFiles(CArchive& ar)
 			}
 			gz.Close();
 		}
-		// ˆ³kƒtƒ@ƒCƒ‹‚ğíœ
+		// åœ§ç¸®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤
 		DeleteFile(outFile);
 	}
 }
 
-// ‰æ‘œƒtƒ@ƒCƒ‹“WŠJ
+// ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«å±•é–‹
 void CJwwDocument::ExtructImageFiles(CArchive& ar)
 {
-	// JWWƒtƒ@ƒCƒ‹ƒo[ƒWƒ‡ƒ“‚ğŠm”F
+	// JWWãƒ•ã‚¡ã‚¤ãƒ«ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’ç¢ºèª
 	if (m_JwwHeader.m_Version < eVer700)
 	{
 		return;
@@ -2632,41 +2632,41 @@ void CJwwDocument::ExtructImageFiles(CArchive& ar)
 	TCHAR	path2[MAX_PATH];
 	BYTE	buf[BUFSIZ];
 
-	// o—Íæ‚ª‚È‚©‚Á‚½‚çJWW‚Ì‚ ‚éˆÊ’u‚Å‘ã—p
+	// å‡ºåŠ›å…ˆãŒãªã‹ã£ãŸã‚‰JWWã®ã‚ã‚‹ä½ç½®ã§ä»£ç”¨
 	if (m_extructDir.IsEmpty())
 	{
 		_tcscpy_s(path, MAX_PATH, (LPCTSTR)m_jwwPath);
 		PathRemoveFileSpec(path);
 		m_extructDir = path;
 	}
-	// “Y•tƒtƒ@ƒCƒ‹”‚ÅŒJ‚è•Ô‚µ
+	// æ·»ä»˜ãƒ•ã‚¡ã‚¤ãƒ«æ•°ã§ç¹°ã‚Šè¿”ã—
 	for (ar >> nFiles; nFiles > 0; --nFiles)
 	{
-		// ‰æ‘œƒtƒ@ƒCƒ‹–¼(ƒpƒX‚È‚µAŠg’£q‚ ‚è)‚ğæ“¾
+		// ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«å(ãƒ‘ã‚¹ãªã—ã€æ‹¡å¼µå­ã‚ã‚Š)ã‚’å–å¾—
 		ar >> strArchiveFile;
-		// ƒtƒ@ƒCƒ‹ƒTƒCƒY‚ğæ“¾
+		// ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºã‚’å–å¾—
 		ar >> nFileSize;
 		ASSERT(nFileSize);
 		if (nFileSize == 0)
 		{
 			continue;
 		}
-		// ‰æ‘œƒtƒ@ƒCƒ‹‚ÌŠ®‘SƒpƒX‚ğì¬
+		// ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã®å®Œå…¨ãƒ‘ã‚¹ã‚’ä½œæˆ
 		bExtruct = false;
 		_tcscpy_s(path, MAX_PATH, m_extructDir);
 		PathAppend(path, strArchiveFile);
 		if (_tcsicmp(PathFindExtension(path), _T(".gz")) == 0)
 		{
 			bExtruct = true;
-			PathRemoveExtension(path); // ‚È‚ñ‚Æ‚©.bmp.gz -> ‚È‚ñ‚Æ‚©.bmp
+			PathRemoveExtension(path); // ãªã‚“ã¨ã‹.bmp.gz -> ãªã‚“ã¨ã‹.bmp
 		}
 		strImageFile = path;
-		// ˆêƒtƒ@ƒCƒ‹—pƒfƒBƒŒƒNƒgƒŠ–¼‚ğƒtƒ@ƒCƒ‹–¼‚É’Ç‰Á
+		// ä¸€æ™‚ãƒ•ã‚¡ã‚¤ãƒ«ç”¨ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªåã‚’ãƒ•ã‚¡ã‚¤ãƒ«åã«è¿½åŠ 
 		GetTempPath(MAX_PATH, (LPTSTR)path2);
 		GetLongPathName(path2, path, MAX_PATH);
 		PathAppend(path, strArchiveFile);
 		strArchiveFile = path;
-		// ˆ³kƒtƒ@ƒCƒ‹‚ğˆêƒfƒBƒŒƒNƒgƒŠ‚Éì¬
+		// åœ§ç¸®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä¸€æ™‚ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«ä½œæˆ
 		if (bExtruct)
 		{
 			UINT	nReadSize;
@@ -2680,57 +2680,57 @@ void CJwwDocument::ExtructImageFiles(CArchive& ar)
 			}
 			gz.Close();
 			//////////////////////////////////////////////////////
-			// ‰æ‘œƒtƒ@ƒCƒ‹‚ğì¬
+			// ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆ
 			//////////////////////////////////////////////////////
 			bool	bFileError = false;
 			FILE* pFile = NULL;
 			_tfopen_s(&pFile, strImageFile, _T("wb"));
 			if (pFile == NULL)
 			{
-				//printf(_T("\n‰æ‘œƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒGƒ‰[(%d) : %s"), errno, (LPCTSTR)strImageFile );
+				//printf(_T("\nç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã‚¨ãƒ©ãƒ¼(%d) : %s"), errno, (LPCTSTR)strImageFile );
 				continue;
 			}
-			// ˆ³kƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İƒI[ƒvƒ“
+			// åœ§ç¸®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿ã‚ªãƒ¼ãƒ—ãƒ³
 			memset(buf, 0, BUFSIZ);
 			WideCharToMultiByte(CP_ACP, 0, strArchiveFile, strArchiveFile.GetLength(), (LPSTR)(LPVOID)buf, BUFSIZ, NULL, NULL);
 			gzFile	zFile = gzopen((LPCSTR)buf, "rb");
 			if (zFile == NULL)
 			{
-				//printf(_T("\nˆ³kƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒGƒ‰[(%d) : %s"), errno, (LPCTSTR)strArchiveFile );
+				//printf(_T("\nåœ§ç¸®ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã‚¨ãƒ©ãƒ¼(%d) : %s"), errno, (LPCTSTR)strArchiveFile );
 				fclose(pFile);
 				continue;
 			}
-			// ˆ³kƒtƒ@ƒCƒ‹‚©‚ç‰æ‘œƒtƒ@ƒCƒ‹‚ğæ“¾
+			// åœ§ç¸®ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–å¾—
 			INT		zReadSize;
 			while (!gzeof(zFile))
 			{
 				zReadSize = gzread(zFile, buf, BUFSIZ);
 				if (zReadSize < 0)
 				{
-					//printf(_T("\nˆ³kƒtƒ@ƒCƒ‹ƒŠ[ƒhƒGƒ‰[ : %s"), (LPCTSTR)strArchiveFile );
+					//printf(_T("\nåœ§ç¸®ãƒ•ã‚¡ã‚¤ãƒ«ãƒªãƒ¼ãƒ‰ã‚¨ãƒ©ãƒ¼ : %s"), (LPCTSTR)strArchiveFile );
 					bFileError = true;
 					break;
 				}
 				fwrite(buf, 1, zReadSize, pFile);
 				if (ferror(pFile))
 				{
-					//printf(_T("\n‰æ‘œƒtƒ@ƒCƒ‹ƒ‰ƒCƒgƒGƒ‰[ : %s"), (LPCTSTR)strImageFile );
+					//printf(_T("\nç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ãƒ©ã‚¤ãƒˆã‚¨ãƒ©ãƒ¼ : %s"), (LPCTSTR)strImageFile );
 					bFileError = true;
 					break;
 				}
 			}
-			// ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
+			// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
 			fclose(pFile);
 			gzclose(zFile);
-			// ˆêƒtƒ@ƒCƒ‹‚ğíœ
+			// ä¸€æ™‚ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤
 			DeleteFile(strArchiveFile);
-			// “WŠJƒGƒ‰[‚Í”¼’[‚È‰æ‘œƒtƒ@ƒCƒ‹‚àíœ
+			// å±•é–‹ã‚¨ãƒ©ãƒ¼æ™‚ã¯åŠç«¯ãªç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã‚‚å‰Šé™¤
 			if (bFileError)
 			{
 				DeleteFile(strImageFile);
 			}
 		}
-		// ”ñˆ³k‚Ì‰æ‘œƒtƒ@ƒCƒ‹‚Í}–Ê‚Æ“¯‚¶ƒfƒBƒŒƒNƒgƒŠ‚Éì¬
+		// éåœ§ç¸®ã®ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã¯å›³é¢ã¨åŒã˜ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«ä½œæˆ
 		else
 		{
 			UINT	nReadSize;
@@ -2762,7 +2762,7 @@ void CJwwDocument::Dump(class CDumpContext & dc) const
 }
 #endif	//_DEBUG
 
-// kÚ‚Æ•ÏˆÊ‚Ì“K—p‚Æ‰Šú‰»
+// ç¸®å°ºã¨å¤‰ä½ã®é©ç”¨ã¨åˆæœŸåŒ–
 void CJwwDocument::DoDataScale(double &dValue)
 {
 	m_JwwHeader.DoDataScale(dValue);
@@ -2788,7 +2788,7 @@ void CJwwDocument::GetDataOffset(struct DPoint & pOut)
 	return m_JwwHeader.GetDataOffset(pOut);
 }
 
-// RAY,XLINE‚Ìo—Í”ÍˆÍ‚ÌŒvZ‚Ég‚¤
+// RAY,XLINEã®å‡ºåŠ›ç¯„å›²ã®è¨ˆç®—ã«ä½¿ã†
 void CJwwDocument::SetMinMaxPt(const OdGePoint3d& min, const OdGePoint3d& max)
 {
 	m_JwwHeader.SetMinMaxPt(min, max);
@@ -2799,25 +2799,25 @@ void CJwwDocument::GetMinMaxPt(OdGePoint3d& min, OdGePoint3d& max) const
 	m_JwwHeader.GetMinMaxPt(min, max);
 }
 
-// “ü—Í—p}–Ê”ÍˆÍ
+// å…¥åŠ›ç”¨å›³é¢ç¯„å›²
 void CJwwDocument::GetDocumentArea(OdGePoint2d& min, OdGePoint2d& max) const
 {
 	m_JwwHeader.GetDocumentArea(min, max);
 }
 
-// å}Œ`‚Ì”
+// ä¸»å›³å½¢ã®æ•°
 INT_PTR	CJwwDocument::GetDataCount() const
 {
 	return m_DataList.GetCount();
 }
 
-// å}Œ`‚Ìæ“ª
+// ä¸»å›³å½¢ã®å…ˆé ­
 POSITION CJwwDocument::GetHeadPosition() const
 {
 	return m_DataList.GetHeadPosition();
 }
 
-// ƒo[ƒWƒ‡ƒ“”Ô†
+// ãƒãƒ¼ã‚¸ãƒ§ãƒ³ç•ªå·
 DWORD CJwwDocument::GetVersion() const
 {
 	return m_JwwHeader.m_Version;

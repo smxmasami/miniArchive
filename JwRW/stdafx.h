@@ -1,15 +1,21 @@
 #pragma once
 
+#ifdef linux
+#include "archive.h"
+#else
 #include "afx.h"
 #include "afxwin.h"
 //#include "atlstr.h"
+#endif
 #include <set>
 #include <iostream>
 
+#ifdef _WIN32
 #if defined(JWWIO_EXPORTS)
 #define EXTFUNC	__declspec(dllexport)
 #else
 #define EXTFUNC	__declspec(dllimport)
+#endif
 #endif
 
 class OdString

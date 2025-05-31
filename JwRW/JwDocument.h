@@ -1,11 +1,11 @@
-//--------------------------------------------------------------------
-// JWƒtƒ@ƒCƒ‹ƒhƒLƒ…ƒƒ“ƒgƒNƒ‰ƒX
-//	JWW,JWC,JWS ƒhƒLƒ…ƒƒ“ƒg ƒNƒ‰ƒX‚ÌeƒNƒ‰ƒX‚Æ‚·‚é
+ï»¿//--------------------------------------------------------------------
+// JWãƒ•ã‚¡ã‚¤ãƒ«ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚¯ãƒ©ã‚¹
+//	JWW,JWC,JWS ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ ã‚¯ãƒ©ã‚¹ã®è¦ªã‚¯ãƒ©ã‚¹ã¨ã™ã‚‹
 //
-//	JWW‚ÆJWS‚ÍFAƒŒƒCƒ„Aüíæ“¾ŠÖ”‚ğƒI[ƒo[ƒ‰ƒCƒh‚·‚é
-//	JWC‚ÍFAƒŒƒCƒ„Aüíæ“¾ŠÖ”‚ğg‚í‚È‚¢
+//	JWWã¨JWSã¯è‰²ã€ãƒ¬ã‚¤ãƒ¤ã€ç·šç¨®å–å¾—é–¢æ•°ã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã™ã‚‹
+//	JWCã¯è‰²ã€ãƒ¬ã‚¤ãƒ¤ã€ç·šç¨®å–å¾—é–¢æ•°ã‚’ä½¿ã‚ãªã„
 //
-//  2017/3/6 JWSƒtƒ@ƒCƒ‹‚ÌƒuƒƒbƒN‚É‘Î‰
+//  2017/3/6 JWSãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ–ãƒ­ãƒƒã‚¯ã«å¯¾å¿œ
 //--------------------------------------------------------------------
 #pragma once
 
@@ -20,35 +20,35 @@ class EXTFUNC CJwDocument : public CDocument
 {
 public:
 	CJwDocument() {};
-	// kÚ‚Æ•ÏˆÊ‚Ì“K—p‚Æ‰Šú‰»
+	// ç¸®å°ºã¨å¤‰ä½ã®é©ç”¨ã¨åˆæœŸåŒ–
 	virtual void DoDataScale(double &dValue) = 0;
 	virtual void DoDataScale(struct DPoint & pValue) = 0;
 	virtual void SetDataScale(const double dValue, const struct DPoint & pIn) = 0;
 	virtual double GetDataScale() = 0;
-	// RAY,XLINE‚Ìo—Í”ÍˆÍ‚ÌŒvZ‚Ég‚¤
+	// RAY,XLINEã®å‡ºåŠ›ç¯„å›²ã®è¨ˆç®—ã«ä½¿ã†
 	virtual void SetMinMaxPt(const OdGePoint3d& min, const OdGePoint3d& max) = 0;
 	virtual void GetMinMaxPt(OdGePoint3d& min, OdGePoint3d& max) const = 0;
-	// “ü—Í—p}–Ê”ÍˆÍ
+	// å…¥åŠ›ç”¨å›³é¢ç¯„å›²
 	virtual void GetDocumentArea(OdGePoint2d& min, OdGePoint2d& max) const = 0;
-	// ƒuƒƒbƒN[‚³‚ğİ’è
+	// ãƒ–ãƒ­ãƒƒã‚¯æ·±ã•ã‚’è¨­å®š
 	virtual void SetDepth(const int depth) = 0;
-	// ƒuƒƒbƒN[‚³‚ğæ“¾
+	// ãƒ–ãƒ­ãƒƒã‚¯æ·±ã•ã‚’å–å¾—
 	virtual int GetDepth(void) const = 0;
-	// JWW“WŠJ—pƒpƒX‚ğİ’è
+	// JWWå±•é–‹ç”¨ãƒ‘ã‚¹ã‚’è¨­å®š
 	virtual void SetJwwPath(const CString& path) = 0;
-	// JWW“WŠJ—pƒpƒX‚ğæ“¾
+	// JWWå±•é–‹ç”¨ãƒ‘ã‚¹ã‚’å–å¾—
 	virtual CString GetJwwPath() = 0;
-	// å}Œ`‚Ì”
+	// ä¸»å›³å½¢ã®æ•°
 	virtual INT_PTR	GetDataCount() const = 0;
-	// å}Œ`‚Ìæ“ª
+	// ä¸»å›³å½¢ã®å…ˆé ­
 	virtual POSITION GetHeadPosition() const = 0;
-	// å}Œ`‚Ìƒf[ƒ^ƒŠƒXƒg
+	// ä¸»å›³å½¢ã®ãƒ‡ãƒ¼ã‚¿ãƒªã‚¹ãƒˆ
 	virtual CTypedPtrList<CObList, CData*>& GetDataList() = 0;
-	// ƒuƒƒbƒN}Œ`‚Ìƒf[ƒ^ƒŠƒXƒg
+	// ãƒ–ãƒ­ãƒƒã‚¯å›³å½¢ã®ãƒ‡ãƒ¼ã‚¿ãƒªã‚¹ãƒˆ
 	virtual CTypedPtrList<CObList, CDataList*> *GetBlockList() = 0;
-	// ƒo[ƒWƒ‡ƒ“‚ğæ“¾
+	// ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’å–å¾—
 	virtual DWORD GetVersion() const = 0;
-	// ƒ_ƒ“ƒv
+	// ãƒ€ãƒ³ãƒ—
 #ifdef _DEBUG
 	virtual void AssertValid() const = 0;
 	virtual void Dump(CDumpContext& dc) const = 0;
