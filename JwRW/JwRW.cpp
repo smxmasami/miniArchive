@@ -9,22 +9,16 @@ int main()
     {
         CFile file(_T("sample.jww"), CFile::modeRead);
         CArchive ar(&file, CArchive::load);
-        CStringA str;
-        ar >> str;
-        std::cout << str << std::endl;
-        ar >> str;
-        std::cout << str << std::endl;
-        ar >> str;
-        std::cout << str << std::endl;
+        ar.m_pDocument = pDoc;
+        pDoc->Serialize(ar);
         ar.Close();
     }
     std::cout << "Write JW file." << std::endl;
     {
         CFile file(_T("result.jww"), CFile::modeCreate | CFile::modeWrite);
         CArchive ar(&file, CArchive::store);
-        ar << CStringA(_T("ABCおはよう"));
-        ar << CStringA(_T("DEFこんにちは"));
-        ar << CStringA(_T("GHIおやすみ"));
+        ar.m_pDocument = pDoc;
+        pDoc->Serialize(ar);
         ar.Close();
     }
     delete pDoc;
