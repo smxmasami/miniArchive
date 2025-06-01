@@ -33,7 +33,7 @@ public:
     void operator += (OdString& t) { str += t.c_str(); }
     void insert(unsigned int i, const char16_t* t) { str.Insert(i, t); }
     void deleteChars(unsigned int i, unsigned int n=1) { str.Delete(i, n); }
-    int find(const char16_t* t, int i = 0) const { return str.Find(t, i); }
+    int find(const char16_t *t, int i = 0) const { return str.Find(t, i); }
 private:
     CString str;
 };

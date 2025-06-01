@@ -568,8 +568,13 @@ void CJwwHeader::Serialize(CArchive& ar)
 		ar >> m_Version;
 		if (m_Version < 230)
 		{
+#ifdef linux
+			std::cout << "File version is too old.. Use Jw_cad and save as the latest version." << std::endl;
+			return;
+#else			
 			AfxMessageBox(L"\nFile version is too old.. Use Jw_cad and save as the latest version.\n");
 			AfxThrowUserException();
+#endif
 		}
 
 		// ファイルメモ
@@ -1129,6 +1134,9 @@ void CJwwHeader::SetDataScale(const double dValue, const struct DPoint & pIn)
 		m_dJwwScale = 1.0;
 
 		// 設定を読んで、縮尺モードを設定(0:用紙、1:最大縮尺、2:ユーザ指定)
+	#ifdef linux
+		DWORD dwValue = 0;
+	#else	
 		DWORD dwValue = GetPrivateProfileInt(_T("JwwIN"), _T("Paper"), 1, m_pDoc->m_iniPath);
 		//DWORD dwValue = FXAPI()->fdt_getconfintW(L"JwwIN",L"Paper",1);
 		if (dwValue == 1) // 「実寸」一番大きな画層グループ縮尺を適用
@@ -1166,6 +1174,7 @@ void CJwwHeader::SetDataScale(const double dValue, const struct DPoint & pIn)
 				m_dJwwScale = 1.0;
 			}
 		}
+	#endif
 		// オフセットを用紙サイズから求めます
 		// 0～4:A0～A4, 8:2A, 9:3A, 10:4A, 11:5A
 		if ((0 <= m_nZumen && m_nZumen <= 4) || (8 <= m_nZumen && m_nZumen <= 11))
@@ -1235,9 +1244,13 @@ void CJwwHeader::GetDocumentArea(OdGePoint2d& min, OdGePoint2d& max) const
 // 文字角度補正設定を取得
 void CJwwHeader::SetTextOrthoTol()
 {
+#ifdef linux
+	m_bFixAng = 0;
+	m_tFixAng = 1e-10;
+#else
 	// アプリケーション名を取得
 	TCHAR buf[32];
-	CString appname(_T("JwwOut"));
+	CString appname(_T("JwwOut"));	
 	GetPrivateProfileString(appname, _T("Command"), _T("_JWEXPORT"), buf, 32, m_pDoc->m_iniPath);
 	if (_tcscmp(buf, _T("_JWEXPORT")))
 	{
@@ -1246,6 +1259,7 @@ void CJwwHeader::SetTextOrthoTol()
 	m_bFixAng = GetPrivateProfileInt(appname, _T("useFixAng"), 0, m_pDoc->m_iniPath);
 	int prec = GetPrivateProfileInt(appname, _T("FixAngPrec"), 10, m_pDoc->m_iniPath);
 	m_tFixAng = pow(10.0, -prec);
+#endif
 }
 
 // 文字角度補正設定を取得
