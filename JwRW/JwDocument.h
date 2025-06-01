@@ -16,6 +16,7 @@ class OdString;
 class OdGePoint3d;
 class OdGePoint2d;
 
+
 class EXTFUNC CJwDocument : public CDocument
 {
 public:
@@ -40,12 +41,21 @@ public:
 	virtual CString GetJwwPath() = 0;
 	// 主図形の数
 	virtual INT_PTR	GetDataCount() const = 0;
+#ifdef linux
+	// 主図形の先頭
+	virtual POSITION GetHeadPosition() const = 0;
+	// 主図形のデータリスト
+	virtual std::list<CData*>& GetDataList() = 0;
+	// ブロック図形のデータリスト
+	virtual std::list<CDataList*> *GetBlockList() = 0;
+#else	
 	// 主図形の先頭
 	virtual POSITION GetHeadPosition() const = 0;
 	// 主図形のデータリスト
 	virtual CTypedPtrList<CObList, CData*>& GetDataList() = 0;
 	// ブロック図形のデータリスト
 	virtual CTypedPtrList<CObList, CDataList*> *GetBlockList() = 0;
+#endif	
 	// バージョンを取得
 	virtual DWORD GetVersion() const = 0;
 	// ダンプ

@@ -811,7 +811,11 @@ protected:
 	double m_dBairitsuX;	// X方向倍率
 	double m_dBairitsuY;	// Y方向倍率
 	double m_radKaitenKaku;	// 回転角
+#ifdef linux
+	std::list<CDataList*>* m_pDataListList;
+#else	
 	CTypedPtrList<CObList, CDataList*>* m_pDataListList;
+#endif	
 	//リストへのポインタ
 	DWORD m_nNumber;		// 定義データの通し番号
 
@@ -849,9 +853,17 @@ class EXTFUNC CDataList : public CData
 public:
 	DWORD m_nNumber;        // 通し番号
 	DWORD m_bReffered;      // 被参照フラグ
+#ifdef linux
+	DWORD m_time;           // 定義時刻
+#else	
 	CTime m_time;           // 定義時刻
+#endif	
 	CString m_strName;      // ブロック定義名称
+#ifdef linux
+	std::list<CData*> m_pDataList;
+#else	
 	CTypedPtrList<CObList, CData*> m_DataList;   // ブロックに含まれる図形リスト
+#endif	
 
 public:
 	// シリアライズ
@@ -873,10 +885,17 @@ class EXTFUNC CJwwDocument : public CJwDocument
 public:
 	/// JWWファイル ヘッダ
 	CJwwHeader	m_JwwHeader;
+#ifdef linux
+	/// 図形データのリスト(ENTITIES SECTION 相当)
+	std::list<CData*>	m_DataList;
+	/// ブロックデータ定義部のリスト(BLOCKS SECTION 相当)
+	std::list<CDataList*>	m_DataListList;
+#else	
 	/// 図形データのリスト(ENTITIES SECTION 相当)
 	CTypedPtrList<CObList, CData*>	m_DataList;
 	/// ブロックデータ定義部のリスト(BLOCKS SECTION 相当)
 	CTypedPtrList<CObList, CDataList*>	m_DataListList;
+#endif
 	/// 画像ファイル名の配列(入力=すべての画像ファイル 入力=埋め込み画像ファイルのみ)
 	std::set<CString>	m_JwwEmbbededImageFiles;
 	/// JWW図面ファイルのパス(イメージの相対パスを求める際に必要)
@@ -931,10 +950,17 @@ public:
 	INT_PTR	GetDataCount() const;
 	// 主図形の先頭
 	POSITION GetHeadPosition() const;
+#ifdef linux
+	// 主図形のデータリスト
+	virtual std::list<CData*>& GetDataList() { return m_DataList; }
+	// ブロック図形のデータリスト
+	virtual std::list<CDataList*> *GetBlockList() { return &m_DataListList; }
+#else	
 	// 主図形のデータリスト
 	CTypedPtrList<CObList, CData*>& GetDataList() { return m_DataList; }
 	// ブロック図形のデータリスト
 	CTypedPtrList<CObList, CDataList*>* GetBlockList() { return &m_DataListList; }
+#endif
 	// バージョンを取得
 	DWORD GetVersion() const;
 	// ブロック深さを設定

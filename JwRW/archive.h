@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <list>
 
 //-----------------------------------------------------------
 // Windows での型名の再定義
@@ -25,7 +26,13 @@
 #define LPCSTR const char*
 #define LPWSTR  char16_t*
 #define LPCWSTR const char16_t*
-
+#define INT_PTR LONGLONG
+#define POSITION LONGLONG
+#define DECLARE_SERIAL(x)
+#define DECLARE_MESSAGE_MAP() 
+#define LPCTSTR LPCWSTR
+#define TRUE    1
+#define FALSE   0
 //-----------------------------------------------------------
 // CAnsiString UTF8またはShiftJIS文字列
 //-----------------------------------------------------------
@@ -60,7 +67,22 @@ public:
 private:
     std::u16string m_str;    
 };
-
+//-----------------------------------------------------------
+// CDocument c++ ファイルのカプセル化
+//-----------------------------------------------------------
+class CObject
+{
+public:
+    CObject(){}
+};
+//-----------------------------------------------------------
+// CDocument c++ ファイルのカプセル化
+//-----------------------------------------------------------
+class CDocument
+{
+public:
+    CDocument(){}
+};
 //-----------------------------------------------------------
 // CFile c++ ファイルのカプセル化
 //-----------------------------------------------------------
@@ -147,4 +169,6 @@ public:
 protected:
     CFile* m_file;
     UINT m_mode;
+public:
+    CDocument* m_pDocument;
 };
