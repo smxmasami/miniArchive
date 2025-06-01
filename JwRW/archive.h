@@ -50,8 +50,13 @@ public:
     CString(){}
     CString(const char16_t* str);
     CString& operator = (const char16_t* str );
-    DWORD GetLength() const;
+    void operator += (const char16_t* str );
     operator const char16_t* () const;
+    DWORD GetLength() const;
+    char16_t GetAt(int p) const;
+    void Insert(unsigned int i, const char16_t* t) const;
+    void Delete(unsigned int i, unsigned int n = 1) const;
+    int Find(const char16_t * t, int p = 0) const;
 private:
     std::u16string m_str;    
 };
@@ -65,6 +70,7 @@ public:
     enum Mode {
        modeRead = 1,
        modeWrite = 2,
+       modeCreate = 4
     };
     enum Pos {
         begin = 0,

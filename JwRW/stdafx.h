@@ -10,7 +10,10 @@
 #include <set>
 #include <iostream>
 
-#ifdef _WIN32
+#ifdef linux
+#define EXTFUNC 
+#define _T(x)   (x)    
+#else
 #if defined(JWWIO_EXPORTS)
 #define EXTFUNC	__declspec(dllexport)
 #else
@@ -18,6 +21,23 @@
 #endif
 #endif
 
+#ifdef linux
+class OdString
+{
+public:
+    OdString(const char16_t * t) { str = t; }
+    const char16_t* c_str() { return (const char16_t*)str; }
+    char16_t operator [] (int p) const { return str.GetAt(p); }
+    operator const char16_t* () { return (const char16_t*)str; }
+    void operator += (const char16_t* t) { str += t; }
+    void operator += (OdString& t) { str += t.c_str(); }
+    void insert(unsigned int i, const char16_t* t) { str.Insert(i, t); }
+    void deleteChars(unsigned int i, unsigned int n=1) { str.Delete(i, n); }
+    int find(const char16_t* t, int i = 0) const { return str.Find(t, i); }
+private:
+    CString str;
+};
+#else
 class OdString
 {
 public:
@@ -33,6 +53,7 @@ public:
 private:
     CString str;
 };
+#endif
 
 class OdGePoint2d
 {

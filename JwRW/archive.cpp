@@ -41,14 +41,39 @@ CString& CString::operator = (const char16_t* str )
     return *this;
 }
 
-DWORD  CString::GetLength() const
+void CString::operator += (const char16_t* str )
 {
-    return m_str.length();
+    m_str = m_str + std::u16string(str);
 }
 
 CString::operator const char16_t* () const
 {
     return m_str.c_str();
+}
+
+DWORD  CString::GetLength() const
+{
+    return m_str.length();
+}
+
+char16_t CString::GetAt(int p) const
+{
+    return m_str[p];
+}
+
+void CString::Insert(unsigned int i, const char16_t* t) const
+{
+    m_str.insert(i,t);
+}
+
+void CString::Delete(unsigned int i, unsigned int n) const
+{
+    m_str.erase(i,n);
+}
+
+int CString::Find(const char16_t * t, int p) const
+{
+    return m_str.find(t,p);
 }
 
 //-----------------------------------------------------------
