@@ -44,6 +44,7 @@ class OdString
 {
 public:
     OdString(const wchar_t* t) { str = t; }
+    OdString(const char* t) { str = t; }
     const wchar_t* c_str() { return (const wchar_t*)str; }
     wchar_t operator [] (int p) const { return str.GetAt(p); }
     operator const wchar_t* () { return (const wchar_t*)str; }
