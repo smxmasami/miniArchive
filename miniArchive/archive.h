@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <list>
 
 //-----------------------------------------------------------
 // Windows での型名の再定義
@@ -25,16 +26,28 @@
 #define LPCSTR const char*
 #define LPWSTR  char16_t*
 #define LPCWSTR const char16_t*
-
+#define INT_PTR LONGLONG
+#define POSITION LONGLONG
+#define DECLARE_SERIAL(x)
+#define IMPLEMENT_SERIAL(x,y,z)
+#define DECLARE_MESSAGE_MAP() 
+#define END_MESSAGE_MAP
+#define LPCTSTR LPCWSTR
+#define TRUE    1
+#define FALSE   0
+#define TRACE(x)
+#define TCHAR   char16_t
+#define UINT32  DWORD
 //-----------------------------------------------------------
-// CAnsiString UTF8またはShiftJIS文字列
+// CStringA UTF8またはShiftJIS文字列
 //-----------------------------------------------------------
-class CAnsiString
+class CStringA
 {
 public: 
-    CAnsiString(){}
-    CAnsiString(const char* str);
-    CAnsiString& operator = (const char* str );
+    CStringA(){}
+    CStringA(const char* str);
+    CStringA(const char16_t* str);
+    CStringA& operator = (const char* str );
     DWORD GetLength() const;
     operator const char* () const;
 private:
@@ -50,12 +63,35 @@ public:
     CString(){}
     CString(const char16_t* str);
     CString& operator = (const char16_t* str );
-    DWORD GetLength() const;
+    CString(const char* str);
+    CString& operator = (const char* str );
+    void operator += (const char16_t* str );
+    void operator += (const char* str );
     operator const char16_t* () const;
+    DWORD GetLength() const;
+    char16_t GetAt(int p) const;
+    void Insert(unsigned int i, const char16_t* t);
+    void Delete(unsigned int i, unsigned int n = 1);
+    int Find(const char16_t* str, int i ) const;
 private:
     std::u16string m_str;    
 };
-
+//-----------------------------------------------------------
+// CDocument c++ ファイルのカプセル化
+//-----------------------------------------------------------
+class CObject
+{
+public:
+    CObject(){}
+};
+//-----------------------------------------------------------
+// CDocument c++ ファイルのカプセル化
+//-----------------------------------------------------------
+class CDocument
+{
+public:
+    CDocument(){}
+};
 //-----------------------------------------------------------
 // CFile c++ ファイルのカプセル化
 //-----------------------------------------------------------
@@ -65,6 +101,7 @@ public:
     enum Mode {
        modeRead = 1,
        modeWrite = 2,
+       modeCreate = 4
     };
     enum Pos {
         begin = 0,
@@ -74,7 +111,7 @@ public:
     CFile(){}
     CFile(LPCSTR fileName, UINT nOpenFlags);
     virtual void Close();
-    CAnsiString GetFilePath() const;
+    CStringA GetFilePath() const;
     void SetPosition(ULONGLONG pos);
     ULONGLONG GetLength() const;
     ULONGLONG GetPosition();
@@ -103,10 +140,10 @@ public:
     BOOL IsLoading() const;
     BOOL IsStoring() const;
     UINT Read(void* lpBuf, UINT nMax);
-    BOOL ReadString(CAnsiString& rString);
+    BOOL ReadString(CStringA& rString);
     void Write(const void* lpBuf, UINT nMax);
-    void WriteString(const CAnsiString& wString); 
-    CArchive& operator << (const CAnsiString& str);
+    void WriteString(const CStringA& wString); 
+    CArchive& operator << (const CStringA& str);
     CArchive& operator << (const CString& str);
     CArchive& operator << (BYTE by);
     CArchive& operator << (WORD w);
@@ -122,7 +159,7 @@ public:
     CArchive& operator << (bool b);
     CArchive& operator << (ULONGLONG ull);
     CArchive& operator << (LONGLONG ll);
-    CArchive& operator >> (CAnsiString& str);
+    CArchive& operator >> (CStringA& str);
     CArchive& operator >> (CString& str);
     CArchive& operator >> (BYTE& by);
     CArchive& operator >> (WORD& w);
@@ -141,4 +178,6 @@ public:
 protected:
     CFile* m_file;
     UINT m_mode;
+public:
+    CDocument* m_pDocument;
 };

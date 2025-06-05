@@ -4,25 +4,32 @@
 #include "archive.h"
 
 //-----------------------------------------------------------
-// CAnsiString UTF8またはShiftJIS文字列
+// CStringA UTF8またはShiftJIS文字列
 //-----------------------------------------------------------
-CAnsiString::CAnsiString(const char* str)
+CStringA::CStringA(const char* str)
 {
     m_str = std::string(str);
 }
 
-CAnsiString& CAnsiString::operator = (const char* str )
+CStringA::CStringA(const char16_t* str)
+{
+    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> converter;
+    m_str = converter.to_bytes(str);
+}
+
+
+CStringA& CStringA::operator = (const char* str )
 {
     m_str = std::string(str);
     return *this;
 }
 
-DWORD  CAnsiString::GetLength() const
+DWORD  CStringA::GetLength() const
 {
     return m_str.length();
 }
 
-CAnsiString::operator const char* () const
+CStringA::operator const char* () const
 {
     return m_str.c_str();
 }
@@ -35,10 +42,39 @@ CString::CString(const char16_t* str)
     m_str = std::u16string(str);
 }
 
+CString::CString(const char* str)
+{
+    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> converter;
+    m_str = converter.from_bytes(str);
+}
+
 CString& CString::operator = (const char16_t* str )
 {
     m_str = std::u16string(str);
     return *this;
+}
+
+CString& CString::operator = (const char* str )
+{
+    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> converter;
+    m_str = converter.from_bytes(str);
+    return *this;
+}
+
+void CString::operator += (const char16_t* str )
+{
+    m_str = m_str + std::u16string(str);
+}
+
+void CString::operator += (const char* str )
+{
+    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> converter;
+    m_str = m_str + converter.from_bytes(str);
+}
+
+CString::operator const char16_t* () const
+{
+    return m_str.c_str();
 }
 
 DWORD  CString::GetLength() const
@@ -46,9 +82,24 @@ DWORD  CString::GetLength() const
     return m_str.length();
 }
 
-CString::operator const char16_t* () const
+char16_t CString::GetAt(int p) const
 {
-    return m_str.c_str();
+    return m_str[p];
+}
+
+void CString::Insert(unsigned int i, const char16_t* t)
+{
+    m_str.insert(i, t);
+}
+
+void CString::Delete(unsigned int i, unsigned int n)
+{
+    m_str.erase(i,n);
+}
+
+int CString::Find(const char16_t* str, int i ) const
+{
+   return (int)m_str.find(str,i);
 }
 
 //-----------------------------------------------------------
@@ -74,7 +125,7 @@ void CFile::Close()
         m_out.close();
 }
 
-CAnsiString CFile::GetFilePath() const
+CStringA CFile::GetFilePath() const
 {
     return m_name.c_str();
 }
@@ -202,7 +253,7 @@ UINT CArchive::Read(void* lpBuf, UINT nMax)
 }
 
 // '\n' まで読み込む
-BOOL CArchive::ReadString(CAnsiString& rString)
+BOOL CArchive::ReadString(CStringA& rString)
 {
     return 0;
 }
@@ -216,10 +267,10 @@ void CArchive::Write(const void* lpBuf, UINT nMax)
 }
 
 // '\0' まで書き込む
-void CArchive::WriteString(const CAnsiString& u16string) 
+void CArchive::WriteString(const CStringA& u16string) 
 {}
 
-CArchive& CArchive::operator << (const CAnsiString& str)
+CArchive& CArchive::operator << (const CStringA& str)
 {
     BYTE l1 = 255;
     WORD l2 = 65535;
@@ -403,7 +454,7 @@ CArchive& CArchive::operator << (LONGLONG ll)
     return *this;
 }
 
-CArchive& CArchive::operator >> (CAnsiString& str)
+CArchive& CArchive::operator >> (CStringA& str)
 {
     size_t sz;
     BYTE l1;
