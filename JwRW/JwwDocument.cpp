@@ -2511,7 +2511,6 @@ void CJwwDocument::Serialize(CArchive& ar)
 	{
 		// ヘッダ書込
 		m_JwwHeader.Serialize(ar);
-
 		// 図形データの出力
 		SetDepth(0);
 		m_DataList.Serialize(ar);
@@ -2523,7 +2522,6 @@ void CJwwDocument::Serialize(CArchive& ar)
 		// ブロック図形の出力
 		SetDepth(1);
 		m_DataListList.Serialize(ar);
-
 		// 埋め込み画像の出力
 		//WriteImageFiles(ar);
 	}
