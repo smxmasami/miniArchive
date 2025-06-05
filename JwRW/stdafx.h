@@ -26,10 +26,12 @@ class OdString
 {
 public:
     OdString(const char16_t * t) { str = t; }
+    OdString(const char * t) {str = t;}
     const char16_t* c_str() { return (const char16_t*)str; }
     char16_t operator [] (int p) const { return str.GetAt(p); }
     operator const char16_t* () { return (const char16_t*)str; }
     void operator += (const char16_t* t) { str += t; }
+    void operator += (const char* t) {str += t;}
     void operator += (OdString& t) { str += t.c_str(); }
     void insert(unsigned int i, const char16_t* t) { str.Insert(i, t); }
     void deleteChars(unsigned int i, unsigned int n=1) { str.Delete(i, n); }

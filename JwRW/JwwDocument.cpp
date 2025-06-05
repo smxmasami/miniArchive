@@ -1818,16 +1818,16 @@ OdString CDataMoji::font(void) const
 	{
 		if (value[0] != _T('@'))
 		{
-			value.insert(0, _T("@"));
+			value.insert(0, OdString("@"));
 		}
 	}
 	if (bold())
 	{
-		value += _T(" Bold");
+		value += OdString(" Bold");
 	}
 	if (italic())
 	{
-		value += _T(" Italic");
+		value += OdString(" Italic");
 	}
 	return value;
 }
@@ -1917,13 +1917,13 @@ void	CDataMoji::font(OdString value)
 	// 文字種の太字・斜体設定を削除(0～9999に切り詰める)
 	m_nMojiShu %= CDataMoji::eMask;
 
-	int pos = value.find(_T(" Bold"));
+	int pos = value.find(OdString(" Bold"));
 	if (pos >= 0)
 	{
 		m_nMojiShu += CDataMoji::eFutoji;
 		value.deleteChars(pos, 5);
 	}
-	pos = value.find(_T(" Italic"));
+	pos = value.find(OdString(" Italic"));
 	if (pos >= 0)
 	{
 		m_nMojiShu += CDataMoji::eShatai;
@@ -2406,7 +2406,10 @@ void CDataList::Serialize(CArchive& ar)
 		// 3:作図グループ
 		// 4:作図部品
 	}
+#if linux
+#else
 	m_DataList.Serialize(ar);
+#endif
 }
 
 OdString CDataList::name() const
@@ -2450,6 +2453,10 @@ IMPLEMENT_SERIAL(CJwwDocument, CDocument, VERSIONABLE_SCHEMA);
 
 void CJwwDocument::ClearData()
 {
+#if linux
+	m_DataList.clear();
+	m_DataListList.clear();
+#else
 	while (!m_DataList.IsEmpty())
 	{
 		delete m_DataList.RemoveHead();
@@ -2459,21 +2466,28 @@ void CJwwDocument::ClearData()
 		delete m_DataListList.RemoveHead();
 	}
 	m_JwwEmbbededImageFiles.clear();
+#endif
 }
 
 BOOL CJwwDocument::OnNewDocument()
 {
+#if linux
+	return TRUE;
+#else	
 	if (!CDocument::OnNewDocument())
 		return FALSE;
 	return TRUE;
+#endif
 }
 
 CJwwDocument::~CJwwDocument()
 {
 }
 
+#ifdef _WIN32
 BEGIN_MESSAGE_MAP(CJwwDocument, CDocument)
 END_MESSAGE_MAP()
+#endif
 
 void CJwwDocument::Serialize(CArchive& ar)
 {
@@ -2822,13 +2836,21 @@ void CJwwDocument::GetDocumentArea(OdGePoint2d& min, OdGePoint2d& max) const
 // 主図形の数
 INT_PTR	CJwwDocument::GetDataCount() const
 {
+#ifdef linux
+	return m_DataList.size();
+#else
 	return m_DataList.GetCount();
+#endif
 }
 
 // 主図形の先頭
 POSITION CJwwDocument::GetHeadPosition() const
 {
+#if linux	
+	return 0;
+#else
 	return m_DataList.GetHeadPosition();
+#endif
 }
 
 // バージョン番号

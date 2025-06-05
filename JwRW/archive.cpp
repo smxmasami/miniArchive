@@ -54,9 +54,22 @@ CString& CString::operator = (const char16_t* str )
     return *this;
 }
 
+CString& CString::operator = (const char* str )
+{
+    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> converter;
+    m_str = converter.from_bytes(str);
+    return *this;
+}
+
 void CString::operator += (const char16_t* str )
 {
     m_str = m_str + std::u16string(str);
+}
+
+void CString::operator += (const char* str )
+{
+    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> converter;
+    m_str = m_str + converter.from_bytes(str);
 }
 
 CString::operator const char16_t* () const

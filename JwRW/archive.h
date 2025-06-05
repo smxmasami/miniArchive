@@ -31,11 +31,13 @@
 #define DECLARE_SERIAL(x)
 #define IMPLEMENT_SERIAL(x,y,z)
 #define DECLARE_MESSAGE_MAP() 
+#define END_MESSAGE_MAP
 #define LPCTSTR LPCWSTR
 #define TRUE    1
 #define FALSE   0
 #define TRACE(x)
 #define TCHAR   char16_t
+#define UINT32  DWORD
 //-----------------------------------------------------------
 // CStringA UTF8またはShiftJIS文字列
 //-----------------------------------------------------------
@@ -62,13 +64,15 @@ public:
     CString(const char16_t* str);
     CString& operator = (const char16_t* str );
     CString(const char* str);
+    CString& operator = (const char* str );
     void operator += (const char16_t* str );
+    void operator += (const char* str );
     operator const char16_t* () const;
     DWORD GetLength() const;
     char16_t GetAt(int p) const;
     void Insert(unsigned int i, const char16_t* t);
     void Delete(unsigned int i, unsigned int n = 1);
-    int Find(const char16_t * t, int p = 0) const;
+    int Find(const char16_t* t, int p = 0) const;
 private:
     std::u16string m_str;    
 };
