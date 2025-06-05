@@ -97,9 +97,9 @@ void CString::Delete(unsigned int i, unsigned int n)
     m_str.erase(i,n);
 }
 
-int CString::Find(const char16_t * t, int p) const
+int CString::Find(const char16_t* str, int i ) const
 {
-    return m_str.find(t,p);
+   return (int)m_str.find(str,i);
 }
 
 //-----------------------------------------------------------

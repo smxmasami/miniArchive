@@ -72,7 +72,7 @@ public:
     char16_t GetAt(int p) const;
     void Insert(unsigned int i, const char16_t* t);
     void Delete(unsigned int i, unsigned int n = 1);
-    int Find(const char16_t* t, int p = 0) const;
+    int Find(const char16_t* str, int i ) const;
 private:
     std::u16string m_str;    
 };

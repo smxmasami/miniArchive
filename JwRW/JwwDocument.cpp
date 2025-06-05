@@ -2284,6 +2284,15 @@ void CDataBlock::Serialize(CArchive& ar)
 // データリスト取得
 CDataList* CDataBlock::GetDataList()
 {
+#ifdef linux
+	for(auto it = m_pDataListList->begin() ; it != m_pDataListList->end() ; it++ )
+	{
+		if( m_nNumber == (*it)->m_nNumber )
+		{
+			return *it;
+		}
+	}
+#else	
 	CDataList* pDataList;
 	POSITION ListListPos = m_pDataListList->GetHeadPosition();
 	while (ListListPos)
@@ -2294,6 +2303,7 @@ CDataList* CDataBlock::GetDataList()
 			return pDataList;
 		}
 	}
+#endif
 	return NULL;
 }
 
@@ -2379,14 +2389,17 @@ void CDataList::Serialize(CArchive& ar)
 		ar << m_bReffered;
 		// 2017/2/15 CTimeを出力すると64bit整数を出力してしまうが
 		// JWWファイルでは32bit整数を出力すべきである
+#ifdef linux
+		ar << m_time;
+#else	
 		UINT32 tm32 = (UINT32)m_time.GetTime();
 		ar << tm32;
-		//ar << m_time;
+#endif
 		// 2017/2/15 V7.00なのでブロック名の後ろにSXFブロック種別が
 		// ブロック名にないときは追加する(4:作図部品)
-		if (m_strName.Find(_T("@@SfigorgFlag@@")) < 0)
+		if (m_strName.Find(CString("@@SfigorgFlag@@"), 0) < 0)
 		{
-			m_strName += _T("@@SfigorgFlag@@4");
+			m_strName += CString("@@SfigorgFlag@@4");
 		}
 		// ブロック名はMBCS文字列として出力
 		ar << CStringA(m_strName);
