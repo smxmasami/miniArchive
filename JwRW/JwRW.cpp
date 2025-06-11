@@ -2,13 +2,18 @@
 //
 #include "stdafx.h"
 
-int main()
+int _tmain(int argc, TCHAR* argv[])
 {
     setlocale(LC_ALL, "japanese");
+    if (argc < 3)
+    {
+        std::cout << "JwRW in_file out_file" << std::endl;
+        return EPERM;
+    }
     CJwwDocument* pDoc = new CJwwDocument();
     std::cout << "Read JW file." << std::endl;
     {
-        CFile file(_T("sample.jww"), CFile::modeRead);
+        CFile file(argv[1], CFile::modeRead);
         CArchive ar(&file, CArchive::load);
         ar.m_pDocument = pDoc;
         pDoc->Serialize(ar);
@@ -17,7 +22,7 @@ int main()
     }
     std::cout << "Write JW file." << std::endl;
     {
-        CFile file(_T("result.jww"), CFile::modeCreate | CFile::modeWrite);
+        CFile file(argv[2], CFile::modeCreate | CFile::modeWrite);
         CArchive ar(&file, CArchive::store);
         ar.m_pDocument = pDoc;
         pDoc->Serialize(ar);
