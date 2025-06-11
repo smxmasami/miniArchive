@@ -44,6 +44,7 @@ int _tmain(int argc, TCHAR* argv[])
         // 図形データの出力
         pDoc->SetDepth(0);
         pDoc->m_DataList.Serialize(ar);
+        std::cout << "Count=" << pDoc->m_DataList.GetCount() << std::endl;
         // ブロック図形の出力
         pDoc->SetDepth(1);
         pDoc->m_DataListList.Serialize(ar);
