@@ -5,15 +5,27 @@
 int _tmain(int argc, TCHAR* argv[])
 {
     setlocale(LC_ALL, "japanese");
+    CString infile;
+    CString outfile;
     if (argc < 3)
     {
-        std::cout << "JwRW in_file out_file" << std::endl;
-        return EPERM;
+        TCHAR buf[BUFSIZ];
+        std::cout << "In file: ";
+        std::wcin >> buf;
+        infile = buf;
+        std::cout << "Out file: ";
+        std::wcin >> buf;
+        outfile = buf;
+    }
+    else
+    {
+        infile = argv[1];
+        outfile = argv[2];
     }
     CJwwDocument* pDoc = new CJwwDocument();
     std::cout << "Read JW file." << std::endl;
     {
-        CFile file(argv[1], CFile::modeRead);
+        CFile file(infile, CFile::modeRead);
         CArchive ar(&file, CArchive::load);
         ar.m_pDocument = pDoc;
         pDoc->Serialize(ar);
@@ -22,10 +34,21 @@ int _tmain(int argc, TCHAR* argv[])
     }
     std::cout << "Write JW file." << std::endl;
     {
-        CFile file(argv[2], CFile::modeCreate | CFile::modeWrite);
+        CFile file(outfile, CFile::modeCreate | CFile::modeWrite);
         CArchive ar(&file, CArchive::store);
         ar.m_pDocument = pDoc;
+        pDoc->m_jwwPath = outfile;
+#ifdef NDEBUG
         pDoc->Serialize(ar);
+#else
+        // 図形データの出力
+        pDoc->SetDepth(0);
+        pDoc->m_DataList.Serialize(ar);
+        // ブロック図形の出力
+        pDoc->SetDepth(1);
+        pDoc->m_DataListList.Serialize(ar);
+#endif
+        // ファイルを閉じる
         ar.Close();
         file.Close();
     }
