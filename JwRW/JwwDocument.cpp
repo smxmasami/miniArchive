@@ -2502,6 +2502,11 @@ BEGIN_MESSAGE_MAP(CJwwDocument, CDocument)
 END_MESSAGE_MAP()
 #endif
 
+#ifdef linux
+void CJwwDocument::Serialize(CArchive& ar)
+{
+}
+#else
 void CJwwDocument::Serialize(CArchive& ar)
 {
 	// 画像ファイルの相対パスを解決するためにJWWファイルパスを記憶
@@ -2541,7 +2546,7 @@ void CJwwDocument::Serialize(CArchive& ar)
 		//ExtructImageFiles(ar);
 	}
 }
-
+#endif
 #if 0
 // ***********************************************************
 //   画像ファイル埋め込み
