@@ -36,19 +36,20 @@ int main(int argc, char* argv[])
 #ifdef linux
         pDoc->m_JwwHeader.Serialize(ar);
         pDoc->SetDepth(0);
-        WORD count = pDoc->m_DataList.size();
-        ar << count;
-        for(auto it = pDoc->m_DataList.begin(); it != pDoc->m_DataList.end() ; it++ )
+        WORD count;
+        ar >> count;
+        for(WORD i = 0 ; i < count ; i++ )
         {
-            (*it)->Serialize(ar);
+            CData* pObj = readObject(ar);
+            pDoc->m_DataList.push_back(pObj);            
         }
         pDoc->SetDepth(1);
         count = pDoc->m_DataListList.size();
-        ar << count;
-        for(auto it = pDoc->m_DataListList.begin(); it != pDoc->m_DataListList.end() ; it++ )
+        ar >> count;
+        for(WORD i = 0 ; i < count ; i++ )
         {
-            CDataList* pObj = static_cast<CDataList*>(*it);
-            pObj->Serialize(ar);
+            CDataList* pObj = (CDataList*)readObject(ar);
+            pDoc->m_DataListList.push_back(pObj);            
         }
 #else        
         pDoc->Serialize(ar);
@@ -63,6 +64,22 @@ int main(int argc, char* argv[])
         ar.m_pDocument = pDoc;
         pDoc->m_jwwPath = outfile;
 #ifdef linux
+        pDoc->m_JwwHeader.Serialize(ar);
+        pDoc->SetDepth(0);
+        WORD count = pDoc->m_DataList.size();
+        ar << count;
+        for(auto it = pDoc->m_DataList.begin(); it != pDoc->m_DataList.end() ; it++ )
+        {
+            (*it)->Serialize(ar);
+        }
+        pDoc->SetDepth(1);
+        count = pDoc->m_DataListList.size();
+        ar << count;
+        for(auto it = pDoc->m_DataListList.begin(); it != pDoc->m_DataListList.end() ; it++ )
+        {
+            CDataList* pObj = static_cast<CDataList*>(*it);
+            pObj->Serialize(ar);
+        }
 #else        
         pDoc->Serialize(ar);
 #endif

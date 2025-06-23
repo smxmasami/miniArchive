@@ -2420,6 +2420,21 @@ void CDataList::Serialize(CArchive& ar)
 		// 4:作図部品
 	}
 #if linux
+	if (ar.IsStoring())
+	{
+		WORD count = m_pDataList.size();
+		ar << count;
+		for(auto it = m_pDataList.begin(); it != m_pDataList.end() ; it++ )
+		{
+			(*it)->Serialize(ar);
+		}
+	}
+	else
+	{
+		WORD count;
+		ar >> count;
+		
+	}
 #else
 	m_DataList.Serialize(ar);
 #endif

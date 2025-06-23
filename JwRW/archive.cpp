@@ -721,3 +721,39 @@ CArchive& CArchive::operator >> (LONGLONG& ll)
     }
     return *this;
 }
+
+CObject* CArchive::ReadObject()
+{
+    CObject* pObj = nullptr;
+    if(m_file)
+    {
+        WORD clsid;
+        if( m_file->Read(&clsid, sizeof(WORD)) == sizeof(WORD))
+        {
+            std::string clsname;
+            if(clsid == 0xffff)
+            {
+                WORD schma;
+                m_file->Read(&schma, sizeof(WORD));
+                WORD size;
+                m_file->Read(&size, sizeof(WORD));
+                char buf[256] = { 0 };
+                m_file->Read(buf, size);
+                clsname = buf;
+            }
+            else
+            {
+
+            }
+        }
+    }
+    return pObj;
+}
+
+void CArchive::WriteObject(CObject* rObject)
+{
+    if(m_file)
+    {
+
+    }
+}

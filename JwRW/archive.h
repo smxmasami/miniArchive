@@ -141,6 +141,8 @@ public:
     BOOL IsStoring() const;
     UINT Read(void* lpBuf, UINT nMax);
     BOOL ReadString(CStringA& rString);
+    CObject* ReadObject();
+    void WriteObject(CObject* rObject);
     void Write(const void* lpBuf, UINT nMax);
     void WriteString(const CStringA& wString); 
     CArchive& operator << (const CStringA& str);
