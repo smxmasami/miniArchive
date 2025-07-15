@@ -14,7 +14,7 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{03fbf387-df66-4f8d-af47-d587f54a5a00}</ProjectGuid>
-    <RootNamespace>jwwinio</RootNamespace>
+    <RootNamespace>jwwin</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
