@@ -237,7 +237,7 @@ int _tmain(int argc, TCHAR** argv )
 {
 	_tsetlocale(LC_ALL, _T(""));
 	_tprintf(_T("Run fileio\n"));
-	CFile file(_T("C:\\TEMP\\TEST.BIN"), CFile::modeCreate | CFile::modeWrite | CFile::typeBinary);
+	CFile file(_T("TEST.BIN"), CFile::modeCreate | CFile::modeWrite | CFile::typeBinary);
 	CArchive ar(&file, CArchive::store);
 	// データを書き込む
 	CTypedPtrList<CObList, CData*>	m_DataList;
@@ -308,6 +308,30 @@ int _tmain(int argc, TCHAR** argv )
 	block.m_DataList.AddTail(&sen3);
 
 	m_DataListList.AddTail(&block);
+
+	CDataList block2;
+	block2.m_lGroup = 0;
+	block2.m_nPenStyle = 0;
+	block2.m_nPenColor = 0;
+	block2.m_nPenWidth = 0;
+	block2.m_nLayer = 0;
+	block2.m_nGLayer = 0;
+	block2.m_sFlg = 0;
+	block2.m_nNumber = 2;
+	block2.m_bReffered = 0;
+	block2.m_time;
+	block2.m_strName = _T("TEST2");
+
+	CDataSen sen4(sen);
+	sen4.m_nPenColor = 5;
+	block2.m_DataList.AddTail(&sen4);
+
+	CDataMoji moji3(moji);
+	moji3.m_nPenColor = 6;
+	block2.m_DataList.AddTail(&moji3);
+
+	m_DataListList.AddTail(&block2);
+
 
 	m_DataListList.Serialize(ar);
 	/*
