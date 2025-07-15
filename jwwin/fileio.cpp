@@ -237,132 +237,52 @@ int _tmain(int argc, TCHAR** argv )
 {
 	_tsetlocale(LC_ALL, _T(""));
 	_tprintf(_T("Run fileio\n"));
-	CFile file(_T("TEST.BIN"), CFile::modeCreate | CFile::modeWrite | CFile::typeBinary);
-	CArchive ar(&file, CArchive::store);
-	// データを書き込む
+	if (argc < 2)
+	{
+		_tprintf(_T("Usage: JWWIN IN_FILE\n"));
+		return 1;
+	}
+	CFile file(argv[1], CFile::modeRead | CFile::typeBinary);
+	CArchive ar(&file, CArchive::load);
+	// データを読み込む
 	CTypedPtrList<CObList, CData*>	m_DataList;
-
-	CDataSen sen;
-	sen.m_lGroup = 0;
-	sen.m_nPenStyle =1;
-	sen.m_nPenColor = 2;
-	sen.m_nPenWidth = 25;
-	sen.m_nLayer = 8;
-	sen.m_nGLayer = 1;
-	sen.m_sFlg = 0;
-	sen.m_start.x = 100.0;
-	sen.m_start.y = 100.0;
-	sen.m_end.x = 200.0;
-	sen.m_end.y = 200.0;
-	m_DataList.AddTail(&sen);
-
-	CDataMoji moji;
-	moji.m_lGroup = 0;
-	moji.m_nPenStyle = 1;
-	moji.m_nPenColor = 2;
-	moji.m_nPenWidth = 25;
-	moji.m_nLayer = 8;
-	moji.m_nGLayer = 1;
-	moji.m_sFlg = 0;
-	moji.m_start.x = 100.0;
-	moji.m_start.y = 100.0;
-	moji.m_end.x = 200.0;
-	moji.m_end.y = 200.0;
-	moji.m_nSunpouFlg = 0;
-	moji.m_nMojiShu = 0;
-	moji.m_dSizeX = 100.0;        // 文字サイズ横
-	moji.m_dSizeY = 20.0;        // 文字サイズ縦
-	moji.m_dKankaku = 0.0;      // 文字間隔
-	moji.m_degKakudo = 0.0;     // 回転角
-	moji.m_strFontName = "Arial";  // フォント名
-	moji.m_string = "ABCDE XYZ";       // 文字列
-	m_DataList.AddTail(&moji);
-
-	CDataSen sen2(sen);
-	sen2.m_nPenColor = 3;
-	m_DataList.AddTail(&sen2);
-
-	CDataMoji moji2(moji);
-	moji2.m_nPenColor = 3;
-	m_DataList.AddTail(&moji2);
-
 	m_DataList.Serialize(ar);
-
 	CTypedPtrList<CObList, CDataList*>	m_DataListList;
-
-	CDataList block;
-	block.m_lGroup = 0;
-	block.m_nPenStyle = 0;
-	block.m_nPenColor = 0;
-	block.m_nPenWidth = 0;
-	block.m_nLayer = 0;
-	block.m_nGLayer = 0;
-	block.m_sFlg = 0;
-	block.m_nNumber =1 ;
-	block.m_bReffered=0;
-	block.m_time;
-	block.m_strName = _T("TEST");
-
-	CDataSen sen3(sen);
-	sen3.m_nPenColor = 4;
-	block.m_DataList.AddTail(&sen3);
-
-	m_DataListList.AddTail(&block);
-
-	CDataList block2;
-	block2.m_lGroup = 0;
-	block2.m_nPenStyle = 0;
-	block2.m_nPenColor = 0;
-	block2.m_nPenWidth = 0;
-	block2.m_nLayer = 0;
-	block2.m_nGLayer = 0;
-	block2.m_sFlg = 0;
-	block2.m_nNumber = 2;
-	block2.m_bReffered = 0;
-	block2.m_time;
-	block2.m_strName = _T("TEST2");
-
-	CDataSen sen4(sen);
-	sen4.m_nPenColor = 5;
-	block2.m_DataList.AddTail(&sen4);
-
-	CDataMoji moji3(moji);
-	moji3.m_nPenColor = 6;
-	block2.m_DataList.AddTail(&moji3);
-
-	m_DataListList.AddTail(&block2);
-
-
 	m_DataListList.Serialize(ar);
-	/*
-	ar << (CHAR)'A';	//	41
-	ar << (WCHAR)L'朝'; //	1d 67	(シフトJISの 下位 上位バイト の順
-	ar << (INT16)10;	//	0a 00	(下位 上位バイトの順
-	ar << (INT32)20L;	//	14 00 00 00 (最下位 .. 最上位バイトの順
-	ar << (INT64)30LL;	//	1e 00 00 00 00 00 00 00 (最下位 .. 最上位バイトの順
-	CString str = "Doremi"; // ff fe ff 06 L"Doremi" - fffeff 文字数(バイト) 0～254文字のとき
-	ar << str;
-	CStringA astr = "Doremi"; // 06 "Doremi" - 文字数(バイト) 文字列 0～254文字のとき
-	ar << astr;
-	str = CString(_T('X'), 255);
-	ar << str; // ff fe ff ff ff 00 L"X..." - fffe ffff 文字数(ワード) 文字列 255～65535文字のとき 
-	str += _T("YY");
-	ar << str; // ff fe ff ff 01 01 L"X...Y"
-	astr = CStringA('x', 256);
-	astr += "y";
-	ar << astr; // ff 01 01 "x...y" - ff 文字数(ワード) 文字列 255～65534文字のとき
-	astr = CStringA('x', 255);
-	ar << astr; // ff ff 00 "x..."
-	CStringA str = CStringA('A', 65537);
-	ar << str; // ff ff ff 01 00 01 00 "A" - ff ffff 文字数(３２ビット) 文字列 65535～文字のとき
-	CString str = CString(_T('A'), 65537);
-	ar << str; // ff fe ff ff ff ff 01 00 01 00 "A" - fffe ffff ffff 文字数(32ビット) 文字列 65535～文字のとき
-	CStringA astr = CStringA('x', 254);
-	ar << astr; // fe "x..."
-	astr.Empty();
-	ar << astr; // 00
-	*/
 	ar.Close();
-	//file.Close();
+	file.Close();
+	// データを表示
+	_tprintf(_T("DataList count=%lld\n"), m_DataList.GetCount());
+	for (auto pos = m_DataList.GetHeadPosition(); pos != nullptr ; )
+	{
+		CData* obj = m_DataList.GetNext(pos);
+		_tprintf(_T(" %hs %x-%x\n"), obj->GetRuntimeClass()->m_lpszClassName, obj->m_nGLayer, obj->m_nLayer);
+	}
+	_tprintf(_T("DataListList count=%lld\n"), m_DataListList.GetCount());
+	for (auto pos = m_DataListList.GetHeadPosition();  pos != nullptr; )
+	{
+		CDataList* rec = m_DataListList.GetNext(pos);
+		_tprintf(_T(" %hs %s %d\n"), rec->GetRuntimeClass()->m_lpszClassName, (LPCTSTR)rec->m_strName, rec->m_nNumber);
+		for (auto pos = rec->m_DataList.GetHeadPosition(); pos != nullptr ;)
+		{
+			CData* obj = rec->m_DataList.GetNext(pos);
+			_tprintf(_T("  %hs %x-%x\n"), obj->GetRuntimeClass()->m_lpszClassName, obj->m_nGLayer, obj->m_nLayer);
+		}
+	}
 	return 0;
 }
+
+/*
+Run fileio
+DataList count=4
+ CDataSen 1-8
+ CDataMoji 1-8
+ CDataSen 1-8
+ CDataMoji 1-8
+DataListList count=2
+ CDataList TEST@@SfigorgFlag@@4 1
+  CDataSen 1-8
+ CDataList TEST2@@SfigorgFlag@@4 2
+  CDataSen 1-8
+  CDataMoji 1-8
+*/

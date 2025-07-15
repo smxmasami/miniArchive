@@ -334,35 +334,37 @@ int _tmain(int argc, TCHAR** argv )
 
 
 	m_DataListList.Serialize(ar);
-	/*
-	ar << (CHAR)'A';	//	41
-	ar << (WCHAR)L'朝'; //	1d 67	(シフトJISの 下位 上位バイト の順
-	ar << (INT16)10;	//	0a 00	(下位 上位バイトの順
-	ar << (INT32)20L;	//	14 00 00 00 (最下位 .. 最上位バイトの順
-	ar << (INT64)30LL;	//	1e 00 00 00 00 00 00 00 (最下位 .. 最上位バイトの順
-	CString str = "Doremi"; // ff fe ff 06 L"Doremi" - fffeff 文字数(バイト) 0～254文字のとき
-	ar << str;
-	CStringA astr = "Doremi"; // 06 "Doremi" - 文字数(バイト) 文字列 0～254文字のとき
-	ar << astr;
-	str = CString(_T('X'), 255);
-	ar << str; // ff fe ff ff ff 00 L"X..." - fffe ffff 文字数(ワード) 文字列 255～65535文字のとき 
-	str += _T("YY");
-	ar << str; // ff fe ff ff 01 01 L"X...Y"
-	astr = CStringA('x', 256);
-	astr += "y";
-	ar << astr; // ff 01 01 "x...y" - ff 文字数(ワード) 文字列 255～65534文字のとき
-	astr = CStringA('x', 255);
-	ar << astr; // ff ff 00 "x..."
-	CStringA str = CStringA('A', 65537);
-	ar << str; // ff ff ff 01 00 01 00 "A" - ff ffff 文字数(３２ビット) 文字列 65535～文字のとき
-	CString str = CString(_T('A'), 65537);
-	ar << str; // ff fe ff ff ff ff 01 00 01 00 "A" - fffe ffff ffff 文字数(32ビット) 文字列 65535～文字のとき
-	CStringA astr = CStringA('x', 254);
-	ar << astr; // fe "x..."
-	astr.Empty();
-	ar << astr; // 00
-	*/
 	ar.Close();
-	//file.Close();
+	file.Close();
 	return 0;
 }
+
+/*
+ar << (CHAR)'A';	//	41
+ar << (WCHAR)L'朝'; //	1d 67	(シフトJISの 下位 上位バイト の順
+ar << (INT16)10;	//	0a 00	(下位 上位バイトの順
+ar << (INT32)20L;	//	14 00 00 00 (最下位 .. 最上位バイトの順
+ar << (INT64)30LL;	//	1e 00 00 00 00 00 00 00 (最下位 .. 最上位バイトの順
+CString str = "Doremi"; // ff fe ff 06 L"Doremi" - fffeff 文字数(バイト) 0～254文字のとき
+ar << str;
+CStringA astr = "Doremi"; // 06 "Doremi" - 文字数(バイト) 文字列 0～254文字のとき
+ar << astr;
+str = CString(_T('X'), 255);
+ar << str; // ff fe ff ff ff 00 L"X..." - fffe ffff 文字数(ワード) 文字列 255～65535文字のとき
+str += _T("YY");
+ar << str; // ff fe ff ff 01 01 L"X...Y"
+astr = CStringA('x', 256);
+astr += "y";
+ar << astr; // ff 01 01 "x...y" - ff 文字数(ワード) 文字列 255～65534文字のとき
+astr = CStringA('x', 255);
+ar << astr; // ff ff 00 "x..."
+CStringA str = CStringA('A', 65537);
+ar << str; // ff ff ff 01 00 01 00 "A" - ff ffff 文字数(３２ビット) 文字列 65535～文字のとき
+CString str = CString(_T('A'), 65537);
+ar << str; // ff fe ff ff ff ff 01 00 01 00 "A" - fffe ffff ffff 文字数(32ビット) 文字列 65535～文字のとき
+CStringA astr = CStringA('x', 254);
+ar << astr; // fe "x..."
+astr.Empty();
+ar << astr; // 00
+*/
+
