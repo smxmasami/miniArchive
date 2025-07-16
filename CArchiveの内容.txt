@@ -1,0 +1,131 @@
+m_DataList の出力
+WORD    wCount; // 要素数
+オブジェクトの出力、初回はクラス名を含む
+WORD    wFlag;      // 0xFFFF クラス情報
+WORD    wSchema;    // 0x0000
+WORD    wSize;      // クラス名の文字数 0x0008
+BYTE    cData[];    // クラス名 "CDataSen"
+ここからオブジェクトの内容
+	DWORD	m_lGroup;		// 曲線属性番号
+	BYTE	m_nPenStyle;	// 線種番号
+	WORD	m_nPenColor;	// 線色番号
+	WORD	m_nPenWidth;	// 線色幅
+	WORD	m_nLayer;		// 画層番号
+	WORD	m_nGLayer;		// 画層グループ番号
+	WORD	m_sFlg;			// 属性フラグ
+	double m_start.x;       // 始点 X
+	double m_start.y;       // 始点 Y
+	double m_end.x;         // 終点 X
+    double m_end.y;         // 終点 Y
+オブジェクトの出力、初回はクラス名を含む
+WORD    wFlag;      // 0xFFFF クラス情報
+WORD    wSchema;    // 0x0000
+WORD    wSize;      // クラス名の文字数 0x0009
+BYTE    cData[];    // クラス名 "CDataMoji"
+ここからオブジェクトの内容
+	DWORD	m_lGroup;		// 曲線属性番号
+	BYTE	m_nPenStyle;	// 線種番号
+	WORD	m_nPenColor;	// 線色番号
+	WORD	m_nPenWidth;	// 線色幅
+	WORD	m_nLayer;		// 画層番号
+	WORD	m_nGLayer;		// 画層グループ番号
+	WORD	m_sFlg;			// 属性フラグ
+	WORD m_nSunpouFlg;      // 寸法フラグ
+	double m_start.x;       // 始点 X
+	double m_start.y;       // 始点 Y
+	double m_end.x;         // 終点 X
+    double m_end.y;         // 終点 Y
+	DWORD m_nMojiShu;       // 文字種
+	double m_dSizeX;        // 文字サイズ横
+	double m_dSizeY;        // 文字サイズ縦
+	double m_dKankaku;      // 文字間隔
+	double m_degKakudo;     // 回転角
+	CStringA m_strFontName;  // フォント名 05 "Arial"
+	CStringA m_string;       // 文字列 09 "ABCDE XYZ"
+オブジェクトの出力、はクラスIDを含む
+    BYTE    bId;            // 01 最初=CDataSen
+    BYTE    bSchema;        // 80 バージョンなし
+ここからオブジェクトの内容
+	DWORD	m_lGroup;		// 曲線属性番号
+	BYTE	m_nPenStyle;	// 線種番号
+	WORD	m_nPenColor;	// 線色番号
+	WORD	m_nPenWidth;	// 線色幅
+	WORD	m_nLayer;		// 画層番号
+	WORD	m_nGLayer;		// 画層グループ番号
+	WORD	m_sFlg;			// 属性フラグ
+	double m_start.x;       // 始点 X
+	double m_start.y;       // 始点 Y
+	double m_end.x;         // 終点 X
+    double m_end.y;         // 終点 Y
+
+m_DataListList の出力
+WORD    wCount; // 要素数
+CDataList オブジェクトの出力、初回はクラス名を含む
+WORD    wFlag;      // 0xFFFF クラス情報
+WORD    wSchema;    // 0x0000
+WORD    wSize;      // クラス名の文字数 0x0009
+BYTE    cData[];    // クラス名 "CDataList"
+ここからオブジェクトの内容
+	DWORD	m_lGroup;		// 0 曲線属性番号
+	BYTE	m_nPenStyle;	// 0 線種番号
+	WORD	m_nPenColor;	// 0 線色番号
+	WORD	m_nPenWidth;	// 0 線色幅
+	WORD	m_nLayer;		// 0 画層番号
+	WORD	m_nGLayer;		// 0 画層グループ番号
+	WORD	m_sFlg;			// 0 属性フラグ
+	DWORD m_nNumber;    // 連番 0x00000001
+	DWORD m_bReffered;  // 予約 0x00000000
+	DWORD m_time;       // 作成日時 0x00000000
+	CStringA m_strName; // 0x14 (20) "TEST@@SfigorgFlag@@4" 
+    要素 m_dataList の内容
+    WORD    wCount; // 要素数   1
+    オブジェクトの出力、はクラスIDを含む
+        BYTE    bId;            // 01 ?
+        BYTE    bSchema;        // 80 バージョンなし
+    CDataSen オブジェクト
+
+CDataList オブジェクトの出力、２回め
+BYTE    bId;            // 07 ?
+BYTE    bSchema;        // 80 バージョンなし
+ここからオブジェクトの内容
+	DWORD	m_lGroup;		// 0 曲線属性番号
+	BYTE	m_nPenStyle;	// 0 線種番号
+	WORD	m_nPenColor;	// 0 線色番号
+	WORD	m_nPenWidth;	// 0 線色幅
+	WORD	m_nLayer;		// 0 画層番号
+	WORD	m_nGLayer;		// 0 画層グループ番号
+	WORD	m_sFlg;			// 0 属性フラグ
+	DWORD m_nNumber;    // 連番 0x00000002
+	DWORD m_bReffered;  // 予約 0x00000000
+	DWORD m_time;       // 作成日時 0x00000000
+	CStringA m_strName; // 0x15 (21) "TEST2@@SfigorgFlag@@4" 
+    要素 m_dataList の内容
+    WORD    wCount; // 要素数   2
+    オブジェクトの出力、はクラスIDを含む
+        BYTE    bId;            // 01 ?
+        BYTE    bSchema;        // 80 バージョンなし
+    CDataSen オブジェクト
+        BYTE    bId;            // 03 ?
+        BYTE    bSchema;        // 80 バージョンなし
+    CDataMoji オブジェクト
+
+オブジェクト
+-04-
+FF CDataSen
+FF CDataMoji
+01 CDataSen
+03 CDataMoji
+-02-
+FF CDataList TEST
+ -01-
+01 CDataSen
+07 CDataList  TEST2
+ -02-
+01 CDataSen
+03 CDataMoji
+
+クラスID の増え方
+01 CDataSen
+03 CDataMoji
+07 CDataList
+
