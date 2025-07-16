@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #define VC_EXTRALEAN            // Windows ヘッダーから使用されていない部分を除外します。
+#define _WIN32_WINNT	0x0A00
 #include <afx.h>
 #include <afxtempl.h>
 #include <set>

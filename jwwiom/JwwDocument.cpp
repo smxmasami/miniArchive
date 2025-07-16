@@ -8,6 +8,11 @@
 #define SXCOL_EXT 100;
 #define SXLTP_EXT 30;
 
+bool OdEqual(double x, double y, double z)
+{
+	return std::abs(x - y) < z;
+}
+
 // 用紙サイズ毎の横幅(mm)
 const double CJwwDocument::YOUSHI_SIZE[15] =
 {
@@ -2514,7 +2519,7 @@ void CJwwDocument::Serialize(CArchive& ar)
 		m_DataListList.Serialize(ar);
 
 		// 埋め込み画像の出力
-		WriteImageFiles(ar);
+		//WriteImageFiles(ar);
 	}
 	// JWWファイルから読み込み
 	else
@@ -2529,7 +2534,7 @@ void CJwwDocument::Serialize(CArchive& ar)
 		// ブロック図形の入力
 		m_DataListList.Serialize(ar);
 		// 埋め込み画像の展開を開始
-		ExtructImageFiles(ar);
+		//ExtructImageFiles(ar);
 	}
 }
 

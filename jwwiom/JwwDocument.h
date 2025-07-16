@@ -75,10 +75,7 @@ struct OdGeScale3d
 #define OdaToRadian(x) (x/180.0*3.141592613)
 #define OdaToDegree(x) (x*180.0/3.141592613)
 
-bool OdEqual(double x, double y, double z = 1e-5)
-{
-	return std::abs(x - y) < z;
-}
+bool OdEqual(double x, double y, double z = 1e-5);
 
 class CJwwDocument;
 //////////////////////////////////////////////////////////////////////
@@ -363,6 +360,7 @@ public:
 class EXTFUNC CData : public CObject
 {
 protected:
+public:
 	DWORD	m_lGroup;		// 曲線属性番号
 	BYTE	m_nPenStyle;	// 線種番号
 	WORD	m_nPenColor;	// 線色番号
@@ -932,12 +930,12 @@ public:
 	void setIniPath(LPCTSTR path) { m_iniPath = path; }
 
 protected:
-	virtual BOOL OnNewDocument();
+	//virtual BOOL OnNewDocument();
 	//DECLARE_MESSAGE_MAP()
 
 protected:
-	void WriteImageFiles(CArchive& ar);	      // 画像ファイル埋め込み
-	void ExtructImageFiles(CArchive& ar);	  // 画像ファイル展開
+	//void WriteImageFiles(CArchive& ar);	      // 画像ファイル埋め込み
+	//void ExtructImageFiles(CArchive& ar);	  // 画像ファイル展開
 	/// 全データ消去
 	void ClearData();
 
