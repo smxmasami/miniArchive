@@ -566,7 +566,7 @@ void CJwwHeader::Serialize(CArchive& ar)
 		ar.Read(m_cVersion, 8);
 
 		// バージョンNo.
-		ar >> (DWORD)m_Version;
+		ar >> m_Version;
 		if (m_Version < 230)
 		{
 			printf("\nFile version is too old.. Use Jw_cad and save as the latest version.\n");
@@ -587,7 +587,7 @@ void CJwwHeader::Serialize(CArchive& ar)
 		// 12   ：10m
 		// 13   ：50m
 		// 14   ：100m
-		ar >> (DWORD)m_nZumen;
+		ar >> m_nZumen;
 
 		// 画層グループ・画層状態
 		// 書込画層グループ
@@ -599,26 +599,26 @@ void CJwwHeader::Serialize(CArchive& ar)
 		// 画層状態(0：非表示、1：表示のみ、2：編集可能、3：書込)
 		// 画層のプロテクト指定
 		// 　(0：無指定、1：表示状態変更可能プロテクト指定、2：表示状態固定プロテクト指定)
-		ar >> (DWORD)m_nWriteGLay;
+		ar >> m_nWriteGLay;
 
 		for (int nGLay = 0; nGLay < 16; nGLay++)
 		{
-			ar >> (DWORD)m_anGLay[nGLay];
-			ar >> (DWORD)m_anWriteLay[nGLay];
-			ar >> (double)m_adScale[nGLay];
-			ar >> (DWORD)m_anGLayProtect[nGLay];
+			ar >> m_anGLay[nGLay];
+			ar >> m_anWriteLay[nGLay];
+			ar >> m_adScale[nGLay];
+			ar >> m_anGLayProtect[nGLay];
 
 			for (int nLay = 0; nLay < 16; nLay++)
 			{
-				ar >> (DWORD)m_aanLay[nGLay][nLay];
-				ar >> (DWORD)m_aanLayProtect[nGLay][nLay];
+				ar >> m_aanLay[nGLay][nLay];
+				ar >> m_aanLayProtect[nGLay][nLay];
 			}
 		}
 
 		// ダミー
 		for (i = 0; i < 14; i++)
 		{
-			ar >> (DWORD)dummy;
+			ar >> dummy;
 		}
 
 		// 寸法関係の設定
@@ -633,19 +633,19 @@ void CJwwHeader::Serialize(CArchive& ar)
 		// 万位：寸法単位（0:mm 、1:ｍ）
 		// 十万位：寸法線端部（0:点 、1:矢印 、2:逆矢印）
 		// 百万位：寸法文字種（1～10）
-		ar >> (DWORD)m_lnSunpou1;
+		ar >> m_lnSunpou1;
 		// 一位～千位：寸法値の寸法線との離れ
 		// 　　　　　　離れ（0～99.9）×１０、マイナスの場合は1000をプラスして整数化する
 		// 万位～千万位：寸法線の突出長さ
 		// 　　　　　　長さ（0～99.9）×１０、マイナスの場合は1000をプラスして整数化し、更に10000倍する。
-		ar >> (DWORD)m_lnSunpou2;
+		ar >> m_lnSunpou2;
 		// 一位～百位：矢印長さ
 		// 　　　　　　長さ（0～99.9）×１０として整数化する
 		// 千位～十万位：矢印角度
 		// 　　　　　　角度（0.1～80.0）×１０として整数化し、1000倍する
 		// 百万位～億位：逆矢印の出寸法
 		// 　　　　　　寸法（0～99.9）×１０として整数化すし、1000000倍する
-		ar >> (DWORD)m_lnSunpou3;
+		ar >> m_lnSunpou3;
 		// 一位：寸法値方向を補正しない（0：補正有 、1：補正無）
 		// 十位：寸法値を全角にする（0：半角 、1：全角）
 		// 百位：寸法値のカンマをスペースにする（0：カンマ 、1：スペース）
@@ -655,7 +655,7 @@ void CJwwHeader::Serialize(CArchive& ar)
 		// 百万位：半径値に「R」を表示する（0：表示無 、1：前付表示有 、2：後付表示有）
 		// 千万位：半径値にカンマを表示する（0：表示無 、1：表示有）
 		// 億位：半径値に少数点の「0」を表示する（0：表示無 、1：表示有）
-		ar >> (DWORD)m_lnSunpou4;
+		ar >> m_lnSunpou4;
 		// 一位　：寸法値を斜め文字にする（0：通常文字 、1：斜め文字）
 		// 十位　：寸法値を太文字にする（0：通常文字 、1：太文字）
 		// 百位　：角度単位（0：度単位 、1：度分秒単位 、2：度単位で「ﾟ」の表示なし）
@@ -663,23 +663,23 @@ void CJwwHeader::Serialize(CArchive& ar)
 		// 万位　：寸法図形にする（0：寸法図形にしない 、1：寸法図形にする）
 		// 十万位：範囲選択のとき寸法図形を線色・種の属性で選択（0：選択しない 、1：選択する）
 		// 百万位：表示小数点以下の処理（0:四捨五入　1:切捨　2:切上）(Ver.4.02以降）
-		ar >> (DWORD)m_lnSunpou5;
+		ar >> m_lnSunpou5;
 
 		// ダミー
-		ar >> (DWORD)dummy;
+		ar >> dummy;
 
 		// 線印刷の最大幅(1～100,-1～-100,-300)
 		// 1から100 線幅はピクセル単位で指定
 		// -1から-100 線幅は abs(1/N)ミリ単位で指定(-16->1/16ミリ)
 		//「線幅を1/100mm単位とする」が設定されているときは-300を指定(-100より小さい)
-		ar >> (DWORD)m_nMaxDrawWid;
+		ar >> m_nMaxDrawWid;
 
 		// プリンタ出力範囲の原点(X,Y)
-		ar >> (double)m_DPPrtGenten.x;
-		ar >> (double)m_DPPrtGenten.y;
+		ar >> m_DPPrtGenten.x;
+		ar >> m_DPPrtGenten.y;
 
 		// プリンタ出力倍率
-		ar >> (double)m_dPrtBairitsu;
+		ar >> m_dPrtBairitsu;
 
 		// プリンタ90°回転出力、プリンタ出力基準点位置
 		// 一位：プリンタ90°回転出力
@@ -687,24 +687,24 @@ void CJwwHeader::Serialize(CArchive& ar)
 		//  　  7:左上   8:中上  9:右上
 		//   　 4:左中   5:中中  6:右中
 		//    　1:左下   2:中下  3:右下
-		ar >> (DWORD)m_nPrtSet;
+		ar >> m_nPrtSet;
 
 		// 目盛設定モード
 		// 一位(0：無指定、1：目盛表示)
 		// 十位(0：図面寸法指定、1：実寸指定)
 		// －値の時、目盛読取り不可
-		ar >> (DWORD)m_nMemoriMode;
+		ar >> m_nMemoriMode;
 
 		// 目盛表示最小間隔ドット
-		ar >> (double)m_dMemoriHyoujiMin;
+		ar >> m_dMemoriHyoujiMin;
 
 		// 目盛表示間隔(X,Y)
-		ar >> (double)m_dMemoriX;
-		ar >> (double)m_dMemoriY;
+		ar >> m_dMemoriX;
+		ar >> m_dMemoriY;
 
 		// 目盛基準点(X,Y)
-		ar >> (double)m_DpMemoriKijunTen.x;
-		ar >> (double)m_DpMemoriKijunTen.y;
+		ar >> m_DpMemoriKijunTen.x;
+		ar >> m_DpMemoriKijunTen.y;
 
 		// 画層名
 		for (n = 0; n <= 15; n++)
@@ -726,19 +726,19 @@ void CJwwHeader::Serialize(CArchive& ar)
 		// 緯度
 		// 9～15の測定の指定
 		// 壁面日影測定面高さ
-		ar >> (double)m_dKageLevel;
-		ar >> (double)m_dKageIdo;
-		ar >> (DWORD)m_nKage9_15JiFlg;
-		ar >> (double)m_dKabeKageLevel;
+		ar >> m_dKageLevel;
+		ar >> m_dKageIdo;
+		ar >> m_nKage9_15JiFlg;
+		ar >> m_dKabeKageLevel;
 
 		// 天空図の条件（Ver.3.00以降)
 		// 測定面高さ
 		// 天空図の半径＊２
 		if (m_Version >= 300)
 		{
-			ar >> (double)m_dTenkuuZuLevel;
+			ar >> m_dTenkuuZuLevel;
 			double dTenkuuZuEnkoR;
-			ar >> (double)dTenkuuZuEnkoR;
+			ar >> dTenkuuZuEnkoR;
 			//m_dTenkuuZuEnkoR = dTenkuuZuEnkoR / 2;
 			m_dTenkuuZuEnkoR = dTenkuuZuEnkoR;
 		}
@@ -748,36 +748,36 @@ void CJwwHeader::Serialize(CArchive& ar)
 			m_dTenkuuZuEnkoR = 0.0;
 		}
 		// 2.5Dの計算単位(0以外はmm単位で計算)
-		ar >> (DWORD)m_nMMTani3D;
+		ar >> m_nMMTani3D;
 
 		// 保存時の画面倍率(読込むと前画面倍率になる)
-		ar >> (double)m_dBairitsu;
-		ar >> (double)m_DPGenten.x;
-		ar >> (double)m_DPGenten.y;
+		ar >> m_dBairitsu;
+		ar >> m_DPGenten.x;
+		ar >> m_DPGenten.y;
 
 		// 範囲記憶倍率と基準点(X,Y)
-		ar >> (double)m_dHanniBairitsu;
-		ar >> (double)m_DPHanniGenten.x;
-		ar >> (double)m_DPHanniGenten.y;
+		ar >> m_dHanniBairitsu;
+		ar >> m_DPHanniGenten.x;
+		ar >> m_DPHanniGenten.y;
 
 		// マークジャンプ倍率、基準点(X,Y)および画層グループ
 		if (m_Version >= 300)
 		{
 			for (n = 1; n <= 8; n++)
 			{
-				ar >> (double)m_dZoomJumpBairitsu[n];
-				ar >> (double)m_DPZoomJumpGenten[n].x;
-				ar >> (double)m_DPZoomJumpGenten[n].y;
-				ar >> (DWORD)m_nZoomJumpGLay[n];
+				ar >> m_dZoomJumpBairitsu[n];
+				ar >> m_DPZoomJumpGenten[n].x;
+				ar >> m_DPZoomJumpGenten[n].y;
+				ar >> m_nZoomJumpGLay[n];
 			}
 		}
 		else
 		{
 			for (n = 1; n <= 4; n++)
 			{
-				ar >> (double)m_dZoomJumpBairitsu[n];
-				ar >> (double)m_DPZoomJumpGenten[n].x;
-				ar >> (double)m_DPZoomJumpGenten[n].y;
+				ar >> m_dZoomJumpBairitsu[n];
+				ar >> m_DPZoomJumpGenten[n].x;
+				ar >> m_DPZoomJumpGenten[n].y;
 				m_nZoomJumpGLay[n] = 0xffffffff;
 			}
 			// 倍率=1,中心(0,0)は未使用の印でもある
@@ -793,15 +793,15 @@ void CJwwHeader::Serialize(CArchive& ar)
 		// 文字の描画状態(Ver.4.05以降）
 		if (m_Version >= 300)
 		{
-			ar >> (double)m_dDm11;		//ダミー
-			ar >> (double)m_dDm12;		//ダミー
-			ar >> (double)m_dDm13;		//ダミー
-			ar >> (DWORD)m_lnDm1;			//ダミー
-			ar >> (double)m_dDm21;		//ダミー
-			ar >> (double)m_dDm22;		//ダミー
-			ar >> (double)m_dMojiBG;	//(Ver.4.04以前はダミー）
+			ar >> m_dDm11;		//ダミー
+			ar >> m_dDm12;		//ダミー
+			ar >> m_dDm13;		//ダミー
+			ar >> m_lnDm1;			//ダミー
+			ar >> m_dDm21;		//ダミー
+			ar >> m_dDm22;		//ダミー
+			ar >> m_dMojiBG;	//(Ver.4.04以前はダミー）
 			//文字列範囲を背景色で描画するときの範囲増寸法
-			ar >> (DWORD)m_nMojiBG;		//(Ver.4.04以前はダミー）
+			ar >> m_nMojiBG;		//(Ver.4.04以前はダミー）
 			//十位:文字（寸法図形､ブロック図形）を最後に描画
 			//一位:1 :輪郭・範囲を背景色で描画しない
 			//	2 :文字の輪郭を背景色で描画する
@@ -815,19 +815,19 @@ void CJwwHeader::Serialize(CArchive& ar)
 		// 複線間隔
 		for (n = 0; n <= 9; n++)
 		{
-			ar >> (double)m_adFukusenSuuchi[n];
+			ar >> m_adFukusenSuuchi[n];
 		}
 
 		// 両側複線の留線出の寸法
-		ar >> (double)m_dRyoygawaFukusenTomeDe;
+		ar >> m_dRyoygawaFukusenTomeDe;
 
 		// 色番号ごとの画面表示色、線幅
 		// 画面表示色(0：背景色、1～8：線色、9：グレー色)
 		// 線幅(1～16)
 		for (n = 0; n <= 9; n++)
 		{
-			ar >> (DWORD)m_aPenColor[n];
-			ar >> (DWORD)m_anPenWidth[n];
+			ar >> m_aPenColor[n];
+			ar >> m_anPenWidth[n];
 		}
 
 		// 色番号ごとのプリンタ出力色、線幅、実点半径
@@ -836,47 +836,47 @@ void CJwwHeader::Serialize(CArchive& ar)
 		// 実点半径(0.1～10)
 		for (n = 0; n <= 9; n++)
 		{
-			ar >> (DWORD)m_aPrtPenColor[n];
-			ar >> (DWORD)m_anPrtPenWidth[n];
-			ar >> (double)m_adPrtTenHankei[n];
+			ar >> m_aPrtPenColor[n];
+			ar >> m_anPrtPenWidth[n];
+			ar >> m_adPrtTenHankei[n];
 		}
 
 		// 線種番号2から9までのパターン、1ユニットのドット数、ピッチ、プリンタ出力ピッチ
 		for (n = 2; n <= 9; n++)
 		{
-			ar >> (DWORD)m_alLType[n];
-			ar >> (DWORD)m_anTokushuSenUintDot[n];
-			ar >> (DWORD)m_anTokushuSenPich[n];
-			ar >> (DWORD)m_anPrtTokushuSenPich[n];
+			ar >> m_alLType[n];
+			ar >> m_anTokushuSenUintDot[n];
+			ar >> m_anTokushuSenPich[n];
+			ar >> m_anPrtTokushuSenPich[n];
 		}
 
 		// ランダム線1から5までのパターン、画面表示振幅・ピッチ、プリンタ出力振幅・ピッチ
 		for (n = 11; n <= 15; n++)
 		{
-			ar >> (DWORD)m_alLType[n];
-			ar >> (DWORD)m_anRandSenWide[n];
-			ar >> (DWORD)m_anTokushuSenPich[n];
-			ar >> (DWORD)m_anPrtRandSenWide[n];
-			ar >> (DWORD)m_anPrtTokushuSenPich[n];
+			ar >> m_alLType[n];
+			ar >> m_anRandSenWide[n];
+			ar >> m_anTokushuSenPich[n];
+			ar >> m_anPrtRandSenWide[n];
+			ar >> m_anPrtTokushuSenPich[n];
 		}
 
 		// 倍長線種番号6から9までのパターン、1ユニットのドット数、ピッチ、プリンタ出力ピッチ
 		for (n = 16; n <= 19; n++)
 		{
-			ar >> (DWORD)m_alLType[n];
-			ar >> (DWORD)m_anTokushuSenUintDot[n];
-			ar >> (DWORD)m_anTokushuSenPich[n];
-			ar >> (DWORD)m_anPrtTokushuSenPich[n];
+			ar >> m_alLType[n];
+			ar >> m_anTokushuSenUintDot[n];
+			ar >> m_anTokushuSenPich[n];
+			ar >> m_anPrtTokushuSenPich[n];
 		}
 
 		// 実点を画面描画時の指定半径で描画
-		ar >> (DWORD)m_nDrawGamenTen;
+		ar >> m_nDrawGamenTen;
 
 		// 実点をプリンタ出力時、指定半径で書く
-		ar >> (DWORD)m_nDrawPrtTen;
+		ar >> m_nDrawPrtTen;
 
 		// BitMap・ソリッドを最初に描画する
-		ar >> (DWORD)m_nBitMapFirstDraw;
+		ar >> m_nBitMapFirstDraw;
 		// 十位：ソリッド描画順
 		//  0:画層順        (+1):色順
 		//  3:画層逆順      (+2):色逆順
@@ -886,45 +886,45 @@ void CJwwHeader::Serialize(CArchive& ar)
 		//  1:BitMap・ソリッドを最初に描画
 		//  2:ソリッドを最初に描画
 		// 逆描画
-		ar >> (DWORD)m_nGyakuDraw;
+		ar >> m_nGyakuDraw;
 
 		// 逆サーチ
-		ar >> (DWORD)m_nGyakuSearch;
+		ar >> m_nGyakuSearch;
 
 		// カラー印刷
-		ar >> (DWORD)m_nColorPrint;
+		ar >> m_nColorPrint;
 
 		// 画層順の印刷
-		ar >> (DWORD)m_nLayJunPrint;
+		ar >> m_nLayJunPrint;
 
 		// 色番号順の印刷
-		ar >> (DWORD)m_nColJunPrint;
+		ar >> m_nColJunPrint;
 
 		// 画層グループまたは画層ごとのプリンタ連続出力指定
-		ar >> (DWORD)m_nPrtRenzoku;
+		ar >> m_nPrtRenzoku;
 
 		// プリンタ共通画層(表示のみ画層)のグレー出力指定
-		ar >> (DWORD)m_nPrtKyoutsuuGray;
+		ar >> m_nPrtKyoutsuuGray;
 
 		// プリンタ出力時に表示のみ画層は出力しない
-		ar >> (DWORD)m_nPrtDispOnlyNonDraw;
+		ar >> m_nPrtDispOnlyNonDraw;
 
 		if (m_Version >= 223)
 		{
 			// 作図時間（Ver.2.23以降）
-			ar >> (DWORD)m_lnDrawTime;
+			ar >> m_lnDrawTime;
 
 			// 2.5Dの始点位置が設定されている時のフラグ（Ver.2.23以降）
 			// 一位：透視図の視点位置設定済みフラグ
 			// 十位：鳥瞰図の視点位置設定済みフラグ
 			// 百位：アイソメ図の視点位置設定済みフラグ
-			ar >> (DWORD)m_nEyeInit;
+			ar >> m_nEyeInit;
 
 			// 2.5Dの透視図・鳥瞰図・アイソメ図の視点水平角（Ver.2.23以降）
 			DWORD dEye_H_Ichi_1, dEye_H_Ichi_2, dEye_H_Ichi_3;
-			ar >> (DWORD)dEye_H_Ichi_1;
-			ar >> (DWORD)dEye_H_Ichi_2;
-			ar >> (DWORD)dEye_H_Ichi_3;
+			ar >> dEye_H_Ichi_1;
+			ar >> dEye_H_Ichi_2;
+			ar >> dEye_H_Ichi_3;
 			//m_dEye_H_Ichi_1 = (DWORD)(dEye_H_Ichi_1 / 100);
 			//m_dEye_H_Ichi_2 = (DWORD)(dEye_H_Ichi_2 / 100);
 			//m_dEye_H_Ichi_3 = (DWORD)(dEye_H_Ichi_3 / 100);
@@ -933,15 +933,15 @@ void CJwwHeader::Serialize(CArchive& ar)
 			m_dEye_H_Ichi_3 = dEye_H_Ichi_3;
 
 			// 2.5Dの透視図の視点高さ・視点離れ（Ver.2.23以降）
-			ar >> (double)m_dEye_Z_Ichi_1;
-			ar >> (double)m_dEye_Y_Ichi_1;
+			ar >> m_dEye_Z_Ichi_1;
+			ar >> m_dEye_Y_Ichi_1;
 
 			// 2.5Dの鳥瞰図の視点高さ・視点離れ（Ver.2.23以降）
-			ar >> (double)m_dEye_Z_Ichi_2;
-			ar >> (double)m_dEye_Y_Ichi_2;
+			ar >> m_dEye_Z_Ichi_2;
+			ar >> m_dEye_Y_Ichi_2;
 
 			// 2.5Dのアイソメ図の視点垂直角（Ver.2.23以降）
-			ar >> (double)m_dEye_V_Ichi_3;
+			ar >> m_dEye_V_Ichi_3;
 		}
 		else
 		{
@@ -960,7 +960,7 @@ void CJwwHeader::Serialize(CArchive& ar)
 		// 線の長さ指定の最終値（Ver.2.25以降）
 		if (m_Version >= 225)
 		{
-			ar >> (double)m_dSenNagasaSnpou;
+			ar >> m_dSenNagasaSnpou;
 		}
 		else
 		{
@@ -970,8 +970,8 @@ void CJwwHeader::Serialize(CArchive& ar)
 		// 矩形寸法横寸法・縦寸法指定の最終値（Ver.2.25以降）
 		if (m_Version >= 225)
 		{
-			ar >> (double)m_dBoxSunpouX;
-			ar >> (double)m_dBoxSunpouY;
+			ar >> m_dBoxSunpouX;
+			ar >> m_dBoxSunpouY;
 		}
 		else
 		{
@@ -982,7 +982,7 @@ void CJwwHeader::Serialize(CArchive& ar)
 		// 円の半径指定の最終値（Ver.2.25以降）
 		if (m_Version >= 225)
 		{
-			ar >> (double)m_dEnHankeiSnpou;
+			ar >> m_dEnHankeiSnpou;
 		}
 		else
 		{
@@ -992,8 +992,8 @@ void CJwwHeader::Serialize(CArchive& ar)
 		// ソリッドを任意色で書くフラグ、ソリッドの任意色の既定値（Ver.2.30以降）
 		if (m_Version >= 230)
 		{
-			ar >> (DWORD)m_nSolidNinniColor;
-			ar >> (DWORD)m_SolidColor;	// RGB
+			ar >> m_nSolidNinniColor;
+			ar >> m_SolidColor;	// RGB
 		}
 		else
 		{
@@ -1015,16 +1015,16 @@ void CJwwHeader::Serialize(CArchive& ar)
 			for (n = 0; n <= 256; n++)	////// 画面表示色
 			{
 				n1 = n + SXCOL_EXT;		//色番号のオフセット = +100
-				ar >> (DWORD)m_aPenColor[n1];
-				ar >> (DWORD)m_anPenWidth[n1];
+				ar >> m_aPenColor[n1];
+				ar >> m_anPenWidth[n1];
 			}
 			for (n = 0; n <= 256; n++)	////// プリンタ出力色
 			{
 				ar >> m_astrUDColorName[n];
 				n1 = n + SXCOL_EXT;	//色番号のオフセット = +100
-				ar >> (DWORD)m_aPrtPenColor[n1];
-				ar >> (DWORD)m_anPrtPenWidth[n1];
-				ar >> (double)m_adPrtTenHankei[n1];
+				ar >> m_aPrtPenColor[n1];
+				ar >> m_anPrtPenWidth[n1];
+				ar >> m_adPrtTenHankei[n1];
 			}
 
 			// SXF対応拡張線種定義（Ver.4.20以降）
@@ -1038,18 +1038,18 @@ void CJwwHeader::Serialize(CArchive& ar)
 			for (n = 0; n <= 32; n++)	////// 線種パターン
 			{
 				n1 = n + SXLTP_EXT;   //線種番号のオフセット = +30
-				ar >> (DWORD)m_alLType[n1];
-				ar >> (DWORD)m_anTokushuSenUintDot[n1];
-				ar >> (DWORD)m_anTokushuSenPich[n1];
-				ar >> (DWORD)m_anPrtTokushuSenPich[n1];
+				ar >> m_alLType[n1];
+				ar >> m_anTokushuSenUintDot[n1];
+				ar >> m_anTokushuSenPich[n1];
+				ar >> m_anPrtTokushuSenPich[n1];
 			}
 			for (n = 0; n <= 32; n++)	////// 線種パラメータ
 			{
 				ar >> m_astrUDLTypeName[n];
-				ar >> (DWORD)m_anUDLTypeSegment[n];
+				ar >> m_anUDLTypeSegment[n];
 				for (j = 1; j <= 10; j++)
 				{
-					ar >> (double)m_aadUDLTypePitch[n][j];
+					ar >> m_aadUDLTypePitch[n][j];
 				}
 			}
 		}
@@ -1061,35 +1061,35 @@ void CJwwHeader::Serialize(CArchive& ar)
 		// 文字種1から10までの文字幅、高さ、間隔、色番号
 		for (i = 1; i <= 10; i++)
 		{
-			ar >> (double)m_adMojiX[i];
-			ar >> (double)m_adMojiY[i];
-			ar >> (double)m_adMojiD[i];
-			ar >> (DWORD)m_anMojiCol[i];
+			ar >> m_adMojiX[i];
+			ar >> m_adMojiY[i];
+			ar >> m_adMojiD[i];
+			ar >> m_anMojiCol[i];
 		}
 
 		// 書込み文字の文字幅、高さ、間隔、色番号、文字番号
-		ar >> (double)m_dMojiSizeX;
-		ar >> (double)m_dMojiSizeY;
-		ar >> (double)m_dMojiKankaku;
-		ar >> (DWORD)m_nMojiColor;
-		ar >> (DWORD)m_nMojiShu;
+		ar >> m_dMojiSizeX;
+		ar >> m_dMojiSizeY;
+		ar >> m_dMojiKankaku;
+		ar >> m_nMojiColor;
+		ar >> m_nMojiShu;
 
 		// 文字位置整理の行間、文字数
-		ar >> (double)m_dMojiSeiriGyouKan;
-		ar >> (double)m_dMojiSeiriSuu;
+		ar >> m_dMojiSeiriGyouKan;
+		ar >> m_dMojiSeiriSuu;
 
 		// 文字基準点のずれ位置使用のフラグ
-		ar >> (DWORD)m_nMojiKijunZureOn;
+		ar >> m_nMojiKijunZureOn;
 
 		// 文字基準点の横方向のずれ位置左、中、右
-		ar >> (double)m_adMojiKijunZureX[0];
-		ar >> (double)m_adMojiKijunZureX[1];
-		ar >> (double)m_adMojiKijunZureX[2];
+		ar >> m_adMojiKijunZureX[0];
+		ar >> m_adMojiKijunZureX[1];
+		ar >> m_adMojiKijunZureX[2];
 
 		// 文字基準点の縦方向のずれ位置下、中、上
-		ar >> (double)m_adMojiKijunZureY[0];
-		ar >> (double)m_adMojiKijunZureY[1];
-		ar >> (double)m_adMojiKijunZureY[2];
+		ar >> m_adMojiKijunZureY[0];
+		ar >> m_adMojiKijunZureY[1];
+		ar >> m_adMojiKijunZureY[2];
 
 		TRACE("Finish reading header.\n");
 
@@ -1229,7 +1229,8 @@ void CJwwHeader::GetDocumentArea(OdGePoint2d& min, OdGePoint2d& max) const
 	// 用紙サイズが 12:10m, 13:50m, 14:100m のときは中心を(0,0)にします
 	if (12 <= m_nZumen && m_nZumen <= 14)
 	{
-		max /= 2.0;
+		max.x /= 2.0; max.y /= 2.0;
+		//max /= 2.0;
 		min.x = -max.x;
 		min.y = -max.y;
 	}
@@ -1314,17 +1315,17 @@ CData::~CData()
 
 DWORD	CData::version(CArchive& ar)
 {
-	return ((CJwDocument*)ar.m_pDocument)->GetVersion();
+	return ((CJwwDocument*)ar.m_pDocument)->GetVersion();
 }
 
 void	CData::DoDataScale(CArchive& ar, double &val)
 {
-	((CJwDocument*)ar.m_pDocument)->DoDataScale(val);
+	((CJwwDocument*)ar.m_pDocument)->DoDataScale(val);
 }
 
 void	CData::DoDataScale(CArchive& ar, DPoint &pnt)
 {
-	((CJwDocument*)ar.m_pDocument)->DoDataScale(pnt);
+	((CJwwDocument*)ar.m_pDocument)->DoDataScale(pnt);
 }
 
 CData& CData::operator=(const CData src)
@@ -1363,17 +1364,17 @@ void CData::Serialize(CArchive& ar)
 	}
 	else
 	{
-		ar >> (DWORD)m_lGroup;            //曲線属性番号
-		ar >> (BYTE)m_nPenStyle;          //線種番号
-		ar >> (WORD)m_nPenColor;          //線色番号
+		ar >> m_lGroup;            //曲線属性番号
+		ar >> m_nPenStyle;          //線種番号
+		ar >> m_nPenColor;          //線色番号
 		m_nPenWidth = 0;
 		if (version(ar) >= eVer351)
 		{
-			ar >> (WORD)m_nPenWidth;      //線色幅
+			ar >> m_nPenWidth;      //線色幅
 		}
-		ar >> (WORD)m_nLayer;             //画層番号
-		ar >> (WORD)m_nGLayer;            //画層グループ番号
-		ar >> (WORD)m_sFlg;               //属性フラグ
+		ar >> m_nLayer;             //画層番号
+		ar >> m_nGLayer;            //画層グループ番号
+		ar >> m_sFlg;               //属性フラグ
 	}
 }
 
@@ -1415,10 +1416,10 @@ void CDataSen::Serialize(CArchive& ar)
 	}
 	else
 	{
-		ar >> (double)m_start.x;
-		ar >> (double)m_start.y;
-		ar >> (double)m_end.x;
-		ar >> (double)m_end.y;
+		ar >> m_start.x;
+		ar >> m_start.y;
+		ar >> m_end.x;
+		ar >> m_end.y;
 
 		DoDataScale(ar, m_start);
 		DoDataScale(ar, m_end);
@@ -1427,13 +1428,15 @@ void CDataSen::Serialize(CArchive& ar)
 
 OdGePoint3d	CDataSen::start(void) const
 {
-	OdGePoint3d point(m_start.x, m_start.y, 0.0);
+	OdGePoint3d point; point.x = m_start.x; point.y = m_start.y; point.z = 0.0;
+	//OdGePoint3d point(m_start.x, m_start.y, 0.0);
 	return point;
 }
 
 OdGePoint3d	CDataSen::end(void) const
 {
-	OdGePoint3d point(m_end.x, m_end.y, 0.0);
+	OdGePoint3d point; point.x = m_end.x; point.y = m_end.y; point.z = 0.0;
+	//OdGePoint3d point(m_end.x, m_end.y, 0.0);
 	return point;
 }
 
@@ -1486,14 +1489,14 @@ void CDataEnko::Serialize(CArchive& ar)
 	}
 	else
 	{
-		ar >> (double)m_start.x;
-		ar >> (double)m_start.y;
-		ar >> (double)m_dHankei;
-		ar >> (double)m_radKaishiKaku;
-		ar >> (double)m_radEnkoKaku;
-		ar >> (double)m_radKatamukiKaku;
-		ar >> (double)m_dHenpeiRitsu;
-		ar >> (DWORD)m_bZenEnFlg;
+		ar >> m_start.x;
+		ar >> m_start.y;
+		ar >> m_dHankei;
+		ar >> m_radKaishiKaku;
+		ar >> m_radEnkoKaku;
+		ar >> m_radKatamukiKaku;
+		ar >> m_dHenpeiRitsu;
+		ar >> m_bZenEnFlg;
 
 		//TRACE("円弧 x=%f, y=%f, r=%f, st=%f, size=%f, tilt=%f, ratio=%f, flg1=%d\n",
 		//	m_start.x, m_start.y, m_dHankei,
@@ -1507,7 +1510,8 @@ void CDataEnko::Serialize(CArchive& ar)
 
 OdGePoint3d	CDataEnko::center(void) const
 {
-	OdGePoint3d point(m_start.x, m_start.y, 0.0);
+	OdGePoint3d point = { m_start.x, m_start.y, 0.0 };
+	//OdGePoint3d point(m_start.x, m_start.y, 0.0);
 	return point;
 }
 
@@ -1621,15 +1625,15 @@ void CDataTen::Serialize(CArchive& ar)
 	}
 	else
 	{
-		ar >> (double)m_start.x;
-		ar >> (double)m_start.y;
-		ar >> (DWORD)m_bKariten;
+		ar >> m_start.x;
+		ar >> m_start.y;
+		ar >> m_bKariten;
 
 		if (100 == m_nPenStyle)
 		{
-			ar >> (DWORD)m_nCode;
-			ar >> (double)m_radKaitenKaku;
-			ar >> (double)m_dBairitsu;
+			ar >> m_nCode;
+			ar >> m_radKaitenKaku;
+			ar >> m_dBairitsu;
 		}
 		else
 		{
@@ -1646,7 +1650,8 @@ void CDataTen::Serialize(CArchive& ar)
 
 OdGePoint3d	CDataTen::position(void) const
 {
-	OdGePoint3d point(m_start.x, m_start.y, 0.0);
+	OdGePoint3d point = { m_start.x, m_start.y, 0.0 };
+	//OdGePoint3d point(m_start.x, m_start.y, 0.0);
 	return point;
 }
 
@@ -1730,15 +1735,15 @@ void CDataMoji::Serialize(CArchive& ar)
 		// 線幅はペン色から設定(0)にする
 		m_nPenWidth = 0;
 		// 文字固有のデータを取得
-		ar >> (double)m_start.x;
-		ar >> (double)m_start.y;
-		ar >> (double)m_end.x;
-		ar >> (double)m_end.y;
-		ar >> (DWORD)m_nMojiShu;
-		ar >> (double)m_dSizeX;
-		ar >> (double)m_dSizeY;
-		ar >> (double)m_dKankaku;
-		ar >> (double)m_degKakudo;
+		ar >> m_start.x;
+		ar >> m_start.y;
+		ar >> m_end.x;
+		ar >> m_end.y;
+		ar >> m_nMojiShu;
+		ar >> m_dSizeX;
+		ar >> m_dSizeY;
+		ar >> m_dKankaku;
+		ar >> m_degKakudo;
 		ar >> m_strFontName;
 		ar >> m_string;
 
@@ -1757,13 +1762,15 @@ WORD	CDataMoji::dimension(void) const
 
 OdGePoint3d	CDataMoji::start(void) const
 {
-	OdGePoint3d point(m_start.x, m_start.y, 0.0);
+	OdGePoint3d point = { m_start.x, m_start.y, 0.0 };
+	//OdGePoint3d point(m_start.x, m_start.y, 0.0);
 	return point;
 }
 
 OdGePoint3d	CDataMoji::end(void) const
 {
-	OdGePoint3d point(m_end.x, m_end.y, 0.0);
+	OdGePoint3d point = { m_end.x, m_end.y, 0.0 };
+	//OdGePoint3d point(m_end.x, m_end.y, 0.0);
 	return point;
 }
 
@@ -1807,7 +1814,8 @@ OdString CDataMoji::font(void) const
 	{
 		if (value[0] != _T('@'))
 		{
-			value.insert(0, _T("@"));
+			value.Insert(0, _T("@"));
+			//value.insert(0, _T("@"));
 		}
 	}
 	if (bold())
@@ -1895,7 +1903,8 @@ void	CDataMoji::font(OdString value)
 	WORD flag = flags();
 	if (value[0] == _T('@'))
 	{
-		value.deleteChars(0, 1);
+		value.Delete(0, 1);
+		//value.deleteChars(0, 1);
 		flags(flag | CData::eTate);
 	}
 	else
@@ -1906,17 +1915,21 @@ void	CDataMoji::font(OdString value)
 	// 文字種の太字・斜体設定を削除(0～9999に切り詰める)
 	m_nMojiShu %= CDataMoji::eMask;
 
-	int pos = value.find(_T(" Bold"));
+	int pos = value.Find(_T(" Bold"));
+	//int pos = value.find(_T(" Bold"));
 	if (pos >= 0)
 	{
 		m_nMojiShu += CDataMoji::eFutoji;
-		value.deleteChars(pos, 5);
+		value.Delete(pos, 5);
+		//value.deleteChars(pos, 5);
 	}
-	pos = value.find(_T(" Italic"));
+	pos = value.Find(_T(" Italic"));
+	//pos = value.find(_T(" Italic"));
 	if (pos >= 0)
 	{
 		m_nMojiShu += CDataMoji::eShatai;
-		value.deleteChars(pos, 7);
+		value.Delete(pos, 7);
+		//value.deleteChars(pos, 7);
 	}
 
 	// フォント名を設定
@@ -1979,7 +1992,7 @@ void CDataSunpou::Serialize(CArchive& ar)
 		m_bSxfMode = 0;
 		if (version(ar) >= eVer420)
 		{
-			ar >> (WORD)m_bSxfMode;
+			ar >> m_bSxfMode;
 			m_SenHo1.Serialize(ar);
 			m_SenHo2.Serialize(ar);
 			m_Ten1.Serialize(ar);
@@ -2085,19 +2098,19 @@ void CDataSolid::Serialize(CArchive& ar)
 	}
 	else
 	{
-		ar >> (double)m_start.x;
-		ar >> (double)m_start.y;
-		ar >> (double)m_end.x;
-		ar >> (double)m_end.y;
-		ar >> (double)m_DPoint2.x;
-		ar >> (double)m_DPoint2.y;
-		ar >> (double)m_DPoint3.x;
-		ar >> (double)m_DPoint3.y;
+		ar >> m_start.x;
+		ar >> m_start.y;
+		ar >> m_end.x;
+		ar >> m_end.y;
+		ar >> m_DPoint2.x;
+		ar >> m_DPoint2.y;
+		ar >> m_DPoint3.x;
+		ar >> m_DPoint3.y;
 
 		// ペン番号が10のときは、任意の色が設定されている
 		if (10 == m_nPenColor)
 		{
-			ar >> (DWORD)m_Color;	// RGB
+			ar >> m_Color;	// RGB
 		}
 
 		// 普通のソリッドデータの場合
@@ -2128,16 +2141,28 @@ OdGePoint3d	CDataSolid::location(const int index) const
 	switch (index)
 	{
 	case 0:
-		point = OdGePoint3d(m_start.x, m_start.y, 0.0);
+		point.x = m_start.x;
+		point.y = m_start.y;
+		point.y = 0.0;
+		//point = OdGePoint3d(m_start.x, m_start.y, 0.0);
 		break;
 	case 1:
-		point = OdGePoint3d(m_end.x, m_end.y, 0.0);
+		point.x = m_end.x;
+		point.y = m_end.y;
+		point.y = 0.0;
+		//point = OdGePoint3d(m_end.x, m_end.y, 0.0);
 		break;
 	case 2:
-		point = OdGePoint3d(m_DPoint2.x, m_DPoint2.y, 0.0);
+		point.x = m_DPoint2.x;
+		point.y = m_DPoint2.y;
+		point.y = 0.0;
+		//point = OdGePoint3d(m_DPoint2.x, m_DPoint2.y, 0.0);
 		break;
 	case 3:
-		point = OdGePoint3d(m_DPoint3.x, m_DPoint3.y, 0.0);
+		point.x = m_DPoint3.x;
+		point.y = m_DPoint3.y;
+		point.y = 0.0;
+		//point = OdGePoint3d(m_DPoint3.x, m_DPoint3.y, 0.0);
 		break;
 	}
 	return point;
@@ -2168,7 +2193,8 @@ void CDataSolid::location(const int index, const OdGePoint3d value)
 
 OdGePoint3d	CDataSolid::center(void) const
 {
-	OdGePoint3d point(m_start.x, m_start.y, 0.0);
+	OdGePoint3d point = { m_start.x, m_start.y, 0.0 };
+	//OdGePoint3d point(m_start.x, m_start.y, 0.0);
 	return point;
 }
 
@@ -2243,7 +2269,7 @@ void CDataBlock::Serialize(CArchive& ar)
 
 	// リスト部へのポインタを保持
 	// 2017/3/6 JWSファイルのブロックに対応
-	CJwDocument *pDoc = (CJwDocument *)(ar.m_pDocument);
+	CJwwDocument *pDoc = (CJwwDocument *)(ar.m_pDocument);
 	m_pDataListList = pDoc->GetBlockList();
 
 	if (ar.IsStoring())
@@ -2259,12 +2285,12 @@ void CDataBlock::Serialize(CArchive& ar)
 	}
 	else
 	{
-		ar >> (double)m_DPKijunTen.x;
-		ar >> (double)m_DPKijunTen.y;
-		ar >> (double)m_dBairitsuX;
-		ar >> (double)m_dBairitsuY;
-		ar >> (double)m_radKaitenKaku;
-		ar >> (DWORD)m_nNumber;
+		ar >> m_DPKijunTen.x;
+		ar >> m_DPKijunTen.y;
+		ar >> m_dBairitsuX;
+		ar >> m_dBairitsuY;
+		ar >> m_radKaitenKaku;
+		ar >> m_nNumber;
 
 		DoDataScale(ar, m_DPKijunTen);
 	}
@@ -2298,7 +2324,8 @@ DWORD CDataBlock::blockNo() const
 
 OdGePoint3d	CDataBlock::start() const
 {
-	OdGePoint3d point(m_DPKijunTen.x, m_DPKijunTen.y, 0.0);
+	OdGePoint3d point = { m_DPKijunTen.x, m_DPKijunTen.y, 0.0 };
+	//OdGePoint3d point(m_DPKijunTen.x, m_DPKijunTen.y, 0.0);
 	return point;
 }
 
@@ -2382,8 +2409,8 @@ void CDataList::Serialize(CArchive& ar)
 	}
 	else
 	{
-		ar >> (DWORD)m_nNumber;
-		ar >> (DWORD)m_bReffered;
+		ar >> m_nNumber;
+		ar >> m_bReffered;
 		// MFCは32bit整数か64bit整数かを適切に判定して読み込んでくれる
 		ar >> m_time;
 		// MFCはMBCS文字列かUnicode文字列かを適切に判定して読み込んでくれる
@@ -2450,19 +2477,19 @@ void CJwwDocument::ClearData()
 	m_JwwEmbbededImageFiles.clear();
 }
 
-BOOL CJwwDocument::OnNewDocument()
-{
-	if (!CDocument::OnNewDocument())
-		return FALSE;
-	return TRUE;
-}
+//BOOL CJwwDocument::OnNewDocument()
+//{
+//	if (!CDocument::OnNewDocument())
+//		return FALSE;
+//	return TRUE;
+//}
 
 CJwwDocument::~CJwwDocument()
 {
 }
 
-BEGIN_MESSAGE_MAP(CJwwDocument, CObject)
-END_MESSAGE_MAP()
+//BEGIN_MESSAGE_MAP(CJwwDocument, CObject)
+//END_MESSAGE_MAP()
 
 void CJwwDocument::Serialize(CArchive& ar)
 {
@@ -2516,6 +2543,7 @@ void CJwwDocument::Serialize(CArchive& ar)
 //     BYTE  baFile[nFileSize];
 //     ------------------------
 // ***********************************************************
+/*
 void CJwwDocument::WriteImageFiles(CArchive& ar)
 {
 	// 画像ファイルの個数を出力
@@ -2616,8 +2644,9 @@ void CJwwDocument::WriteImageFiles(CArchive& ar)
 		DeleteFile(outFile);
 	}
 }
-
+*/
 // 画像ファイル展開
+/*
 void CJwwDocument::ExtructImageFiles(CArchive& ar)
 {
 	// JWWファイルバージョンを確認
@@ -2748,11 +2777,12 @@ void CJwwDocument::ExtructImageFiles(CArchive& ar)
 		}
 	}
 }
+*/
 
 #ifdef _DEBUG
 void CJwwDocument::AssertValid() const
 {
-	CDocument::AssertValid();
+	AssertValid();
 }
 
 void CJwwDocument::Dump(class CDumpContext & dc) const

@@ -72,6 +72,14 @@ struct OdGeScale3d
 	double sz;
 };
 
+#define OdaToRadian(x) (x/180.0*3.141592613)
+#define OdaToDegree(x) (x*180.0/3.141592613)
+
+bool OdEqual(double x, double y, double z = 1e-5)
+{
+	return std::abs(x - y) < z;
+}
+
 class CJwwDocument;
 //////////////////////////////////////////////////////////////////////
 /// JWWファイル ヘッダ部読み込みクラス
