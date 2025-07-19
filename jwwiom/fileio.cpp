@@ -12,6 +12,7 @@ int _tmain(int argc, TCHAR** argv)
 	CFile file(_T("TEST.BIN"), CFile::modeCreate | CFile::modeWrite | CFile::typeBinary);
 	CArchive ar(&file, CArchive::store);
 	// データを書き込む
+	CJwwHeader head;
 	CTypedPtrList<CObList, CData*>	m_DataList;
 	for (;;)
 	{
@@ -28,6 +29,7 @@ int _tmain(int argc, TCHAR** argv)
 			obj->layer(0);
 			obj->group(0);
 			obj->flags(0);
+			obj->header(&head);
 			OdGePoint3d point = { 0,0,0 };
 			obj->start(point);
 			point = { 100, 100, 0 };
@@ -44,6 +46,7 @@ int _tmain(int argc, TCHAR** argv)
 			obj->layer(0);
 			obj->group(0);
 			obj->flags(0);
+			obj->header(&head);
 			OdGePoint3d point = { 0,0,0 };
 			obj->center(point);
 			obj->radius(10.0);
@@ -64,6 +67,7 @@ int _tmain(int argc, TCHAR** argv)
 			obj->layer(0);
 			obj->group(0);
 			obj->flags(0);
+			obj->header(&head);
 			OdGePoint3d point = { 0,0,0 };
 			obj->position(point);
 			obj->pseudo(0);
@@ -82,6 +86,7 @@ int _tmain(int argc, TCHAR** argv)
 			obj->layer(0);
 			obj->group(0);
 			obj->flags(0);
+			obj->header(&head);
 			obj->dimension(0);
 			OdGePoint3d point = { 0,0,0 };
 			obj->start(point);
@@ -109,13 +114,16 @@ int _tmain(int argc, TCHAR** argv)
 			obj->layer(0);
 			obj->group(0);
 			obj->flags(0);
+			obj->header(&head);
 			obj->sxfSunpou(true);
 			auto diml = obj->getDimLine();
+			diml->header(&head);
 			OdGePoint3d point = { 0,50,0 };
 			diml->start(point);
 			point = { 100, 50, 0 };
 			diml->end(point);
 			auto dimt = obj->getDimText();
+			dimt->header(&head);
 			point = { 40, 60, 0 };
 			dimt->start(point);
 			point = { 60,60,0 };
@@ -130,25 +138,31 @@ int _tmain(int argc, TCHAR** argv)
 			text = "Arial";
 			dimt->font(text);
 			diml = obj->getExt1Line();
+			diml->header(&head);
 			point = { 0,0,0 };
 			diml->start(point);
 			point = { 0,60,0 };
 			diml->end(point);
 			diml = obj->getExt2Line();
+			diml->header(&head);
 			point = { 100,0,0 };
 			diml->start(point);
 			point = { 100,60,0 };
 			diml->end(point);
 			auto dimp = obj->getDim1Pos();
+			dimp->header(&head);
 			point = { 0,50,0 };
 			dimp->position(point);
 			dimp = obj->getDim2Pos();
+			dimp->header(&head);
 			point = { 100,50,0 };
 			dimp->position(point);
 			dimp = obj->getExt1Pos();
+			dimp->header(&head);
 			point = { 0,0,0 };
 			dimp->position(point);
 			dimp = obj->getExt2Pos();
+			dimp->header(&head);
 			point = { 100,0,0 };
 			dimp->position(point);
 			m_DataList.AddTail(obj);
@@ -163,6 +177,7 @@ int _tmain(int argc, TCHAR** argv)
 			obj->layer(0);
 			obj->group(0);
 			obj->flags(0);
+			obj->header(&head);
 			OdGePoint3d point = { 100,100,0 };
 			obj->location(1, point);
 			point = { 200,100,0 };
@@ -184,6 +199,7 @@ int _tmain(int argc, TCHAR** argv)
 			obj->layer(0);
 			obj->group(0);
 			obj->flags(0);
+			obj->header(&head);
 			obj->blockNo(1);
 			OdGePoint3d point = { 0,200,0 };
 			obj->start(point);
@@ -208,6 +224,7 @@ int _tmain(int argc, TCHAR** argv)
 		part->layer(0);
 		part->group(0);
 		part->flags(0);
+		part->header(&head);
 		OdGePoint3d point = { 0,0,0 };
 		part->center(point);
 		part->radius(10.0);
