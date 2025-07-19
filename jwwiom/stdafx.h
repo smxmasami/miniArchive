@@ -5,6 +5,7 @@
 #include <afx.h>
 #include <afxtempl.h>
 #include <set>
+#include <iostream>
 //#include <afxcoll.h>
 #define EXTFUNC					// ダイナミックライブラリで dllimport か dllexport になる
 
