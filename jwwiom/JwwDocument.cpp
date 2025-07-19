@@ -1320,7 +1320,7 @@ CData::~CData()
 
 DWORD	CData::version(CArchive& ar)
 {
-	return ((CJwwDocument*)ar.m_pDocument)->GetVersion();
+	return m_pHeader->m_Version;
 }
 
 void	CData::DoDataScale(CArchive& ar, double &val)
