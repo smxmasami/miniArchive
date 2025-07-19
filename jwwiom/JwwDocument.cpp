@@ -1359,7 +1359,7 @@ void CData::Serialize(CArchive& ar)
 		ar << (DWORD)m_lGroup;            //曲線属性番号
 		ar << (BYTE)m_nPenStyle;          //線種番号
 		ar << (WORD)m_nPenColor;          //線色番号
-		if (version(ar) >= eVer351)
+		if (m_pHeader->m_Version >= eVer351)
 		{
 			ar << (WORD)m_nPenWidth;      //線色幅
 		}
@@ -1373,7 +1373,7 @@ void CData::Serialize(CArchive& ar)
 		ar >> m_nPenStyle;          //線種番号
 		ar >> m_nPenColor;          //線色番号
 		m_nPenWidth = 0;
-		if (version(ar) >= eVer351)
+		if (m_pHeader->m_Version >= eVer351)
 		{
 			ar >> m_nPenWidth;      //線色幅
 		}
@@ -1979,7 +1979,7 @@ void CDataSunpou::Serialize(CArchive& ar)
 	{
 		m_Sen.Serialize(ar);
 		m_Moji.Serialize(ar);
-		if (version(ar) >= eVer420)
+		if (m_pHeader->m_Version >= eVer420)
 		{
 			ar << (WORD)m_bSxfMode;
 			m_SenHo1.Serialize(ar);
@@ -1995,7 +1995,7 @@ void CDataSunpou::Serialize(CArchive& ar)
 		m_Sen.Serialize(ar);
 		m_Moji.Serialize(ar);
 		m_bSxfMode = 0;
-		if (version(ar) >= eVer420)
+		if (m_pHeader->m_Version >= eVer420)
 		{
 			ar >> m_bSxfMode;
 			m_SenHo1.Serialize(ar);
